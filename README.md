@@ -1,6 +1,6 @@
 # Solana Sniper Bot Reverse-Engineering
 
-Competition-ready reconstruction and replica of the Kaggle target wallet `5brv79eFZ2rGprXNvqgVJBkBptkkw8GJX1XydJyZLyAr`.
+Reconstruction and replica of the Kaggle target wallet `5brv79eFZ2rGprXNvqgVJBkBptkkw8GJX1XydJyZLyAr`.
 
 The pipeline preserves one hard boundary: entry features may use only the signed deployment transaction and deployer facts already observed strictly before deployment. A prior launch outcome enters only after its timestamped creator-fee claim or deployer sell; future outcomes never backfill history. Target reactions, future history, transaction execution metadata, landed Jito data, June trades, and candles are never model inputs.
 
@@ -117,3 +117,11 @@ Large deterministic outputs and models live in ignored `data/interim/`, `data/pr
 - `submission/writeup.md`
 - `submission/figures/cover.png` plus seven analysis figures
 - `submission/tables/` traceable summaries, feature dictionary, effects, and robustness tables
+
+## License
+
+The source code in this repository is licensed under the MIT License.
+
+Competition data is not included in this repository and is not covered by
+the MIT License. It remains subject to the competition rules and the data
+provider's terms.
