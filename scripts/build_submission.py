@@ -66,35 +66,81 @@ def build_final_selector_explainability() -> None:
 
 
 def build_cover() -> None:
-    behavior = json.loads((SUBMISSION / "tables" / "behavior_summary.json").read_text())
-    final_selector = json.loads(
-        (SUBMISSION / "tables" / "developer_sell_outcome_results.json").read_text()
-    )["june_reporting_only"]["creator_fee_plus_developer_sell"]
-    curve = json.loads((SUBMISSION / "tables" / "curve_replay_results.json").read_text())
-    selective = curve["results"]["offset_118"]["selective_two_stage"]
-    best_median = max(
-        selective[intent]["fee_0.0095"]["median_net_roi"]
-        for intent in ("fixed_quote", "fixed_token")
+    behavior = json.loads(
+        (SUBMISSION / "tables" / "behavior_summary.json").read_text()
     )
-    fig = plt.figure(figsize=(12, 6.3), facecolor="#071923")
+
+    final_results = json.loads(
+        (SUBMISSION / "tables" / "developer_sell_outcome_results.json").read_text()
+    )
+    may_selector = final_results["windows"]["may"]["creator_fee_plus_developer_sell"]
+
+    curve = json.loads(
+        (SUBMISSION / "tables" / "curve_replay_results.json").read_text()
+    )
+    selective = curve["results"]["offset_118"]["selective_two_stage"]
+
+    pnl_low = selective["fixed_quote"]["fee_0.0095"][
+        "p99_capped_total_pnl_sol_supported"
+    ]
+    pnl_high = selective["fixed_token"]["fee_0.0095"][
+        "p99_capped_total_pnl_sol_supported"
+    ]
+
+    # 2:1 ratio matches Kaggle's 560x280 card requirement.
+    fig = plt.figure(figsize=(12, 6), facecolor="#071923")
     ax = fig.add_axes([0, 0, 1, 1])
     ax.set_axis_off()
-    ax.text(0.06, 0.78, "SIX SECONDS TO DECIDE", fontsize=36, weight="bold", color="white")
-    ax.text(0.06, 0.68, "Reverse-engineering a Solana zero-block sniper", fontsize=20, color="#8ED5E6")
-    ax.plot([0.06, 0.94], [0.61, 0.61], color="#E07A2D", linewidth=3)
+
+    ax.text(
+        0.06, 0.78,
+        "SIX SECONDS TO DECIDE",
+        fontsize=36,
+        weight="bold",
+        color="white",
+    )
+    ax.text(
+        0.06, 0.68,
+        "Reverse-engineering a Solana zero-block sniper",
+        fontsize=20,
+        color="#8ED5E6",
+    )
+
+    ax.plot(
+        [0.06, 0.94],
+        [0.61, 0.61],
+        color="#E07A2D",
+        linewidth=3,
+    )
+
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1)
+
     cards = [
         ("15,927", "core bot entries"),
         (f"{behavior['zero_slot']['share']:.1%}", "same-slot entries"),
-        (f"{final_selector['pr_auc']:.3f}", "final June PR-AUC"),
-        (f"{final_selector['precision']:.1%}", "final June precision"),
-        (f"{best_median:.1%}", "+118 median ROI*"),
+        (f"{may_selector['pr_auc']:.3f}", "May PR-AUC"),
+        (f"{may_selector['precision']:.1%}", "May precision"),
+        (f"+{pnl_low:.1f}–{pnl_high:.1f}", "+118 capped P&L (SOL)*"),
     ]
+
     x_positions = [0.07, 0.245, 0.42, 0.595, 0.77]
+
     for x, (value, label) in zip(x_positions, cards, strict=True):
-        ax.text(x, 0.43, value, fontsize=24, weight="bold", color="white")
-        ax.text(x, 0.35, label, fontsize=11, color="#B9CAD1")
+        ax.text(
+            x, 0.43,
+            value,
+            fontsize=24,
+            weight="bold",
+            color="white",
+        )
+        ax.text(
+            x, 0.35,
+            label,
+            fontsize=11,
+            color="#B9CAD1",
+        )
+
     ax.text(
         0.06,
         0.14,
@@ -102,16 +148,21 @@ def build_cover() -> None:
         fontsize=14,
         color="#8ED5E6",
     )
+
     ax.text(
         0.06,
         0.07,
-        "*Best exact standard-curve intent bound at 0.95% fees; supported cases only.",
+        "*Exact standard-curve intent bounds at +118 and 0.95% fees; supported cases only.",
         fontsize=10,
         color="#B9CAD1",
     )
-    fig.savefig(SUBMISSION / "figures" / "cover.png", dpi=180, facecolor=fig.get_facecolor())
-    plt.close(fig)
 
+    fig.savefig(
+        SUBMISSION / "figures" / "cover.png",
+        dpi=180,
+        facecolor=fig.get_facecolor(),
+    )
+    plt.close(fig)
 
 def build_third_pass_summary() -> None:
     historical = json.loads((SUBMISSION / "tables" / "historical_outcome_audit.json").read_text())
