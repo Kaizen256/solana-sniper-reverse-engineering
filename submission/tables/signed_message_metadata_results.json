@@ -1,0 +1,331 @@
+{
+  "hypothesis": "Strict-prior metadata reuse and signed-message construction add signal beyond the control feature dictionary.",
+  "june_reporting_only": {
+    "baseline": {
+      "f1": 0.13117283950617284,
+      "positives": 4195,
+      "pr_auc": 0.06703996035422818,
+      "pr_auc_lift_over_prevalence": 13.6170704501816,
+      "precision": 0.1424183189053337,
+      "precision_lift_over_prevalence": 28.927825608537177,
+      "predicted_entries": 3581,
+      "predicted_entry_rate": 0.004202642230862487,
+      "prevalence": 0.004923229309820757,
+      "recall": 0.12157330154946365,
+      "roc_auc": 0.896850536424774,
+      "rows": 852083,
+      "threshold": 0.10004841875564156,
+      "top_k": {
+        "k": 4195,
+        "lift_at_k": 27.889482370891052,
+        "positives_at_k": 576,
+        "precision_at_k": 0.13730631704410012,
+        "recall_at_k": 0.13730631704410012
+      },
+      "true_positives": 510
+    },
+    "combined": {
+      "f1": 0.13078314810028432,
+      "positives": 4195,
+      "pr_auc": 0.06720236799476843,
+      "pr_auc_lift_over_prevalence": 13.650058481069433,
+      "precision": 0.14281682190234266,
+      "precision_lift_over_prevalence": 29.008769024317957,
+      "predicted_entries": 3543,
+      "predicted_entry_rate": 0.004158045636399271,
+      "prevalence": 0.004923229309820757,
+      "recall": 0.12061978545887962,
+      "roc_auc": 0.899785690036602,
+      "rows": 852083,
+      "threshold": 0.11219722656463377,
+      "top_k": {
+        "k": 4195,
+        "lift_at_k": 27.937901611118292,
+        "positives_at_k": 577,
+        "precision_at_k": 0.13754469606674613,
+        "recall_at_k": 0.13754469606674613
+      },
+      "true_positives": 506
+    }
+  },
+  "leakage_policy": "Reuse counts include deployments at strictly earlier block_time only; all construction fields come from the signed deployment message.",
+  "pre_june_decision": {
+    "april_pr_auc_delta": 0.003771823922522219,
+    "may_pr_auc_delta": 0.0003553166507977157,
+    "rule": "KEEP only for >0.002 PR-AUC lift in both April and May.",
+    "status": "DROP"
+  },
+  "temporal_audit": {
+    "duplicate_keys": 0,
+    "invalid_uri_recency": 0,
+    "negative_prior_counts": 0,
+    "rows": 5076421,
+    "tokens": 5076421
+  },
+  "windows": {
+    "april": {
+      "baseline": {
+        "f1": 0.19168325128312558,
+        "positives": 3410,
+        "pr_auc": 0.09704869763503599,
+        "pr_auc_lift_over_prevalence": 22.867376865534514,
+        "precision": 0.14909564934006844,
+        "precision_lift_over_prevalence": 35.13108867563077,
+        "predicted_entries": 6137,
+        "predicted_entry_rate": 0.007637920026484429,
+        "prevalence": 0.004243980330831335,
+        "recall": 0.26832844574780057,
+        "roc_auc": 0.9049812755212199,
+        "rows": 803491,
+        "threshold": 0.06897128247933038,
+        "top_k": {
+          "k": 3410,
+          "lift_at_k": 42.634131715413524,
+          "positives_at_k": 617,
+          "precision_at_k": 0.1809384164222874,
+          "recall_at_k": 0.1809384164222874
+        },
+        "true_positives": 915
+      },
+      "baseline_plus_metadata_message": {
+        "f1": 0.19617492450508892,
+        "positives": 3410,
+        "pr_auc": 0.1008205215575582,
+        "pr_auc_lift_over_prevalence": 23.756123661819352,
+        "precision": 0.15856083890797323,
+        "precision_lift_over_prevalence": 37.36135103079364,
+        "predicted_entries": 5531,
+        "predicted_entry_rate": 0.006883711205228186,
+        "prevalence": 0.004243980330831335,
+        "recall": 0.25718475073313785,
+        "roc_auc": 0.9171944953110154,
+        "rows": 803491,
+        "threshold": 0.07685897108384607,
+        "top_k": {
+          "k": 3410,
+          "lift_at_k": 43.532419741832285,
+          "positives_at_k": 630,
+          "precision_at_k": 0.18475073313782991,
+          "recall_at_k": 0.18475073313782991
+        },
+        "true_positives": 877
+      },
+      "combined_minus_baseline": {
+        "f1": 0.004491673221963338,
+        "pr_auc": 0.003771823922522219,
+        "precision": 0.009465189567904791,
+        "recall": -0.011143695014662724
+      },
+      "feature_gain_top15": [
+        {
+          "feature": "prior_uri_host_count",
+          "gain": 400
+        },
+        {
+          "feature": "signer_prior_uri_host_count",
+          "gain": 297
+        },
+        {
+          "feature": "priority_fee_intent_lamports",
+          "gain": 199
+        },
+        {
+          "feature": "prior_name_symbol_count",
+          "gain": 168
+        },
+        {
+          "feature": "system_transfer_mean_sol",
+          "gain": 168
+        },
+        {
+          "feature": "create_instruction_fraction",
+          "gain": 81
+        },
+        {
+          "feature": "signer_prior_name_symbol_count",
+          "gain": 23
+        },
+        {
+          "feature": "seconds_since_prior_uri",
+          "gain": 17
+        },
+        {
+          "feature": "signer_prior_uri_count",
+          "gain": 14
+        },
+        {
+          "feature": "prior_uri_count",
+          "gain": 13
+        },
+        {
+          "feature": "dev_buy_instruction_gap",
+          "gain": 3
+        },
+        {
+          "feature": "dev_buy_immediately_after_create",
+          "gain": 0
+        }
+      ],
+      "group_permutation_pr_auc_drop": 0.0027653071689728165,
+      "metadata_message_only": {
+        "f1": 0.037886988525654905,
+        "positives": 3410,
+        "pr_auc": 0.013537413481260769,
+        "pr_auc_lift_over_prevalence": 3.189791758202843,
+        "precision": 0.03002745367192862,
+        "precision_lift_over_prevalence": 7.0753046270708495,
+        "predicted_entries": 5828,
+        "predicted_entry_rate": 0.007253348201784463,
+        "prevalence": 0.004243980330831335,
+        "recall": 0.051319648093841645,
+        "roc_auc": 0.7565322645612924,
+        "rows": 803491,
+        "threshold": 0.05001535958494742,
+        "top_k": {
+          "k": 3410,
+          "lift_at_k": 8.015493158813564,
+          "positives_at_k": 116,
+          "precision_at_k": 0.03401759530791789,
+          "recall_at_k": 0.03401759530791789
+        },
+        "true_positives": 175
+      },
+      "train_positives": 3245,
+      "train_rows": 246416,
+      "validation_positives": 3410,
+      "validation_rows": 803491
+    },
+    "may": {
+      "baseline": {
+        "f1": 0.23564794338788148,
+        "positives": 5077,
+        "pr_auc": 0.14464900596138452,
+        "pr_auc_lift_over_prevalence": 25.381128297158867,
+        "precision": 0.2138728323699422,
+        "precision_lift_over_prevalence": 37.52762600461563,
+        "predicted_entries": 6228,
+        "predicted_entry_rate": 0.006991107329437411,
+        "prevalence": 0.005699077057089553,
+        "recall": 0.2623596612172543,
+        "roc_auc": 0.9223995473540307,
+        "rows": 890846,
+        "threshold": 0.10004841875564156,
+        "top_k": {
+          "k": 5077,
+          "lift_at_k": 40.88585199004855,
+          "positives_at_k": 1183,
+          "precision_at_k": 0.23301162103604492,
+          "recall_at_k": 0.23301162103604492
+        },
+        "true_positives": 1332
+      },
+      "baseline_plus_metadata_message": {
+        "f1": 0.23429767795964979,
+        "positives": 5077,
+        "pr_auc": 0.14500432261218224,
+        "pr_auc_lift_over_prevalence": 25.443474646793796,
+        "precision": 0.22666175658258148,
+        "precision_lift_over_prevalence": 39.77166027271349,
+        "predicted_entries": 5431,
+        "predicted_entry_rate": 0.006096452136508442,
+        "prevalence": 0.005699077057089553,
+        "recall": 0.2424660232420721,
+        "roc_auc": 0.9280778561272995,
+        "rows": 890846,
+        "threshold": 0.11219722656463377,
+        "top_k": {
+          "k": 5077,
+          "lift_at_k": 40.436556913234824,
+          "positives_at_k": 1170,
+          "precision_at_k": 0.23045105377191255,
+          "recall_at_k": 0.23045105377191255
+        },
+        "true_positives": 1231
+      },
+      "combined_minus_baseline": {
+        "f1": -0.0013502654282316895,
+        "pr_auc": 0.0003553166507977157,
+        "precision": 0.012788924212639274,
+        "recall": -0.019893637975182205
+      },
+      "feature_gain_top15": [
+        {
+          "feature": "prior_uri_host_count",
+          "gain": 438
+        },
+        {
+          "feature": "signer_prior_uri_host_count",
+          "gain": 273
+        },
+        {
+          "feature": "priority_fee_intent_lamports",
+          "gain": 171
+        },
+        {
+          "feature": "system_transfer_mean_sol",
+          "gain": 136
+        },
+        {
+          "feature": "prior_name_symbol_count",
+          "gain": 112
+        },
+        {
+          "feature": "create_instruction_fraction",
+          "gain": 78
+        },
+        {
+          "feature": "signer_prior_name_symbol_count",
+          "gain": 25
+        },
+        {
+          "feature": "prior_uri_count",
+          "gain": 20
+        },
+        {
+          "feature": "seconds_since_prior_uri",
+          "gain": 16
+        },
+        {
+          "feature": "signer_prior_uri_count",
+          "gain": 12
+        },
+        {
+          "feature": "dev_buy_instruction_gap",
+          "gain": 12
+        },
+        {
+          "feature": "dev_buy_immediately_after_create",
+          "gain": 0
+        }
+      ],
+      "group_permutation_pr_auc_drop": 0.021773316765702905,
+      "metadata_message_only": {
+        "f1": 0.08472553699284009,
+        "positives": 5077,
+        "pr_auc": 0.03122391561924978,
+        "pr_auc_lift_over_prevalence": 5.478767054115854,
+        "precision": 0.06385530128909764,
+        "precision_lift_over_prevalence": 11.204498666966215,
+        "predicted_entries": 10007,
+        "predicted_entry_rate": 0.011233142428657703,
+        "prevalence": 0.005699077057089553,
+        "recall": 0.12586172936773685,
+        "roc_auc": 0.779640329232928,
+        "rows": 890846,
+        "threshold": 0.03598870126837434,
+        "top_k": {
+          "k": 5077,
+          "lift_at_k": 13.720780422695919,
+          "positives_at_k": 397,
+          "precision_at_k": 0.07819578491234981,
+          "recall_at_k": 0.07819578491234981
+        },
+        "true_positives": 639
+      },
+      "train_positives": 6655,
+      "train_rows": 650194,
+      "validation_positives": 5077,
+      "validation_rows": 890846
+    }
+  }
+}

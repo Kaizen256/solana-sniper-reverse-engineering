@@ -1,0 +1,37 @@
+{
+  "feature_effects_path": "submission/tables/weekly_feature_effects.csv",
+  "metrics_path": "submission/tables/weekly_regime_metrics.csv",
+  "monthly_thresholds": {
+    "april": 0.06897128247933033,
+    "june": 0.10346929311269709,
+    "may": 0.10346929311269709
+  },
+  "scope": "Weekly April-June diagnostics; March 12-31 trains the April model, and March 12-April trains the frozen May/June model.",
+  "threshold_policy": {
+    "april": "full-April diagnostic threshold for the March-trained model",
+    "may_and_june": "tracked May-selected threshold; June never recalibrated",
+    "weekly_optimal_threshold": "post-hoc drift diagnostic only; never used as a policy"
+  },
+  "window_ranges": {
+    "april_pr_auc": [
+      0.06262707455887633,
+      0.1657003294887103
+    ],
+    "june_positive_rate_per_100k": [
+      411.88034749561587,
+      705.9055830714298
+    ],
+    "june_pr_auc": [
+      0.06036196574707412,
+      0.08083008367730436
+    ],
+    "may_positive_rate_per_100k": [
+      463.0148239423472,
+      680.8735033190644
+    ],
+    "may_pr_auc": [
+      0.09967107949244516,
+      0.2537493497318203
+    ]
+  }
+}

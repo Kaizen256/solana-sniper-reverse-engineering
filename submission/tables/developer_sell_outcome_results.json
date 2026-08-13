@@ -1,0 +1,516 @@
+{
+  "hypothesis": "Whether and how quickly a deployer sold its own prior Pump launches adds point-in-time signal beyond activity and creator-fee quality.",
+  "june_reporting_only": {
+    "baseline": {
+      "f1": 0.13117283950617284,
+      "positives": 4195,
+      "pr_auc": 0.06703996035422818,
+      "pr_auc_lift_over_prevalence": 13.6170704501816,
+      "precision": 0.1424183189053337,
+      "precision_lift_over_prevalence": 28.927825608537177,
+      "predicted_entries": 3581,
+      "predicted_entry_rate": 0.004202642230862487,
+      "prevalence": 0.004923229309820757,
+      "recall": 0.12157330154946365,
+      "roc_auc": 0.896850536424774,
+      "rows": 852083,
+      "threshold": 0.10004841875564156,
+      "top_k": {
+        "k": 4195,
+        "lift_at_k": 27.889482370891052,
+        "positives_at_k": 576,
+        "precision_at_k": 0.13730631704410012,
+        "recall_at_k": 0.13730631704410012
+      },
+      "true_positives": 510
+    },
+    "baseline_plus_developer_sell": {
+      "f1": 0.1267474370922647,
+      "positives": 4195,
+      "pr_auc": 0.06949800319921663,
+      "pr_auc_lift_over_prevalence": 14.116344948748058,
+      "precision": 0.14354644149577805,
+      "precision_lift_over_prevalence": 29.156968416936127,
+      "predicted_entries": 3316,
+      "predicted_entry_rate": 0.0038916396642111155,
+      "prevalence": 0.004923229309820757,
+      "recall": 0.1134684147794994,
+      "roc_auc": 0.9001549269095226,
+      "rows": 852083,
+      "threshold": 0.10141534545353033,
+      "top_k": {
+        "k": 4195,
+        "lift_at_k": 28.42209401339071,
+        "positives_at_k": 587,
+        "precision_at_k": 0.1399284862932062,
+        "recall_at_k": 0.1399284862932062
+      },
+      "true_positives": 476
+    },
+    "creator_fee_plus_developer_sell": {
+      "f1": 0.13181242078580482,
+      "positives": 4195,
+      "pr_auc": 0.06541637332172612,
+      "pr_auc_lift_over_prevalence": 13.287289542096866,
+      "precision": 0.12756467439785907,
+      "precision_lift_over_prevalence": 25.910772456484136,
+      "predicted_entries": 4484,
+      "predicted_entry_rate": 0.005262398146659421,
+      "prevalence": 0.004923229309820757,
+      "recall": 0.1363528009535161,
+      "roc_auc": 0.9030528295818953,
+      "rows": 852083,
+      "threshold": 0.10032690136565864,
+      "top_k": {
+        "k": 4195,
+        "lift_at_k": 26.146389722710364,
+        "positives_at_k": 540,
+        "precision_at_k": 0.12872467222884387,
+        "recall_at_k": 0.12872467222884387
+      },
+      "true_positives": 572
+    },
+    "creator_fee_quality": {
+      "f1": 0.13475563295961684,
+      "positives": 4195,
+      "pr_auc": 0.06621391524479077,
+      "pr_auc_lift_over_prevalence": 13.449285230876532,
+      "precision": 0.12399839743589744,
+      "precision_lift_over_prevalence": 25.18639487064882,
+      "predicted_entries": 4992,
+      "predicted_entry_rate": 0.005858584198957144,
+      "prevalence": 0.004923229309820757,
+      "recall": 0.14755661501787842,
+      "roc_auc": 0.9008628995729235,
+      "rows": 852083,
+      "threshold": 0.105873830714622,
+      "top_k": {
+        "k": 4195,
+        "lift_at_k": 25.855874281346914,
+        "positives_at_k": 534,
+        "precision_at_k": 0.12729439809296783,
+        "recall_at_k": 0.12729439809296783
+      },
+      "true_positives": 619
+    },
+    "developer_sell_only": {
+      "f1": 0.06378173276718764,
+      "positives": 4195,
+      "pr_auc": 0.026294848227012852,
+      "pr_auc_lift_over_prevalence": 5.340975723913657,
+      "precision": 0.0513529240616817,
+      "precision_lift_over_prevalence": 10.430739831525608,
+      "predicted_entries": 6874,
+      "predicted_entry_rate": 0.008067289219477445,
+      "prevalence": 0.004923229309820757,
+      "recall": 0.08414779499404053,
+      "roc_auc": 0.8176885025035465,
+      "rows": 852083,
+      "threshold": 0.06720444342823957,
+      "top_k": {
+        "k": 4195,
+        "lift_at_k": 10.071201967266214,
+        "positives_at_k": 208,
+        "precision_at_k": 0.04958283671036949,
+        "recall_at_k": 0.04958283671036949
+      },
+      "true_positives": 353
+    }
+  },
+  "pre_june_decision": {
+    "april_incremental_pr_auc": 0.0002626664329785089,
+    "may_incremental_pr_auc": 0.005407577450553258,
+    "rule": "Add developer-sell features only for >=0.002 May PR-AUC lift over creator-fee quality and no material (>0.0005) April regression.",
+    "status": "KEEP"
+  },
+  "semantics": "A developer sell is the deployer wallet's first sell event for a token it previously launched; it becomes visible only at the sell timestamp.",
+  "temporal_audit": {
+    "duplicate_keys": 0,
+    "future_launches": 0,
+    "future_states": 0,
+    "invalid_fractions": 0,
+    "invalid_recencies": 0,
+    "rows": 5076421,
+    "tokens": 5076421
+  },
+  "windows": {
+    "april": {
+      "baseline": {
+        "f1": 0.19168325128312558,
+        "positives": 3410,
+        "pr_auc": 0.09704869763503599,
+        "pr_auc_lift_over_prevalence": 22.867376865534514,
+        "precision": 0.14909564934006844,
+        "precision_lift_over_prevalence": 35.13108867563077,
+        "predicted_entries": 6137,
+        "predicted_entry_rate": 0.007637920026484429,
+        "prevalence": 0.004243980330831335,
+        "recall": 0.26832844574780057,
+        "roc_auc": 0.9049812755212199,
+        "rows": 803491,
+        "threshold": 0.06897128247933033,
+        "top_k": {
+          "k": 3410,
+          "lift_at_k": 42.634131715413524,
+          "positives_at_k": 617,
+          "precision_at_k": 0.1809384164222874,
+          "recall_at_k": 0.1809384164222874
+        },
+        "true_positives": 915
+      },
+      "baseline_plus_developer_sell": {
+        "f1": 0.19648829431438128,
+        "positives": 3410,
+        "pr_auc": 0.09716704108297963,
+        "pr_auc_lift_over_prevalence": 22.895261878828265,
+        "precision": 0.15264696329977265,
+        "precision_lift_over_prevalence": 35.96787718143625,
+        "predicted_entries": 6158,
+        "predicted_entry_rate": 0.007664055975735882,
+        "prevalence": 0.004243980330831335,
+        "recall": 0.2756598240469208,
+        "roc_auc": 0.9129189811760298,
+        "rows": 803491,
+        "threshold": 0.06970267140765862,
+        "top_k": {
+          "k": 3410,
+          "lift_at_k": 42.841428952279394,
+          "positives_at_k": 620,
+          "precision_at_k": 0.18181818181818182,
+          "recall_at_k": 0.18181818181818182
+        },
+        "true_positives": 940
+      },
+      "creator_fee_plus_developer_sell": {
+        "f1": 0.21696252465483234,
+        "positives": 3410,
+        "pr_auc": 0.10756189042726072,
+        "pr_auc_lift_over_prevalence": 25.34457797691793,
+        "precision": 0.16344725111441308,
+        "precision_lift_over_prevalence": 38.51272587834923,
+        "predicted_entries": 6730,
+        "predicted_entry_rate": 0.008375949450585009,
+        "prevalence": 0.004243980330831335,
+        "recall": 0.3225806451612903,
+        "roc_auc": 0.9145726988177638,
+        "rows": 803491,
+        "threshold": 0.07856565504756736,
+        "top_k": {
+          "k": 3410,
+          "lift_at_k": 46.15818474213328,
+          "positives_at_k": 668,
+          "precision_at_k": 0.19589442815249267,
+          "recall_at_k": 0.19589442815249267
+        },
+        "true_positives": 1100
+      },
+      "creator_fee_quality": {
+        "f1": 0.206401766004415,
+        "positives": 3410,
+        "pr_auc": 0.10729922399428221,
+        "pr_auc_lift_over_prevalence": 25.282686447621643,
+        "precision": 0.15036183328866257,
+        "precision_lift_over_prevalence": 35.429436888838936,
+        "predicted_entries": 7462,
+        "predicted_entry_rate": 0.009286973967349977,
+        "prevalence": 0.004243980330831335,
+        "recall": 0.32903225806451614,
+        "roc_auc": 0.9147197601741357,
+        "rows": 803491,
+        "threshold": 0.06571984943917399,
+        "top_k": {
+          "k": 3410,
+          "lift_at_k": 45.81268934735683,
+          "positives_at_k": 663,
+          "precision_at_k": 0.19442815249266862,
+          "recall_at_k": 0.19442815249266862
+        },
+        "true_positives": 1122
+      },
+      "developer_sell_feature_gain_top15": [
+        {
+          "feature": "latest_prior_launch_dev_sell_latency_seconds",
+          "gain": 289
+        },
+        {
+          "feature": "seconds_since_prior_dev_sell",
+          "gain": 220
+        },
+        {
+          "feature": "hist_dev_sold_launch_fraction",
+          "gain": 217
+        },
+        {
+          "feature": "hist_mature_1d_dev_sold_fraction",
+          "gain": 133
+        },
+        {
+          "feature": "hist_mature_7d_dev_sold_fraction",
+          "gain": 128
+        },
+        {
+          "feature": "hist_dev_sold_launch_count_7d",
+          "gain": 97
+        },
+        {
+          "feature": "hist_mature_7d_dev_sold_count",
+          "gain": 92
+        },
+        {
+          "feature": "hist_dev_sold_launch_count_30d",
+          "gain": 81
+        },
+        {
+          "feature": "hist_mature_1d_dev_sold_count",
+          "gain": 60
+        },
+        {
+          "feature": "hist_dev_sold_launch_count",
+          "gain": 47
+        },
+        {
+          "feature": "latest_prior_launch_dev_sold",
+          "gain": 3
+        },
+        {
+          "feature": "latest_prior_launch_mature_7d_no_dev_sell",
+          "gain": 2
+        },
+        {
+          "feature": "latest_prior_launch_mature_1d_no_dev_sell",
+          "gain": 1
+        }
+      ],
+      "developer_sell_group_permutation_pr_auc_drop": 0.015889711629036393,
+      "developer_sell_increment_over_creator_fee": {
+        "f1": 0.010560758650417335,
+        "pr_auc": 0.0002626664329785089,
+        "precision": 0.013085417825750512,
+        "recall": -0.006451612903225823
+      },
+      "developer_sell_only": {
+        "f1": 0.08352468427095293,
+        "positives": 3410,
+        "pr_auc": 0.030948682338405042,
+        "pr_auc_lift_over_prevalence": 7.292371765620939,
+        "precision": 0.055291658749762496,
+        "precision_lift_over_prevalence": 13.02825518489895,
+        "predicted_entries": 10526,
+        "predicted_entry_rate": 0.013100333420038308,
+        "prevalence": 0.004243980330831335,
+        "recall": 0.17067448680351907,
+        "roc_auc": 0.8175354917601984,
+        "rows": 803491,
+        "threshold": 0.06758098089140895,
+        "top_k": {
+          "k": 3410,
+          "lift_at_k": 14.234410264789604,
+          "positives_at_k": 206,
+          "precision_at_k": 0.06041055718475073,
+          "recall_at_k": 0.06041055718475073
+        },
+        "true_positives": 582
+      },
+      "incremental_daily_pr_auc_stability": {
+        "days": 30,
+        "max_daily_delta": 0.01663348187849273,
+        "mean_daily_delta": 0.0002938682333944074,
+        "median_daily_delta": 0.0012092211626530298,
+        "min_daily_delta": -0.020110049816018827,
+        "positive_delta_days": 18,
+        "positive_delta_share": 0.6,
+        "q25_daily_delta": -0.00445400220088233,
+        "q75_daily_delta": 0.007445263233257629
+      }
+    },
+    "may": {
+      "baseline": {
+        "f1": 0.23564794338788148,
+        "positives": 5077,
+        "pr_auc": 0.14464900596138452,
+        "pr_auc_lift_over_prevalence": 25.381128297158867,
+        "precision": 0.2138728323699422,
+        "precision_lift_over_prevalence": 37.52762600461563,
+        "predicted_entries": 6228,
+        "predicted_entry_rate": 0.006991107329437411,
+        "prevalence": 0.005699077057089553,
+        "recall": 0.2623596612172543,
+        "roc_auc": 0.9223995473540307,
+        "rows": 890846,
+        "threshold": 0.10004841875564156,
+        "top_k": {
+          "k": 5077,
+          "lift_at_k": 40.88585199004855,
+          "positives_at_k": 1183,
+          "precision_at_k": 0.23301162103604492,
+          "recall_at_k": 0.23301162103604492
+        },
+        "true_positives": 1332
+      },
+      "baseline_plus_developer_sell": {
+        "f1": 0.24927849927849927,
+        "positives": 5077,
+        "pr_auc": 0.15196400161904472,
+        "pr_auc_lift_over_prevalence": 26.664668699294765,
+        "precision": 0.2299118283147563,
+        "precision_lift_over_prevalence": 40.3419406355894,
+        "predicted_entries": 6011,
+        "predicted_entry_rate": 0.006747518650810577,
+        "prevalence": 0.005699077057089553,
+        "recall": 0.2722079968485326,
+        "roc_auc": 0.9274770594999935,
+        "rows": 890846,
+        "threshold": 0.10141534545353033,
+        "top_k": {
+          "k": 5077,
+          "lift_at_k": 42.95952157534264,
+          "positives_at_k": 1243,
+          "precision_at_k": 0.2448296237935789,
+          "recall_at_k": 0.2448296237935789
+        },
+        "true_positives": 1382
+      },
+      "creator_fee_plus_developer_sell": {
+        "f1": 0.25037356798937405,
+        "positives": 5077,
+        "pr_auc": 0.15336701606227726,
+        "pr_auc_lift_over_prevalence": 26.91085144593568,
+        "precision": 0.21638685607691205,
+        "precision_lift_over_prevalence": 37.968754222708846,
+        "predicted_entries": 6969,
+        "predicted_entry_rate": 0.007822900927882036,
+        "prevalence": 0.005699077057089553,
+        "recall": 0.29702580263935396,
+        "roc_auc": 0.9290472167665825,
+        "rows": 890846,
+        "threshold": 0.10032690136565864,
+        "top_k": {
+          "k": 5077,
+          "lift_at_k": 42.51022649852892,
+          "positives_at_k": 1230,
+          "precision_at_k": 0.24226905652944652,
+          "recall_at_k": 0.24226905652944652
+        },
+        "true_positives": 1508
+      },
+      "creator_fee_quality": {
+        "f1": 0.24810464050654002,
+        "positives": 5077,
+        "pr_auc": 0.147959438611724,
+        "pr_auc_lift_over_prevalence": 25.96200000974983,
+        "precision": 0.21498700548657235,
+        "precision_lift_over_prevalence": 37.72312662786902,
+        "predicted_entries": 6926,
+        "predicted_entry_rate": 0.007774632203545843,
+        "prevalence": 0.005699077057089553,
+        "recall": 0.2932834350994682,
+        "roc_auc": 0.9275249958221883,
+        "rows": 890846,
+        "threshold": 0.105873830714622,
+        "top_k": {
+          "k": 5077,
+          "lift_at_k": 41.74988098392109,
+          "positives_at_k": 1208,
+          "precision_at_k": 0.23793578885168407,
+          "recall_at_k": 0.23793578885168407
+        },
+        "true_positives": 1489
+      },
+      "developer_sell_feature_gain_top15": [
+        {
+          "feature": "latest_prior_launch_dev_sell_latency_seconds",
+          "gain": 242
+        },
+        {
+          "feature": "seconds_since_prior_dev_sell",
+          "gain": 200
+        },
+        {
+          "feature": "hist_dev_sold_launch_fraction",
+          "gain": 167
+        },
+        {
+          "feature": "hist_mature_1d_dev_sold_fraction",
+          "gain": 156
+        },
+        {
+          "feature": "hist_mature_7d_dev_sold_fraction",
+          "gain": 135
+        },
+        {
+          "feature": "hist_dev_sold_launch_count_30d",
+          "gain": 126
+        },
+        {
+          "feature": "hist_mature_7d_dev_sold_count",
+          "gain": 116
+        },
+        {
+          "feature": "hist_dev_sold_launch_count_7d",
+          "gain": 79
+        },
+        {
+          "feature": "hist_mature_1d_dev_sold_count",
+          "gain": 68
+        },
+        {
+          "feature": "hist_dev_sold_launch_count",
+          "gain": 60
+        },
+        {
+          "feature": "latest_prior_launch_dev_sold",
+          "gain": 7
+        },
+        {
+          "feature": "latest_prior_launch_mature_1d_no_dev_sell",
+          "gain": 5
+        },
+        {
+          "feature": "latest_prior_launch_mature_7d_no_dev_sell",
+          "gain": 2
+        }
+      ],
+      "developer_sell_group_permutation_pr_auc_drop": 0.019525794522562534,
+      "developer_sell_increment_over_creator_fee": {
+        "f1": 0.0022689274828340267,
+        "pr_auc": 0.005407577450553258,
+        "precision": 0.0013998505903397018,
+        "recall": 0.0037423675398857714
+      },
+      "developer_sell_only": {
+        "f1": 0.12123880816086893,
+        "positives": 5077,
+        "pr_auc": 0.052596112407202626,
+        "pr_auc_lift_over_prevalence": 9.22888248050164,
+        "precision": 0.09661948765937536,
+        "precision_lift_over_prevalence": 16.953532421391355,
+        "predicted_entries": 8549,
+        "predicted_entry_rate": 0.009596495915118887,
+        "prevalence": 0.005699077057089553,
+        "recall": 0.16269450462871773,
+        "roc_auc": 0.8415994681710858,
+        "rows": 890846,
+        "threshold": 0.06720444342823957,
+        "top_k": {
+          "k": 5077,
+          "lift_at_k": 19.423371782254677,
+          "positives_at_k": 562,
+          "precision_at_k": 0.11069529249556825,
+          "recall_at_k": 0.11069529249556825
+        },
+        "true_positives": 826
+      },
+      "incremental_daily_pr_auc_stability": {
+        "days": 31,
+        "max_daily_delta": 0.03900507093057318,
+        "mean_daily_delta": 0.00403551530961104,
+        "median_daily_delta": 0.0053420820420193305,
+        "min_daily_delta": -0.03813313079294134,
+        "positive_delta_days": 21,
+        "positive_delta_share": 0.6774193548387096,
+        "q25_daily_delta": -0.006321279495775892,
+        "q75_daily_delta": 0.012432657133733961
+      }
+    }
+  }
+}

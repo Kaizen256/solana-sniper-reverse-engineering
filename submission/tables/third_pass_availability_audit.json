@@ -1,0 +1,153 @@
+{
+  "graph_edge_audit": {
+    "by_event": [
+      {
+        "event_type": "buy",
+        "nonempty_from": 0,
+        "nonempty_to": 0,
+        "rows": 96082270
+      },
+      {
+        "event_type": "sell",
+        "nonempty_from": 0,
+        "nonempty_to": 0,
+        "rows": 78584967
+      },
+      {
+        "event_type": "launch",
+        "nonempty_from": 0,
+        "nonempty_to": 0,
+        "rows": 4536662
+      },
+      {
+        "event_type": "burn",
+        "nonempty_from": 0,
+        "nonempty_to": 0,
+        "rows": 1636548
+      },
+      {
+        "event_type": "remove",
+        "nonempty_from": 0,
+        "nonempty_to": 0,
+        "rows": 702046
+      },
+      {
+        "event_type": "add",
+        "nonempty_from": 0,
+        "nonempty_to": 0,
+        "rows": 594907
+      },
+      {
+        "event_type": "claim_fee",
+        "nonempty_from": 0,
+        "nonempty_to": 0,
+        "rows": 173432
+      },
+      {
+        "event_type": "transfer_out",
+        "nonempty_from": 0,
+        "nonempty_to": 0,
+        "rows": 43
+      },
+      {
+        "event_type": "transfer_in",
+        "nonempty_from": 0,
+        "nonempty_to": 0,
+        "rows": 38
+      }
+    ],
+    "decision": "DROP: supplied activity from_address/to_address fields are empty, so no historical counterparty graph exists.",
+    "total_nonempty_from": 0,
+    "total_nonempty_to": 0
+  },
+  "raw_block_access": {
+    "batches": 2883,
+    "cohort_cost": {
+      "baseline": {
+        "batches": 2025,
+        "compressed_gib": 302.77836083900183,
+        "mapped_tokens": 3900,
+        "tokens": 3900
+      },
+      "quality_augmented": {
+        "batches": 2121,
+        "compressed_gib": 317.3117963252589,
+        "mapped_tokens": 4481,
+        "tokens": 4481
+      },
+      "selective_two_stage": {
+        "batches": 877,
+        "compressed_gib": 131.87130905594677,
+        "mapped_tokens": 1119,
+        "tokens": 1119
+      },
+      "target": {
+        "batches": 2178,
+        "compressed_gib": 324.6360048362985,
+        "mapped_tokens": 4195,
+        "tokens": 4195
+      },
+      "two_stage": {
+        "batches": 2130,
+        "compressed_gib": 318.28097010217607,
+        "mapped_tokens": 4481,
+        "tokens": 4481
+      },
+      "union": {
+        "batches": 2757,
+        "compressed_gib": 409.88397732563317,
+        "tokens": 10350
+      }
+    },
+    "decision": "One targeted batch only; full or cohort-scale retrieval is disproportionate.",
+    "downloaded_sample": {
+      "batch": "batch_002806.jsonl.zst",
+      "compressed_bytes": 169101732
+    },
+    "index_rows": 720288,
+    "total_compressed_gib": 428.10679368302226
+  },
+  "unsupported_create_audit": {
+    "decision": "DROP: only 21 positives; top-level wrapper calls would require undocumented wrapper decoding or post-execution inner instructions.",
+    "population": [
+      {
+        "launchpad": "pump",
+        "platform": "Pump.fun",
+        "positives": 13.0,
+        "rows": 5211
+      },
+      {
+        "launchpad": "pump",
+        "platform": "pump_agent",
+        "positives": 4.0,
+        "rows": 784
+      },
+      {
+        "launchpad": "unjoined",
+        "platform": "unjoined",
+        "positives": 4.0,
+        "rows": 272
+      },
+      {
+        "launchpad": "pump",
+        "platform": "pump_mayhem",
+        "positives": 0.0,
+        "rows": 6
+      },
+      {
+        "launchpad": "pump",
+        "platform": "",
+        "positives": 0.0,
+        "rows": 1
+      }
+    ],
+    "positive_program_scan": {
+      "bought_archive_rows": 15927,
+      "interpretation": "All unsupported positives are wrapper-program messages, not unknown top-level Pump create discriminators.",
+      "top_level_program_or_pump_discriminator_counts": {
+        "6Vo3245eszAb5wuqEMw8mGdbfRUdKbHhDHP5LcaGuTAB": 21
+      },
+      "unsupported_bought_rows": 21
+    }
+  }
+}

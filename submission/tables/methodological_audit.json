@@ -1,0 +1,796 @@
+{
+  "active_period_training": {
+    "active_era_cutoff": "2026-03-12T00:00:00Z; the date boundary retains all observed positive deployments",
+    "active_era_model": {
+      "june": {
+        "f1": 0.13927645388319546,
+        "positives": 4195,
+        "pr_auc": 0.06871922442070301,
+        "pr_auc_lift_over_prevalence": 13.958160405736802,
+        "precision": 0.1444672131147541,
+        "precision_lift_over_prevalence": 29.34399436292229,
+        "predicted_entries": 3904,
+        "predicted_entry_rate": 0.004581713283799817,
+        "prevalence": 0.004923229309820757,
+        "recall": 0.13444576877234804,
+        "roc_auc": 0.9005481712710521,
+        "rows": 852083,
+        "threshold": 0.1034692931126972,
+        "true_positives": 564
+      },
+      "may": {
+        "f1": 0.2391653290529695,
+        "positives": 5077,
+        "pr_auc": 0.14451334697333862,
+        "pr_auc_lift_over_prevalence": 25.357324620407883,
+        "precision": 0.21851067296724785,
+        "precision_lift_over_prevalence": 38.34141401815656,
+        "predicted_entries": 6137,
+        "predicted_entry_rate": 0.006888957238400352,
+        "prevalence": 0.005699077057089553,
+        "recall": 0.2641323616308844,
+        "roc_auc": 0.9247023833937306,
+        "rows": 890846,
+        "threshold": 0.1034692931126972,
+        "true_positives": 1341
+      },
+      "policy": "adopted final March 12-April population",
+      "threshold": 0.1034692931126972,
+      "top10": [
+        "seconds_since_prior_deploy",
+        "hist_open_close_count",
+        "hist_quote_sol_sum",
+        "dev_buy_sol",
+        "hist_cost_usd_sum",
+        "observed_wallet_age_seconds",
+        "prior_deploy_count_7d",
+        "hist_tip_fee_sum",
+        "prior_deploy_count_1d",
+        "uri_length"
+      ]
+    },
+    "decision": "Adopt active-era training: it improves May PR-AUC, precision, and F1 under the declared selection protocol; June PR-AUC and precision also improve, while June recall and F1 are slightly lower.",
+    "existing_model": {
+      "june": {
+        "f1": 0.14037164161439222,
+        "positives": 4195,
+        "pr_auc": 0.06606999551345978,
+        "pr_auc_lift_over_prevalence": 13.420052440308783,
+        "precision": 0.13939821344616832,
+        "precision_lift_over_prevalence": 28.314385675292357,
+        "predicted_entries": 4254,
+        "predicted_entry_rate": 0.004992471390697854,
+        "prevalence": 0.004923229309820757,
+        "recall": 0.14135876042908224,
+        "roc_auc": 0.8919201939876602,
+        "rows": 852083,
+        "threshold": 0.0910787714426489,
+        "true_positives": 593
+      },
+      "may": {
+        "f1": 0.22600567517943582,
+        "positives": 5077,
+        "pr_auc": 0.13833410228728993,
+        "pr_auc_lift_over_prevalence": 24.27307104317965,
+        "precision": 0.19608979000724114,
+        "precision_lift_over_prevalence": 34.40728876675019,
+        "predicted_entries": 6905,
+        "predicted_entry_rate": 0.007751059105614214,
+        "prevalence": 0.005699077057089553,
+        "recall": 0.2666929288950167,
+        "roc_auc": 0.9222346169819422,
+        "rows": 890846,
+        "threshold": 0.0910787714426489,
+        "true_positives": 1354
+      },
+      "policy": "legacy January-April population",
+      "threshold": 0.0910787714426489,
+      "top10": [
+        "seconds_since_prior_deploy",
+        "dev_buy_sol",
+        "hist_quote_sol_sum",
+        "hist_open_close_count",
+        "hist_cost_usd_sum",
+        "prior_deploy_count_7d",
+        "prior_deploy_count_1d",
+        "hist_tip_fee_sum",
+        "hist_sell_count",
+        "observed_wallet_age_seconds"
+      ]
+    },
+    "identical_controls": {
+      "features": "same final leakage-safe allowlist",
+      "model": "same regularized LightGBM parameters and random seed",
+      "negative_sampling": "deterministic token hash, one half of negatives, inverse sampling weights",
+      "reporting_test": "full June population",
+      "threshold": "separately maximized May F1",
+      "validation": "full May population"
+    },
+    "june_selection_overlap_between_models": {
+      "active_era_count": 3904,
+      "active_only": 1185,
+      "existing_count": 4254,
+      "existing_only": 1535,
+      "intersection": 2719,
+      "jaccard": 0.4999080713366428,
+      "union": 5439
+    },
+    "question": "Does excluding negatives before 2026-03-12 change temporal generalization?",
+    "top_feature_stability": {
+      "all_feature_rank_spearman": 0.8625376741965324,
+      "intersection": [
+        "dev_buy_sol",
+        "hist_cost_usd_sum",
+        "hist_open_close_count",
+        "hist_quote_sol_sum",
+        "hist_tip_fee_sum",
+        "observed_wallet_age_seconds",
+        "prior_deploy_count_1d",
+        "prior_deploy_count_7d",
+        "seconds_since_prior_deploy"
+      ],
+      "intersection_count": 9,
+      "jaccard": 0.8181818181818182
+    },
+    "training_counts": {
+      "active_era_march12_april": {
+        "candidates": 1293587,
+        "negatives": 1286932,
+        "positives": 6655
+      },
+      "active_era_sampled_training": {
+        "candidates": 650194,
+        "positives": 6655
+      },
+      "excluded_before_march12": {
+        "candidates": 2039905,
+        "negatives": 2039905,
+        "positives": 0
+      },
+      "existing_january_april": {
+        "candidates": 3333492,
+        "negatives": 3326837,
+        "positives": 6655
+      },
+      "existing_sampled_training": {
+        "candidates": 1670760,
+        "positives": 6655
+      }
+    }
+  },
+  "artifacts": {
+    "active_feature_importance": "submission/tables/feature_importance_active_era.csv",
+    "active_period_training": "submission/tables/active_period_training.json",
+    "intraslot_latency": "submission/tables/intraslot_latency_sensitivity.json",
+    "legacy_feature_importance": "submission/tables/feature_importance_legacy_population.csv",
+    "signal_correlations": "submission/tables/signal_correlations.csv",
+    "signal_redundancy": "submission/tables/signal_redundancy.json"
+  },
+  "intraslot_latency": {
+    "empirical_policy": {
+      "assignment": "SHA-256(token_address) indexes the empirical pool; independent of labels and outcomes",
+      "conditional_scope": "same-slot target entries only; this is not a wall-clock latency distribution",
+      "max": 1671,
+      "median": 115.0,
+      "min": 1,
+      "observations": 9073,
+      "p10": 25.200000000000045,
+      "p90": 424.0,
+      "p99": 934.5600000000013,
+      "source": "pre-June target entries with latency_slots=0 and same_slot_tx_delta>=1"
+    },
+    "entry_rule": "first positive-price June trade in the deployment slot with tx_index >= deploy_tx_index + offset",
+    "exit_and_cost": {
+      "hold_seconds": 6,
+      "missing_exit": "-100% gross return",
+      "round_trip_fee_sol": 0.09101000000000001,
+      "stake_sol": 1.975308641
+    },
+    "limitations": [
+      "tx_index is landed transaction order, not elapsed wall-clock latency.",
+      "The trade table establishes ordering only for recorded Pump.fun trades; it does not reveal private submission paths, mempool visibility, or bundle intent.",
+      "Event prices are marginal observed prices and omit the strategy's own bonding-curve impact.",
+      "The empirical policy is conditional on pre-June target entries that were same-slot; it does not model the target's non-same-slot tail."
+    ],
+    "no_fill_rule": "no eligible trade remaining in the deployment slot means no fill; execution is not rolled into a later slot",
+    "results": {
+      "empirical_pre_june_same_slot": {
+        "legacy_population_replica_diagnostic": {
+          "fill_rate": 0.5881523272214386,
+          "filled_trades": 2502,
+          "forced_total_losses": 20,
+          "hit_rate": 0.44884092725819347,
+          "max_drawdown_sol": 36.63600170906125,
+          "max_roi": 101.40254360949154,
+          "mean_roi": 0.283882636247292,
+          "median_roi": -0.04554024092186576,
+          "p90_roi": 0.627910112586661,
+          "p99_roi": 2.014803916634285,
+          "roi_on_total_staked": 0.28388263624729193,
+          "selected_tokens": 4254,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.529652942407887,
+          "total_pnl_sol": 1403.0110726716573,
+          "total_pnl_sol_roi_capped_at_p99": 228.311278821448
+        },
+        "replica": {
+          "fill_rate": 0.5840163934426229,
+          "filled_trades": 2280,
+          "forced_total_losses": 17,
+          "hit_rate": 0.44298245614035087,
+          "max_drawdown_sol": 24.50297755699239,
+          "max_roi": 71.36888972830872,
+          "mean_roi": 0.25057753322900117,
+          "median_roi": -0.04561016369207521,
+          "p90_roi": 0.6145480509701999,
+          "p99_roi": 1.9900324563087213,
+          "roi_on_total_staked": 0.25057753322900117,
+          "selected_tokens": 3904,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.4940772931010234,
+          "total_pnl_sol": 1128.5269639111802,
+          "total_pnl_sol_roi_capped_at_p99": 218.9018722063325
+        },
+        "target_equal_stake": {
+          "fill_rate": 0.6908224076281287,
+          "filled_trades": 2898,
+          "forced_total_losses": 42,
+          "hit_rate": 0.4161490683229814,
+          "max_drawdown_sol": 35.003792351671336,
+          "max_roi": 71.36888972830872,
+          "mean_roi": 0.26037432288846885,
+          "median_roi": -0.06505412335382049,
+          "p90_roi": 0.5767581333591215,
+          "p99_roi": 2.151461115519843,
+          "roi_on_total_staked": 0.26037432288846885,
+          "selected_tokens": 4195,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.4022303669930245,
+          "total_pnl_sol": 1490.498345398946,
+          "total_pnl_sol_roi_capped_at_p99": 175.82479495226363
+        }
+      },
+      "offset_1": {
+        "legacy_population_replica_diagnostic": {
+          "fill_rate": 0.8984485190409027,
+          "filled_trades": 3822,
+          "forced_total_losses": 29,
+          "hit_rate": 0.6700680272108843,
+          "max_drawdown_sol": 6.667829412230731,
+          "max_roi": 177.48478781934097,
+          "mean_roi": 1.5597399723724696,
+          "median_roi": 0.21507569620975348,
+          "p90_roi": 1.5130070700028464,
+          "p99_roi": 54.55972735244938,
+          "roi_on_total_staked": 1.5597399723724699,
+          "selected_tokens": 4254,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.20804695042780627,
+          "total_pnl_sol": 11775.459104126765,
+          "total_pnl_sol_roi_capped_at_p99": 9448.281850957246
+        },
+        "replica": {
+          "fill_rate": 0.8752561475409836,
+          "filled_trades": 3417,
+          "forced_total_losses": 27,
+          "hit_rate": 0.6798361135498976,
+          "max_drawdown_sol": 10.742385384108275,
+          "max_roi": 177.48478781934097,
+          "mean_roi": 2.326361897099478,
+          "median_roi": 0.2247837143233628,
+          "p90_roi": 1.6269275622813015,
+          "p99_roi": 65.78476063670335,
+          "roi_on_total_staked": 2.3263618970994777,
+          "selected_tokens": 3904,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.15841501736065422,
+          "total_pnl_sol": 15702.081182151129,
+          "total_pnl_sol_roi_capped_at_p99": 14044.072763113223
+        },
+        "target_equal_stake": {
+          "fill_rate": 0.9451728247914184,
+          "filled_trades": 3965,
+          "forced_total_losses": 65,
+          "hit_rate": 0.6537200504413619,
+          "max_drawdown_sol": 9.478110024224861,
+          "max_roi": 177.48478781934097,
+          "mean_roi": 0.9272114359617427,
+          "median_roi": 0.17245434514292718,
+          "p90_roi": 1.2662747827039258,
+          "p99_roi": 6.022524192439708,
+          "roi_on_total_staked": 0.9272114359617426,
+          "selected_tokens": 4195,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.26650679267141847,
+          "total_pnl_sol": 7262.01153930487,
+          "total_pnl_sol_roi_capped_at_p99": 3128.454627673269
+        }
+      },
+      "offset_10": {
+        "legacy_population_replica_diagnostic": {
+          "fill_rate": 0.766807710390221,
+          "filled_trades": 3262,
+          "forced_total_losses": 23,
+          "hit_rate": 0.5045984058859595,
+          "max_drawdown_sol": 17.130780342605703,
+          "max_roi": 101.24236970253878,
+          "mean_roi": 0.3975499990129329,
+          "median_roi": 0.003266248490978285,
+          "p90_roi": 0.7811657754240818,
+          "p99_roi": 2.1745374115660923,
+          "roi_on_total_staked": 0.397549999012933,
+          "selected_tokens": 4254,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.4259551575147511,
+          "total_pnl_sol": 2561.596239288668,
+          "total_pnl_sol_roi_capped_at_p99": 739.8242970680972
+        },
+        "replica": {
+          "fill_rate": 0.7551229508196722,
+          "filled_trades": 2948,
+          "forced_total_losses": 22,
+          "hit_rate": 0.4989823609226594,
+          "max_drawdown_sol": 14.331498468129894,
+          "max_roi": 101.24236970253878,
+          "mean_roi": 0.3701768053990409,
+          "median_roi": -0.001532720067942528,
+          "p90_roi": 0.7872041117683127,
+          "p99_roi": 2.473070333840237,
+          "roi_on_total_staked": 0.3701768053990409,
+          "selected_tokens": 3904,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.37185198234992306,
+          "total_pnl_sol": 2155.6172282025727,
+          "total_pnl_sol_roi_capped_at_p99": 726.0310895237458
+        },
+        "target_equal_stake": {
+          "fill_rate": 0.8796185935637664,
+          "filled_trades": 3690,
+          "forced_total_losses": 63,
+          "hit_rate": 0.4888888888888889,
+          "max_drawdown_sol": 13.889033620554528,
+          "max_roi": 101.24236970253878,
+          "mean_roi": 0.4315416455269539,
+          "median_roi": -0.012274845033209247,
+          "p90_roi": 0.7085060162065903,
+          "p99_roi": 2.86938894202471,
+          "roi_on_total_staked": 0.4315416455269539,
+          "selected_tokens": 4195,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.29584158302018715,
+          "total_pnl_sol": 3145.4591036211714,
+          "total_pnl_sol_roi_capped_at_p99": 841.4395077015927
+        }
+      },
+      "offset_100": {
+        "legacy_population_replica_diagnostic": {
+          "fill_rate": 0.6520921485660555,
+          "filled_trades": 2774,
+          "forced_total_losses": 20,
+          "hit_rate": 0.45241528478731075,
+          "max_drawdown_sol": 38.419220667852414,
+          "max_roi": 79.37222420204252,
+          "mean_roi": 0.19955403464159818,
+          "median_roi": -0.04328578218290141,
+          "p90_roi": 0.6140560123749447,
+          "p99_roi": 1.838189340794991,
+          "roi_on_total_staked": 0.19955403464159818,
+          "selected_tokens": 4254,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.4673633274317152,
+          "total_pnl_sol": 1093.4575640937712,
+          "total_pnl_sol_roi_capped_at_p99": 217.2533313984589
+        },
+        "replica": {
+          "fill_rate": 0.6475409836065574,
+          "filled_trades": 2528,
+          "forced_total_losses": 18,
+          "hit_rate": 0.44066455696202533,
+          "max_drawdown_sol": 23.03652132378261,
+          "max_roi": 75.44951424317028,
+          "mean_roi": 0.24264602066364016,
+          "median_roi": -0.046330922543683706,
+          "p90_roi": 0.6011856393854288,
+          "p99_roi": 1.9173191905665157,
+          "roi_on_total_staked": 0.24264602066364013,
+          "selected_tokens": 3904,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.46938680922428505,
+          "total_pnl_sol": 1211.6723751798747,
+          "total_pnl_sol_roi_capped_at_p99": 221.1848632423024
+        },
+        "target_equal_stake": {
+          "fill_rate": 0.7547079856972586,
+          "filled_trades": 3166,
+          "forced_total_losses": 43,
+          "hit_rate": 0.41029690461149715,
+          "max_drawdown_sol": 49.74083969992989,
+          "max_roi": 75.44951424317028,
+          "mean_roi": 0.22326259714451024,
+          "median_roi": -0.06992276457554264,
+          "p90_roi": 0.5579752963823875,
+          "p99_roi": 1.9678361465533998,
+          "roi_on_total_staked": 0.22326259714451022,
+          "selected_tokens": 4195,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.39956982868540863,
+          "total_pnl_sol": 1396.2456932553332,
+          "total_pnl_sol_roi_capped_at_p99": 145.17778978343196
+        }
+      },
+      "offset_118": {
+        "legacy_population_replica_diagnostic": {
+          "fill_rate": 0.6321109543958627,
+          "filled_trades": 2689,
+          "forced_total_losses": 20,
+          "hit_rate": 0.4458906656749721,
+          "max_drawdown_sol": 43.57570276402976,
+          "max_roi": 79.37222420204252,
+          "mean_roi": 0.19650829903456155,
+          "median_roi": -0.046073812493295174,
+          "p90_roi": 0.6009467957891786,
+          "p99_roi": 1.8168084849946924,
+          "roi_on_total_staked": 0.19650829903456155,
+          "selected_tokens": 4254,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.48118190902720614,
+          "total_pnl_sol": 1043.7744510479667,
+          "total_pnl_sol_roi_capped_at_p99": 167.75162043711796
+        },
+        "replica": {
+          "fill_rate": 0.6275614754098361,
+          "filled_trades": 2450,
+          "forced_total_losses": 17,
+          "hit_rate": 0.4322448979591837,
+          "max_drawdown_sol": 28.40078475080759,
+          "max_roi": 75.44951424317028,
+          "mean_roi": 0.21456467216812858,
+          "median_roi": -0.04884457619009669,
+          "p90_roi": 0.5915778182540767,
+          "p99_roi": 1.8225709341924197,
+          "roi_on_total_staked": 0.21456467216812858,
+          "selected_tokens": 3904,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.4903353677384859,
+          "total_pnl_sol": 1038.3870549182398,
+          "total_pnl_sol_roi_capped_at_p99": 172.769172213418
+        },
+        "target_equal_stake": {
+          "fill_rate": 0.733015494636472,
+          "filled_trades": 3075,
+          "forced_total_losses": 40,
+          "hit_rate": 0.400650406504065,
+          "max_drawdown_sol": 58.11907233794841,
+          "max_roi": 75.44951424317028,
+          "mean_roi": 0.25194146339939966,
+          "median_roi": -0.07768808580787862,
+          "p90_roi": 0.5503429833843794,
+          "p99_roi": 2.1730356716872765,
+          "roi_on_total_staked": 0.25194146339939966,
+          "selected_tokens": 4195,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.3824518245236272,
+          "total_pnl_sol": 1530.3111102629844,
+          "total_pnl_sol_roi_capped_at_p99": 108.83646695549008
+        }
+      },
+      "offset_150": {
+        "legacy_population_replica_diagnostic": {
+          "fill_rate": 0.6003761165961448,
+          "filled_trades": 2554,
+          "forced_total_losses": 20,
+          "hit_rate": 0.4365700861393892,
+          "max_drawdown_sol": 46.89128365675265,
+          "max_roi": 79.37222420204252,
+          "mean_roi": 0.24930378757387753,
+          "median_roi": -0.051354582044780106,
+          "p90_roi": 0.5977976401863692,
+          "p99_roi": 1.8666971485286796,
+          "roi_on_total_staked": 0.2493037875738775,
+          "selected_tokens": 4254,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.5284265755731629,
+          "total_pnl_sol": 1257.7222185665219,
+          "total_pnl_sol_roi_capped_at_p99": 147.15255757784087
+        },
+        "replica": {
+          "fill_rate": 0.5963114754098361,
+          "filled_trades": 2328,
+          "forced_total_losses": 15,
+          "hit_rate": 0.4213917525773196,
+          "max_drawdown_sol": 29.115748723967727,
+          "max_roi": 75.44951424317028,
+          "mean_roi": 0.25952208546925276,
+          "median_roi": -0.05495853740071982,
+          "p90_roi": 0.5742029366867383,
+          "p99_roi": 1.7816995570430598,
+          "roi_on_total_staked": 0.25952208546925276,
+          "selected_tokens": 3904,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.5265992616662623,
+          "total_pnl_sol": 1193.4171154056548,
+          "total_pnl_sol_roi_capped_at_p99": 141.08783706145505
+        },
+        "target_equal_stake": {
+          "fill_rate": 0.700834326579261,
+          "filled_trades": 2940,
+          "forced_total_losses": 36,
+          "hit_rate": 0.38605442176870747,
+          "max_drawdown_sol": 70.70655377576281,
+          "max_roi": 75.44951424317028,
+          "mean_roi": 0.2264195796954737,
+          "median_roi": -0.08852812251597231,
+          "p90_roi": 0.5330337810254671,
+          "p99_roi": 2.035327263927555,
+          "roi_on_total_staked": 0.2264195796954737,
+          "selected_tokens": 4195,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.4391519917060097,
+          "total_pnl_sol": 1314.9107436563286,
+          "total_pnl_sol_roi_capped_at_p99": 23.81006558338335
+        }
+      },
+      "offset_25": {
+        "legacy_population_replica_diagnostic": {
+          "fill_rate": 0.7487070992007522,
+          "filled_trades": 3185,
+          "forced_total_losses": 22,
+          "hit_rate": 0.4897959183673469,
+          "max_drawdown_sol": 20.84833625605006,
+          "max_roi": 101.03664416661795,
+          "mean_roi": 0.30630095872563967,
+          "median_roi": -0.011121481186925186,
+          "p90_roi": 0.7184056162045791,
+          "p99_roi": 2.0293570547800424,
+          "roi_on_total_staked": 0.3063009587256396,
+          "selected_tokens": 4254,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.4312598023998514,
+          "total_pnl_sol": 1927.0489936977287,
+          "total_pnl_sol_roi_capped_at_p99": 581.2304541980832
+        },
+        "replica": {
+          "fill_rate": 0.7405225409836066,
+          "filled_trades": 2891,
+          "forced_total_losses": 22,
+          "hit_rate": 0.4811483915600138,
+          "max_drawdown_sol": 18.498642746872974,
+          "max_roi": 59.88961437724579,
+          "mean_roi": 0.2866088120723121,
+          "median_roi": -0.01781586856635814,
+          "p90_roi": 0.7073353269082008,
+          "p99_roi": 2.10290499706428,
+          "roi_on_total_staked": 0.28660881207231215,
+          "selected_tokens": 3904,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.37578750652870674,
+          "total_pnl_sol": 1636.713235144573,
+          "total_pnl_sol_roi_capped_at_p99": 551.2153318071923
+        },
+        "target_equal_stake": {
+          "fill_rate": 0.8619785458879619,
+          "filled_trades": 3616,
+          "forced_total_losses": 59,
+          "hit_rate": 0.46626106194690264,
+          "max_drawdown_sol": 16.022630391609255,
+          "max_roi": 58.4449633861706,
+          "mean_roi": 0.3221810369067115,
+          "median_roi": -0.029116780158209787,
+          "p90_roi": 0.6458776796485765,
+          "p99_roi": 2.2834298059061013,
+          "roi_on_total_staked": 0.3221810369067115,
+          "selected_tokens": 4195,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.3093669236093409,
+          "total_pnl_sol": 2301.2476619840927,
+          "total_pnl_sol_roi_capped_at_p99": 590.5919402315194
+        }
+      },
+      "offset_250": {
+        "legacy_population_replica_diagnostic": {
+          "fill_rate": 0.5039962388340385,
+          "filled_trades": 2144,
+          "forced_total_losses": 17,
+          "hit_rate": 0.4141791044776119,
+          "max_drawdown_sol": 57.35094946966967,
+          "max_roi": 79.37222420204252,
+          "mean_roi": 0.21625063238437472,
+          "median_roi": -0.06903285239912271,
+          "p90_roi": 0.5872511421869336,
+          "p99_roi": 1.7803794315231654,
+          "roi_on_total_staked": 0.21625063238437475,
+          "selected_tokens": 4254,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.5504631419797431,
+          "total_pnl_sol": 915.834776500102,
+          "total_pnl_sol_roi_capped_at_p99": 43.03065588568847
+        },
+        "replica": {
+          "fill_rate": 0.4989754098360656,
+          "filled_trades": 1948,
+          "forced_total_losses": 13,
+          "hit_rate": 0.39989733059548255,
+          "max_drawdown_sol": 41.42345362094318,
+          "max_roi": 50.39175646180118,
+          "mean_roi": 0.1772285003948963,
+          "median_roi": -0.06911177285433906,
+          "p90_roi": 0.5580939506381355,
+          "p99_roi": 1.7297637820211598,
+          "roi_on_total_staked": 0.17722850039489627,
+          "selected_tokens": 3904,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.5331946794688387,
+          "total_pnl_sol": 681.9577651334224,
+          "total_pnl_sol_roi_capped_at_p99": 24.254537448237787
+        },
+        "target_equal_stake": {
+          "fill_rate": 0.5804529201430274,
+          "filled_trades": 2435,
+          "forced_total_losses": 26,
+          "hit_rate": 0.35523613963039014,
+          "max_drawdown_sol": 105.06690610302155,
+          "max_roi": 64.48109041884057,
+          "mean_roi": 0.1504549336489466,
+          "median_roi": -0.10855887185159657,
+          "p90_roi": 0.4875952012706967,
+          "p99_roi": 1.786642533318411,
+          "roi_on_total_staked": 0.15045493364894663,
+          "selected_tokens": 4195,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.5099263232251344,
+          "total_pnl_sol": 723.6696558109549,
+          "total_pnl_sol_roi_capped_at_p99": -134.9706443959068
+        }
+      },
+      "offset_50": {
+        "legacy_population_replica_diagnostic": {
+          "fill_rate": 0.7141513869299483,
+          "filled_trades": 3038,
+          "forced_total_losses": 20,
+          "hit_rate": 0.4710335747202107,
+          "max_drawdown_sol": 25.26188518682784,
+          "max_roi": 79.37222420204252,
+          "mean_roi": 0.24171123820407578,
+          "median_roi": -0.027993876568626563,
+          "p90_roi": 0.6580981873965585,
+          "p99_roi": 1.9618599844614386,
+          "roi_on_total_staked": 0.24171123820407575,
+          "selected_tokens": 4254,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.4436561162546151,
+          "total_pnl_sol": 1450.5061556571106,
+          "total_pnl_sol_roi_capped_at_p99": 396.68588603353334
+        },
+        "replica": {
+          "fill_rate": 0.7092725409836066,
+          "filled_trades": 2769,
+          "forced_total_losses": 20,
+          "hit_rate": 0.4611773203322499,
+          "max_drawdown_sol": 22.91881122226414,
+          "max_roi": 75.44951424317028,
+          "mean_roi": 0.3067971787093881,
+          "median_roi": -0.03346582593893227,
+          "p90_roi": 0.6522592699076855,
+          "p99_roi": 2.0260661013281385,
+          "roi_on_total_staked": 0.3067971787093881,
+          "selected_tokens": 3904,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.44243937732068667,
+          "total_pnl_sol": 1678.0669381271002,
+          "total_pnl_sol_roi_capped_at_p99": 381.5734874622459
+        },
+        "target_equal_stake": {
+          "fill_rate": 0.8276519666269369,
+          "filled_trades": 3472,
+          "forced_total_losses": 51,
+          "hit_rate": 0.43922811059907835,
+          "max_drawdown_sol": 19.271714034095567,
+          "max_roi": 75.44951424317028,
+          "mean_roi": 0.32727038377146406,
+          "median_roi": -0.0466517379691026,
+          "p90_roi": 0.6079045490981654,
+          "p99_roi": 2.1830824006533356,
+          "roi_on_total_staked": 0.32727038377146406,
+          "selected_tokens": 4195,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.3434686966383291,
+          "total_pnl_sol": 2244.5091790488564,
+          "total_pnl_sol_roi_capped_at_p99": 391.65752649513723
+        }
+      }
+    }
+  },
+  "signal_redundancy": {
+    "all_may_pairwise_spearman": {
+      "max": 0.9989109691081987,
+      "median": 0.9407173091725483,
+      "min": 0.7782522272084953
+    },
+    "correlation_method": "Spearman rank correlation on the full May population and two policy-relevant May subsets",
+    "grouped_permutation": {
+      "baseline_pr_auc": 0.1438765674677488,
+      "joint_five_signal_drop": 0.06434135193794754,
+      "joint_to_summed_individual_drop_ratio": 0.4500109394052891,
+      "method": "one shared row permutation per group preserves within-group relationships while breaking association with outcomes and other features",
+      "results": {
+        "all_five_activity_scale_signals": {
+          "features": [
+            "hist_quote_sol_sum",
+            "hist_cost_usd_sum",
+            "hist_open_close_count",
+            "hist_sell_count",
+            "hist_tip_fee_sum"
+          ],
+          "permuted_pr_auc": 0.07953521552980125,
+          "pr_auc_drop": 0.06434135193794754
+        },
+        "historical_sells": {
+          "features": [
+            "hist_sell_count"
+          ],
+          "permuted_pr_auc": 0.1337573973299972,
+          "pr_auc_drop": 0.010119170137751599
+        },
+        "historical_sol_activity": {
+          "features": [
+            "hist_quote_sol_sum"
+          ],
+          "permuted_pr_auc": 0.10712569366404297,
+          "pr_auc_drop": 0.03675087380370583
+        },
+        "historical_tips": {
+          "features": [
+            "hist_tip_fee_sum"
+          ],
+          "permuted_pr_auc": 0.1334225608389316,
+          "pr_auc_drop": 0.010454006628817208
+        },
+        "historical_usd_activity": {
+          "features": [
+            "hist_cost_usd_sum"
+          ],
+          "permuted_pr_auc": 0.10957451092326384,
+          "pr_auc_drop": 0.034302056544484955
+        },
+        "open_close_activity": {
+          "features": [
+            "hist_open_close_count"
+          ],
+          "permuted_pr_auc": 0.0925253682464053,
+          "pr_auc_drop": 0.0513511992213435
+        },
+        "open_close_and_sells": {
+          "features": [
+            "hist_open_close_count",
+            "hist_sell_count"
+          ],
+          "permuted_pr_auc": 0.07804988216373378,
+          "pr_auc_drop": 0.06582668530401502
+        },
+        "sol_and_usd_activity": {
+          "features": [
+            "hist_quote_sol_sum",
+            "hist_cost_usd_sum"
+          ],
+          "permuted_pr_auc": 0.0713704647567438,
+          "pr_auc_drop": 0.072506102711005
+        }
+      },
+      "sample_rows": 200000,
+      "sum_of_five_individual_drops": 0.1429773063361031
+    },
+    "interpretation_guardrail": "Correlation and grouped permutation identify predictive redundancy, not a causal wallet policy.",
+    "rank_pca_first_component_variance_share": {
+      "all_may_candidates": 0.9150206974953763,
+      "may_replica_selected": 0.9061964850324846,
+      "may_target_bought": 0.8987394038094794
+    },
+    "signals": [
+      "hist_quote_sol_sum",
+      "hist_cost_usd_sum",
+      "hist_open_close_count",
+      "hist_sell_count",
+      "hist_tip_fee_sum"
+    ]
+  }
+}

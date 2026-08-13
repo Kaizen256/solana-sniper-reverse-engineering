@@ -1,0 +1,37 @@
+|--- seconds_since_prior_deploy <= 334.5000
+|   |--- hist_priority_fee_sum <= 19.4333
+|   |   |--- hist_tip_fee_sum <= 4.3494
+|   |   |   |--- hist_cost_usd_sum <= 30117.4062
+|   |   |   |   |--- value: [0.0021]
+|   |   |   |--- hist_cost_usd_sum >  30117.4062
+|   |   |   |   |--- value: [0.0135]
+|   |   |--- hist_tip_fee_sum >  4.3494
+|   |   |   |--- seconds_since_prior_deploy <= 168.5000
+|   |   |   |   |--- value: [0.0121]
+|   |   |   |--- seconds_since_prior_deploy >  168.5000
+|   |   |   |   |--- value: [0.1295]
+|   |--- hist_priority_fee_sum >  19.4333
+|   |   |--- value: [0.3347]
+|--- seconds_since_prior_deploy >  334.5000
+|   |--- dev_buy_sol <= 3.0297
+|   |   |--- hist_burn_count <= 6.5000
+|   |   |   |--- observed_wallet_age_seconds <= 1621862.5000
+|   |   |   |   |--- value: [0.0227]
+|   |   |   |--- observed_wallet_age_seconds >  1621862.5000
+|   |   |   |   |--- value: [0.0871]
+|   |   |--- hist_burn_count >  6.5000
+|   |   |   |--- dev_buy_sol <= 0.1357
+|   |   |   |   |--- value: [0.0403]
+|   |   |   |--- dev_buy_sol >  0.1357
+|   |   |   |   |--- value: [0.2690]
+|   |--- dev_buy_sol >  3.0297
+|   |   |--- hist_burn_count <= 1.5000
+|   |   |   |--- hist_tip_fee_sum <= 4.8776
+|   |   |   |   |--- value: [0.1678]
+|   |   |   |--- hist_tip_fee_sum >  4.8776
+|   |   |   |   |--- value: [0.3598]
+|   |   |--- hist_burn_count >  1.5000
+|   |   |   |--- hist_burn_count_7d <= 3.5000
+|   |   |   |   |--- value: [0.3212]
+|   |   |   |--- hist_burn_count_7d >  3.5000
+|   |   |   |   |--- value: [0.4953]

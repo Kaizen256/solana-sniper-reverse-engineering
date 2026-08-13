@@ -1,0 +1,29 @@
+{
+  "A_entry_features": {
+    "boundary": "activity.timestamp < deployment.blockTime",
+    "sources": [
+      "deployment indexes",
+      "signed transaction.message",
+      "strictly earlier deployer activity"
+    ]
+  },
+  "B_labels_evaluation": [
+    "bought/not-bought membership",
+    "target-wallet activity"
+  ],
+  "C_backtest_only": [
+    "June pump.fun trades",
+    "June market-cap candles"
+  ],
+  "D_behavior_only": [
+    "full target history",
+    "post-deployment deployer events",
+    "landed Jito context"
+  ],
+  "E_excluded_ambiguous": [
+    "raw transaction meta",
+    "same-second activity",
+    "creator_address semantics",
+    "landed bundle facts"
+  ]
+}

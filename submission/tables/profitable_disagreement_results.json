@@ -1,0 +1,436 @@
+{
+  "combination": "Gate to the top 2x Model-A count, average within-gate percentile ranks from Models A and B, then keep the same count as Model A.",
+  "control_model_a": "tracked target-bot buy probability without historical launch outcomes",
+  "june_reporting_only": {
+    "backtest": {
+      "immediate": {
+        "baseline_replica": {
+          "fill_rate": 0.9984631147540983,
+          "filled_trades": 3898,
+          "forced_total_losses": 90,
+          "hit_rate": 0.6298101590559261,
+          "max_drawdown_sol": 12.351124120121312,
+          "max_roi": 177.48478781934097,
+          "mean_roi": 2.0819689933624543,
+          "median_roi": 0.152894227789024,
+          "p90_roi": 1.505157961428439,
+          "p99_roi": 64.96970505850886,
+          "roi_on_total_staked": 2.0819689933624543,
+          "selected_tokens": 3904,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.15289017375998112,
+          "total_pnl_sol": 16030.647174557653,
+          "total_pnl_sol_roi_capped_at_p99": 14256.328729610868
+        },
+        "quality_augmented_replica": {
+          "fill_rate": 0.9953166815343444,
+          "filled_trades": 4463,
+          "forced_total_losses": 99,
+          "hit_rate": 0.5948913287026664,
+          "max_drawdown_sol": 12.346424686102182,
+          "max_roi": 142.95388465898137,
+          "mean_roi": 2.0748196034048867,
+          "median_roi": 0.10482477771732429,
+          "p90_roi": 1.488756868383553,
+          "p99_roi": 63.111681797267096,
+          "roi_on_total_staked": 2.0748196034048862,
+          "selected_tokens": 4484,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.13027921685809432,
+          "total_pnl_sol": 18291.199773676883,
+          "total_pnl_sol_roi_capped_at_p99": 16302.934262953344
+        },
+        "selective_two_stage": {
+          "fill_rate": 0.9955396966993756,
+          "filled_trades": 1116,
+          "forced_total_losses": 19,
+          "hit_rate": 0.6200716845878136,
+          "max_drawdown_sol": 6.987768363903797,
+          "max_roi": 142.95388465898137,
+          "mean_roi": 1.2038076114934346,
+          "median_roi": 0.14394513270439752,
+          "p90_roi": 1.543831270754024,
+          "p99_roi": 38.36885532672509,
+          "roi_on_total_staked": 1.2038076114934346,
+          "selected_tokens": 1121,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.5048007486373256,
+          "total_pnl_sol": 2653.7270000263607,
+          "total_pnl_sol_roi_capped_at_p99": 1974.7492486197316
+        },
+        "target_equal_stake": {
+          "fill_rate": 1.0,
+          "filled_trades": 4195,
+          "forced_total_losses": 78,
+          "hit_rate": 0.6410011918951132,
+          "max_drawdown_sol": 16.107711352281513,
+          "max_roi": 177.48478781934097,
+          "mean_roi": 0.9325549679979627,
+          "median_roi": 0.15655138629231818,
+          "p90_roi": 1.2304144910527777,
+          "p99_roi": 10.191542545388847,
+          "roi_on_total_staked": 0.9325549679979627,
+          "selected_tokens": 4195,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.2576202903671814,
+          "total_pnl_sol": 7727.5419038417185,
+          "total_pnl_sol_roi_capped_at_p99": 3536.934760518524
+        },
+        "two_stage": {
+          "fill_rate": 0.9955396966993756,
+          "filled_trades": 4464,
+          "forced_total_losses": 84,
+          "hit_rate": 0.5996863799283154,
+          "max_drawdown_sol": 9.616709655285376,
+          "max_roi": 142.95388465898137,
+          "mean_roi": 1.5823426127734106,
+          "median_roi": 0.11876218174940661,
+          "p90_roi": 1.5089564173682601,
+          "p99_roi": 50.48227987071679,
+          "roi_on_total_staked": 1.5823426127734106,
+          "selected_tokens": 4484,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.1690152315079354,
+          "total_pnl_sol": 13952.74552085504,
+          "total_pnl_sol_roi_capped_at_p99": 11135.396645311752
+        }
+      },
+      "offset_118": {
+        "baseline_replica": {
+          "fill_rate": 0.6275614754098361,
+          "filled_trades": 2450,
+          "forced_total_losses": 17,
+          "hit_rate": 0.4322448979591837,
+          "max_drawdown_sol": 28.40078475080759,
+          "max_roi": 75.44951424317028,
+          "mean_roi": 0.21456467216812858,
+          "median_roi": -0.04884457619009669,
+          "p90_roi": 0.5915778182540767,
+          "p99_roi": 1.8225709341924197,
+          "roi_on_total_staked": 0.21456467216812858,
+          "selected_tokens": 3904,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.4903353677384859,
+          "total_pnl_sol": 1038.3870549182398,
+          "total_pnl_sol_roi_capped_at_p99": 172.769172213418
+        },
+        "quality_augmented_replica": {
+          "fill_rate": 0.5900981266726137,
+          "filled_trades": 2646,
+          "forced_total_losses": 15,
+          "hit_rate": 0.43159486016628873,
+          "max_drawdown_sol": 33.38425548566602,
+          "max_roi": 57.88626109373855,
+          "mean_roi": 0.2343122394941647,
+          "median_roi": -0.05242625435074494,
+          "p90_roi": 0.5974377247170362,
+          "p99_roi": 2.2468444478051337,
+          "roi_on_total_staked": 0.23431223949416471,
+          "selected_tokens": 4484,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.4144262922840619,
+          "total_pnl_sol": 1224.6719711514859,
+          "total_pnl_sol_roi_capped_at_p99": 227.33375455967405
+        },
+        "selective_two_stage": {
+          "fill_rate": 0.6440677966101694,
+          "filled_trades": 722,
+          "forced_total_losses": 2,
+          "hit_rate": 0.48614958448753465,
+          "max_drawdown_sol": 11.405647116868806,
+          "max_roi": 37.986520677538564,
+          "mean_roi": 0.28669120659112063,
+          "median_roi": -0.020559000212521716,
+          "p90_roi": 0.8185309433551907,
+          "p99_roi": 4.201393727148567,
+          "roi_on_total_staked": 0.2866912065911206,
+          "selected_tokens": 1121,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.47107349720563774,
+          "total_pnl_sol": 408.87121196362915,
+          "total_pnl_sol_roi_capped_at_p99": 215.76414270774282
+        },
+        "target_equal_stake": {
+          "fill_rate": 0.733015494636472,
+          "filled_trades": 3075,
+          "forced_total_losses": 40,
+          "hit_rate": 0.400650406504065,
+          "max_drawdown_sol": 58.11907233794841,
+          "max_roi": 75.44951424317028,
+          "mean_roi": 0.25194146339939966,
+          "median_roi": -0.07768808580787862,
+          "p90_roi": 0.5503429833843794,
+          "p99_roi": 2.1730356716872765,
+          "roi_on_total_staked": 0.25194146339939966,
+          "selected_tokens": 4195,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.3824518245236272,
+          "total_pnl_sol": 1530.3111102629844,
+          "total_pnl_sol_roi_capped_at_p99": 108.83646695549008
+        },
+        "two_stage": {
+          "fill_rate": 0.6112845673505798,
+          "filled_trades": 2741,
+          "forced_total_losses": 11,
+          "hit_rate": 0.4392557460780737,
+          "max_drawdown_sol": 30.994594104383168,
+          "max_roi": 75.44951424317028,
+          "mean_roi": 0.23011339969430175,
+          "median_roi": -0.04600540166365846,
+          "p90_roi": 0.6232890730618859,
+          "p99_roi": 2.1465633693278914,
+          "roi_on_total_staked": 0.23011339969430172,
+          "selected_tokens": 4484,
+          "symmetric_entry_exit_slippage": 0.0,
+          "top10_positive_pnl_share": 0.4343786382644549,
+          "total_pnl_sol": 1245.9078088901783,
+          "total_pnl_sol_roi_capped_at_p99": 288.8723038081825
+        }
+      }
+    },
+    "disagreement_cohorts": [
+      {
+        "cohort": "replica_only_profitable",
+        "mean_net_roi": 3.7570143976096277,
+        "median_dev_buy_sol": 3.3,
+        "median_hist_claimed_launch_count": 0.0,
+        "median_hist_mature_1d_success_fraction": 0.0,
+        "median_hist_quote_sol_sum": 1418.1874939199997,
+        "median_net_roi": 0.5085451800337843,
+        "median_observed_wallet_age_seconds": 10195106.0,
+        "median_prior_deploy_count_7d": 8.0,
+        "median_score": 0.1650540279404615,
+        "median_seconds_since_prior_deploy": 31280.0,
+        "tokens": 2001
+      },
+      {
+        "cohort": "replica_only_unprofitable",
+        "mean_net_roi": -0.2643220646401846,
+        "median_dev_buy_sol": 3.0,
+        "median_hist_claimed_launch_count": 0.0,
+        "median_hist_mature_1d_success_fraction": 0.0,
+        "median_hist_quote_sol_sum": 6646.472666792999,
+        "median_net_roi": -0.1751459231534574,
+        "median_observed_wallet_age_seconds": 9792791.0,
+        "median_prior_deploy_count_7d": 9.0,
+        "median_score": 0.15080850299883689,
+        "median_seconds_since_prior_deploy": 10704.0,
+        "tokens": 1333
+      },
+      {
+        "cohort": "target_only",
+        "mean_net_roi": 0.8157525343090345,
+        "median_dev_buy_sol": 0.0,
+        "median_hist_claimed_launch_count": 0.0,
+        "median_hist_mature_1d_success_fraction": 0.0,
+        "median_hist_quote_sol_sum": 636.930073898,
+        "median_net_roi": 0.12343885133196703,
+        "median_observed_wallet_age_seconds": 7411915.0,
+        "median_prior_deploy_count_7d": 6.0,
+        "median_score": 0.010499339770731147,
+        "median_seconds_since_prior_deploy": 11895.0,
+        "tokens": 3631
+      },
+      {
+        "cohort": "target_replica_overlap",
+        "mean_net_roi": 1.6845224089988453,
+        "median_dev_buy_sol": 3.5,
+        "median_hist_claimed_launch_count": 0.0,
+        "median_hist_mature_1d_success_fraction": 0.0,
+        "median_hist_quote_sol_sum": 1038.5130493285,
+        "median_net_roi": 0.45703011327505844,
+        "median_observed_wallet_age_seconds": 11364697.5,
+        "median_prior_deploy_count_7d": 5.0,
+        "median_score": 0.16569300500161063,
+        "median_seconds_since_prior_deploy": 64005.0,
+        "tokens": 564
+      }
+    ],
+    "selection": {
+      "baseline": {
+        "creator_fee_claim_7d_hit_rate": 0.0,
+        "creator_fee_usd_7d_mean": 0.0,
+        "creator_fee_usd_7d_p99_capped_total": 0.0,
+        "creator_fee_usd_7d_total": 0.0,
+        "entries": 3904,
+        "precision_vs_target": 0.1444672131147541,
+        "recall_of_target": 0.13444576877234804,
+        "target_overlap": 564
+      },
+      "quality_augmented": {
+        "creator_fee_claim_7d_hit_rate": 0.0,
+        "creator_fee_usd_7d_mean": 0.0,
+        "creator_fee_usd_7d_p99_capped_total": 0.0,
+        "creator_fee_usd_7d_total": 0.0,
+        "entries": 4484,
+        "precision_vs_target": 0.12756467439785907,
+        "recall_of_target": 0.1363528009535161,
+        "target_overlap": 572
+      },
+      "selective_two_stage": {
+        "creator_fee_claim_7d_hit_rate": 0.0,
+        "creator_fee_usd_7d_mean": 0.0,
+        "creator_fee_usd_7d_p99_capped_total": 0.0,
+        "creator_fee_usd_7d_total": 0.0,
+        "entries": 1121,
+        "precision_vs_target": 0.15789473684210525,
+        "recall_of_target": 0.04219308700834327,
+        "target_overlap": 177
+      },
+      "two_stage": {
+        "creator_fee_claim_7d_hit_rate": 0.0,
+        "creator_fee_usd_7d_mean": 0.0,
+        "creator_fee_usd_7d_p99_capped_total": 0.0,
+        "creator_fee_usd_7d_total": 0.0,
+        "entries": 4484,
+        "precision_vs_target": 0.14161462979482606,
+        "recall_of_target": 0.15137067938021453,
+        "target_overlap": 635
+      }
+    }
+  },
+  "model_a": "pre-June-selected historical-outcome-augmented target-bot buy probability",
+  "model_a_historical_feature_families": [
+    "creator_fee_quality",
+    "developer_sell_behavior"
+  ],
+  "model_b": "probability the creator claims a Pump creator fee within seven days",
+  "model_b_guardrail": "Creator-fee claim is a sparse economic-quality proxy, not ROI. Each training candidate is at least seven days before its evaluation boundary.",
+  "pre_june_decision": {
+    "april_claim_hit_rate_gain": 0.016516228154407536,
+    "may_claim_hit_rate_gain": 0.008358921869669057,
+    "rule": "KEEP only if equal-count two-stage selection improves the seven-day creator-fee hit rate in both April and May.",
+    "status": "KEEP"
+  },
+  "pre_june_strategy_operating_point": {
+    "april_two_stage_claim_hit_rate": 0.13440860215053763,
+    "may_two_stage_claim_hit_rate": 0.13983628922237382,
+    "selection_basis": "Smallest tested pre-June operating point; creator-fee hit rate exceeds Model A in both April and May.",
+    "status": "KEEP",
+    "trade_count_multiplier": 0.25
+  },
+  "windows": {
+    "april": {
+      "control_model_a_strategy": {
+        "creator_fee_claim_7d_hit_rate": 0.03949483352468427,
+        "creator_fee_usd_7d_mean": 24.998259784266196,
+        "creator_fee_usd_7d_p99_capped_total": 6185.677069063163,
+        "creator_fee_usd_7d_total": 108867.42136047929,
+        "entries": 4355,
+        "precision_vs_target": 0.15797933409873707,
+        "recall_of_target": 0.296551724137931,
+        "target_overlap": 688
+      },
+      "economic_train_positives": 2349,
+      "economic_train_rows": 65350,
+      "model_b_metrics": {
+        "f1": 0.18225331369661266,
+        "positives": 2383,
+        "pr_auc": 0.10450480999350563,
+        "pr_auc_lift_over_prevalence": 26.463354399018485,
+        "precision": 0.16234831092161364,
+        "precision_lift_over_prevalence": 41.110843493880274,
+        "predicted_entries": 3049,
+        "predicted_entry_rate": 0.005052714611940249,
+        "prevalence": 0.003949038675058581,
+        "recall": 0.20772135963071758,
+        "roc_auc": 0.9125571695059771,
+        "rows": 603438,
+        "threshold": 0.12981175527950842,
+        "true_positives": 495
+      },
+      "quality_model_a_minus_control": {
+        "precision_vs_target": 0.008527291597441145,
+        "recall_of_target": 0.0771551724137931
+      },
+      "quality_model_a_strategy": {
+        "creator_fee_claim_7d_hit_rate": 0.04705204532360284,
+        "creator_fee_usd_7d_mean": 24.085366359937414,
+        "creator_fee_usd_7d_p99_capped_total": 9404.953706695676,
+        "creator_fee_usd_7d_total": 125412.50263619411,
+        "entries": 5207,
+        "precision_vs_target": 0.16650662569617822,
+        "recall_of_target": 0.3737068965517241,
+        "target_overlap": 867
+      },
+      "two_stage_minus_quality_model_a": {
+        "creator_fee_claim_hit_rate": 0.016516228154407536,
+        "creator_fee_usd_7d_p99_capped_total": 4680.055002547746,
+        "precision_vs_target": -0.009986556558478965
+      },
+      "two_stage_strategy": {
+        "creator_fee_claim_7d_hit_rate": 0.06356827347801038,
+        "creator_fee_usd_7d_mean": 25.90819250887544,
+        "creator_fee_usd_7d_p99_capped_total": 14085.008709243422,
+        "creator_fee_usd_7d_total": 134903.95839371442,
+        "entries": 5207,
+        "precision_vs_target": 0.15652006913769925,
+        "recall_of_target": 0.35129310344827586,
+        "target_overlap": 815
+      },
+      "validation_economic_positives": 2383,
+      "validation_rows": 603438
+    },
+    "may": {
+      "control_model_a_strategy": {
+        "creator_fee_claim_7d_hit_rate": 0.03766233766233766,
+        "creator_fee_usd_7d_mean": 31.288654568182817,
+        "creator_fee_usd_7d_p99_capped_total": 12564.722637702878,
+        "creator_fee_usd_7d_total": 144553.58410500461,
+        "entries": 4620,
+        "precision_vs_target": 0.2274891774891775,
+        "recall_of_target": 0.27952127659574466,
+        "target_overlap": 1051
+      },
+      "economic_train_positives": 5402,
+      "economic_train_rows": 222525,
+      "model_b_metrics": {
+        "f1": 0.08954664668415137,
+        "positives": 2901,
+        "pr_auc": 0.05911243080152304,
+        "pr_auc_lift_over_prevalence": 14.21098699232561,
+        "precision": 0.09807139926138696,
+        "precision_lift_over_prevalence": 23.576959369209916,
+        "predicted_entries": 2437,
+        "predicted_entry_rate": 0.0034943176115328255,
+        "prevalence": 0.004159628802239117,
+        "recall": 0.08238538435022406,
+        "roc_auc": 0.8620860158714692,
+        "rows": 697418,
+        "threshold": 0.2763904446784129,
+        "true_positives": 239
+      },
+      "quality_model_a_minus_control": {
+        "precision_vs_target": -0.009474847908829492,
+        "recall_of_target": 0.06037234042553191
+      },
+      "quality_model_a_strategy": {
+        "creator_fee_claim_7d_hit_rate": 0.043841692255203,
+        "creator_fee_usd_7d_mean": 18.373919613527875,
+        "creator_fee_usd_7d_p99_capped_total": 17102.470117765886,
+        "creator_fee_usd_7d_total": 107707.9167745004,
+        "entries": 5862,
+        "precision_vs_target": 0.218014329580348,
+        "recall_of_target": 0.3398936170212766,
+        "target_overlap": 1278
+      },
+      "two_stage_minus_quality_model_a": {
+        "creator_fee_claim_hit_rate": 0.008358921869669057,
+        "creator_fee_usd_7d_p99_capped_total": 12260.78174469334,
+        "precision_vs_target": -0.012623677925622662
+      },
+      "two_stage_strategy": {
+        "creator_fee_claim_7d_hit_rate": 0.052200614124872056,
+        "creator_fee_usd_7d_mean": 36.050816913240006,
+        "creator_fee_usd_7d_p99_capped_total": 29363.251862459227,
+        "creator_fee_usd_7d_total": 211329.88874541293,
+        "entries": 5862,
+        "precision_vs_target": 0.20539065165472534,
+        "recall_of_target": 0.3202127659574468,
+        "target_overlap": 1204
+      },
+      "validation_economic_positives": 2901,
+      "validation_rows": 697418
+    }
+  }
+}

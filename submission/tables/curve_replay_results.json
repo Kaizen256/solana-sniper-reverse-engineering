@@ -1,0 +1,538 @@
+{
+  "bounds": {
+    "observed_fee_rate_range": [
+      0.0095,
+      0.0125
+    ],
+    "sell_intent": "fixed token amount, as specified by the Pump sell instruction",
+    "subsequent_buy_intent": [
+      "fixed_quote",
+      "fixed_token"
+    ]
+  },
+  "frozen_strategy": {
+    "hold_seconds": 6,
+    "net_curve_stake_sol": 1.975308641,
+    "round_trip_network_fee_sol": 0.09101000000000001
+  },
+  "limitations": [
+    "The normalized trade table omits TradeEvent ix_name, reserve, fee, Mayhem, and cashback fields.",
+    "Nonstandard/Mayhem initial curves and any PumpSwap migration before exit are excluded rather than guessed.",
+    "Counterfactual market buys are replayed under both fixed-quote and fixed-token intent; raw instructions are needed to identify the realized branch.",
+    "A counterfactual that would complete the curve is excluded because the supplied table does not support exact migration replay.",
+    "Slippage-limit failures caused by our inserted order cannot be identified without raw instructions."
+  ],
+  "official_mechanics": {
+    "formula": "Pump constant-product integer quotes; buy uses net SOL after swap fees.",
+    "initial_real_token_reserves_raw": 793100000000000,
+    "initial_virtual_sol_reserves_lamports": 30000000000,
+    "initial_virtual_token_reserves_raw": 1073000000000000
+  },
+  "results": {
+    "immediate": {
+      "baseline_replica": {
+        "fixed_quote": {
+          "fee_0.0095": {
+            "coverage": 0.7038934426229508,
+            "hit_rate": 0.6102620087336245,
+            "max_drawdown_sol_supported": 5.714405466658263,
+            "mean_net_roi": 0.28486809463772533,
+            "median_net_roi": 0.11987449066079892,
+            "p99_capped_total_pnl_sol_supported": 1509.5734764120293,
+            "selected_tokens": 3904,
+            "supported_tokens": 2748,
+            "total_pnl_sol_supported": 1546.3062196107717
+          },
+          "fee_0.0125": {
+            "coverage": 0.7038934426229508,
+            "hit_rate": 0.6029839883551674,
+            "max_drawdown_sol_supported": 5.856233076549643,
+            "mean_net_roi": 0.27780819991639133,
+            "median_net_roi": 0.11331432416958176,
+            "p99_capped_total_pnl_sol_supported": 1471.3625771267757,
+            "selected_tokens": 3904,
+            "supported_tokens": 2748,
+            "total_pnl_sol_supported": 1507.9840651719628
+          }
+        },
+        "fixed_token": {
+          "fee_0.0095": {
+            "coverage": 0.742827868852459,
+            "hit_rate": 0.6162068965517241,
+            "max_drawdown_sol_supported": 6.06910500207573,
+            "mean_net_roi": 0.3579781779938756,
+            "median_net_roi": 0.14606112013345374,
+            "p99_capped_total_pnl_sol_supported": 2005.1912097893994,
+            "selected_tokens": 3904,
+            "supported_tokens": 2900,
+            "total_pnl_sol_supported": 2050.6404260141417
+          },
+          "fee_0.0125": {
+            "coverage": 0.742827868852459,
+            "hit_rate": 0.6093103448275862,
+            "max_drawdown_sol_supported": 6.332270037362832,
+            "mean_net_roi": 0.3506968494006905,
+            "median_net_roi": 0.13942164027684736,
+            "p99_capped_total_pnl_sol_supported": 1963.6185384287053,
+            "selected_tokens": 3904,
+            "supported_tokens": 2900,
+            "total_pnl_sol_supported": 2008.9300992787132
+          }
+        }
+      },
+      "quality_augmented_replica": {
+        "fixed_quote": {
+          "fee_0.0095": {
+            "coverage": 0.7805530776092774,
+            "hit_rate": 0.5622857142857143,
+            "max_drawdown_sol_supported": 5.233770704158587,
+            "mean_net_roi": 0.24585416995992168,
+            "median_net_roi": 0.0606413657575855,
+            "p99_capped_total_pnl_sol_supported": 1653.1258128487193,
+            "selected_tokens": 4484,
+            "supported_tokens": 3500,
+            "total_pnl_sol_supported": 1699.732532217006
+          },
+          "fee_0.0125": {
+            "coverage": 0.7805530776092774,
+            "hit_rate": 0.5565714285714286,
+            "max_drawdown_sol_supported": 5.4015363937871825,
+            "mean_net_roi": 0.23891243957380567,
+            "median_net_roi": 0.054260602976322556,
+            "p99_capped_total_pnl_sol_supported": 1605.274763984968,
+            "selected_tokens": 4484,
+            "supported_tokens": 3500,
+            "total_pnl_sol_supported": 1651.7403221638506
+          }
+        },
+        "fixed_token": {
+          "fee_0.0095": {
+            "coverage": 0.8177966101694916,
+            "hit_rate": 0.573493318789201,
+            "max_drawdown_sol_supported": 5.475288347719015,
+            "mean_net_roi": 0.3167335202107805,
+            "median_net_roi": 0.08632907935854053,
+            "p99_capped_total_pnl_sol_supported": 2242.570258502573,
+            "selected_tokens": 4484,
+            "supported_tokens": 3667,
+            "total_pnl_sol_supported": 2294.2455664976997
+          },
+          "fee_0.0125": {
+            "coverage": 0.8177966101694916,
+            "hit_rate": 0.566948459230979,
+            "max_drawdown_sol_supported": 5.752493092050145,
+            "mean_net_roi": 0.30957711233778656,
+            "median_net_roi": 0.07987051431498299,
+            "p99_capped_total_pnl_sol_supported": 2190.8896401231796,
+            "selected_tokens": 4484,
+            "supported_tokens": 3667,
+            "total_pnl_sol_supported": 2242.408435322763
+          }
+        }
+      },
+      "selective_two_stage": {
+        "fixed_quote": {
+          "fee_0.0095": {
+            "coverage": 0.7769848349687779,
+            "hit_rate": 0.574052812858783,
+            "max_drawdown_sol_supported": 3.343043698039537,
+            "mean_net_roi": 0.27907633419549643,
+            "median_net_roi": 0.07787768122207094,
+            "p99_capped_total_pnl_sol_supported": 471.79128029560866,
+            "selected_tokens": 1121,
+            "supported_tokens": 871,
+            "total_pnl_sol_supported": 480.149110052857
+          },
+          "fee_0.0125": {
+            "coverage": 0.7769848349687779,
+            "hit_rate": 0.5648679678530425,
+            "max_drawdown_sol_supported": 3.4798124522625358,
+            "mean_net_roi": 0.2720339814038209,
+            "median_net_roi": 0.07144471354793219,
+            "p99_capped_total_pnl_sol_supported": 459.70026976683266,
+            "selected_tokens": 1121,
+            "supported_tokens": 871,
+            "total_pnl_sol_supported": 468.0327855520752
+          }
+        },
+        "fixed_token": {
+          "fee_0.0095": {
+            "coverage": 0.800178412132025,
+            "hit_rate": 0.5942028985507246,
+            "max_drawdown_sol_supported": 3.2809596073311695,
+            "mean_net_roi": 0.35895736082746343,
+            "median_net_roi": 0.10908927377668458,
+            "p99_capped_total_pnl_sol_supported": 622.1565914413262,
+            "selected_tokens": 1121,
+            "supported_tokens": 897,
+            "total_pnl_sol_supported": 636.01926420396
+          },
+          "fee_0.0125": {
+            "coverage": 0.800178412132025,
+            "hit_rate": 0.5830546265328874,
+            "max_drawdown_sol_supported": 3.3811928812249334,
+            "mean_net_roi": 0.35167306651141045,
+            "median_net_roi": 0.10256177326290566,
+            "p99_capped_total_pnl_sol_supported": 609.2918879681451,
+            "selected_tokens": 1121,
+            "supported_tokens": 897,
+            "total_pnl_sol_supported": 623.1125738370002
+          }
+        }
+      },
+      "target_equal_stake": {
+        "fixed_quote": {
+          "fee_0.0095": {
+            "coverage": 0.6958283671036949,
+            "hit_rate": 0.6193902021240151,
+            "max_drawdown_sol_supported": 3.523768484323682,
+            "mean_net_roi": 0.28819838466232567,
+            "median_net_roi": 0.12726859647524816,
+            "p99_capped_total_pnl_sol_supported": 1626.879495945759,
+            "selected_tokens": 4195,
+            "supported_tokens": 2919,
+            "total_pnl_sol_supported": 1661.730537113997
+          },
+          "fee_0.0125": {
+            "coverage": 0.6958283671036949,
+            "hit_rate": 0.6169921205892429,
+            "max_drawdown_sol_supported": 3.623266345162392,
+            "mean_net_roi": 0.2811284032473281,
+            "median_net_roi": 0.12068603491341688,
+            "p99_capped_total_pnl_sol_supported": 1586.2200627339357,
+            "selected_tokens": 4195,
+            "supported_tokens": 2919,
+            "total_pnl_sol_supported": 1620.9655479975754
+          }
+        },
+        "fixed_token": {
+          "fee_0.0095": {
+            "coverage": 0.7382598331346841,
+            "hit_rate": 0.6383597029383274,
+            "max_drawdown_sol_supported": 4.7774610289352495,
+            "mean_net_roi": 0.36979297673732253,
+            "median_net_roi": 0.1664651806932483,
+            "p99_capped_total_pnl_sol_supported": 2221.467401682016,
+            "selected_tokens": 4195,
+            "supported_tokens": 3097,
+            "total_pnl_sol_supported": 2262.219947437079
+          },
+          "fee_0.0125": {
+            "coverage": 0.7382598331346841,
+            "hit_rate": 0.630933161123668,
+            "max_drawdown_sol_supported": 4.971091123125007,
+            "mean_net_roi": 0.36247586379660557,
+            "median_net_roi": 0.15976390156185222,
+            "p99_capped_total_pnl_sol_supported": 2176.8281676768597,
+            "selected_tokens": 4195,
+            "supported_tokens": 3097,
+            "total_pnl_sol_supported": 2217.4572832075255
+          }
+        }
+      },
+      "two_stage": {
+        "fixed_quote": {
+          "fee_0.0095": {
+            "coverage": 0.792149866190901,
+            "hit_rate": 0.5644707207207207,
+            "max_drawdown_sol_supported": 7.977349927936075,
+            "mean_net_roi": 0.26655952015280826,
+            "median_net_roi": 0.07060436493263433,
+            "p99_capped_total_pnl_sol_supported": 1810.6368765233688,
+            "selected_tokens": 4484,
+            "supported_tokens": 3552,
+            "total_pnl_sol_supported": 1870.2605730672256
+          },
+          "fee_0.0125": {
+            "coverage": 0.792149866190901,
+            "hit_rate": 0.5585585585585585,
+            "max_drawdown_sol_supported": 8.222494148862552,
+            "mean_net_roi": 0.259555077953892,
+            "median_net_roi": 0.06419342648501589,
+            "p99_capped_total_pnl_sol_supported": 1761.6722213526855,
+            "selected_tokens": 4484,
+            "supported_tokens": 3552,
+            "total_pnl_sol_supported": 1821.115331233613
+          }
+        },
+        "fixed_token": {
+          "fee_0.0095": {
+            "coverage": 0.822256913470116,
+            "hit_rate": 0.5806889069704366,
+            "max_drawdown_sol_supported": 6.733396693669874,
+            "mean_net_roi": 0.34260940680665913,
+            "median_net_roi": 0.09493807727488207,
+            "p99_capped_total_pnl_sol_supported": 2438.3669685924083,
+            "selected_tokens": 4484,
+            "supported_tokens": 3687,
+            "total_pnl_sol_supported": 2495.211619303599
+          },
+          "fee_0.0125": {
+            "coverage": 0.822256913470116,
+            "hit_rate": 0.5736371033360456,
+            "max_drawdown_sol_supported": 6.994549739988088,
+            "mean_net_roi": 0.335374626738019,
+            "median_net_roi": 0.08845343752789277,
+            "p99_capped_total_pnl_sol_supported": 2385.848502896317,
+            "selected_tokens": 4484,
+            "supported_tokens": 3687,
+            "total_pnl_sol_supported": 2442.520984044526
+          }
+        }
+      }
+    },
+    "offset_118": {
+      "baseline_replica": {
+        "fixed_quote": {
+          "fee_0.0095": {
+            "coverage": 0.46900614754098363,
+            "hit_rate": 0.3615510649918078,
+            "max_drawdown_sol_supported": 125.667518734702,
+            "mean_net_roi": -0.028090376192852626,
+            "median_net_roi": -0.09444657165907677,
+            "p99_capped_total_pnl_sol_supported": -117.51195124695786,
+            "selected_tokens": 3904,
+            "supported_tokens": 1831,
+            "total_pnl_sol_supported": -101.59699512833161
+          },
+          "fee_0.0125": {
+            "coverage": 0.46900614754098363,
+            "hit_rate": 0.3577280174767886,
+            "max_drawdown_sol_supported": 141.76594093524966,
+            "mean_net_roi": -0.034202390639081384,
+            "median_net_roi": -0.10035760822908274,
+            "p99_capped_total_pnl_sol_supported": -139.56962192468097,
+            "selected_tokens": 3904,
+            "supported_tokens": 1831,
+            "total_pnl_sol_supported": -123.70286860096223
+          }
+        },
+        "fixed_token": {
+          "fee_0.0095": {
+            "coverage": 0.48719262295081966,
+            "hit_rate": 0.3964248159831756,
+            "max_drawdown_sol_supported": 57.28802659871553,
+            "mean_net_roi": 0.006647696823122083,
+            "median_net_roi": -0.07542657221915125,
+            "p99_capped_total_pnl_sol_supported": 9.743929838783608,
+            "selected_tokens": 3904,
+            "supported_tokens": 1902,
+            "total_pnl_sol_supported": 24.975643163131416
+          },
+          "fee_0.0125": {
+            "coverage": 0.48719262295081966,
+            "hit_rate": 0.39169295478443744,
+            "max_drawdown_sol_supported": 70.42770391698731,
+            "mean_net_roi": 0.0004304686272235337,
+            "median_net_roi": -0.0813952160565169,
+            "p99_capped_total_pnl_sol_supported": -13.568293342042224,
+            "selected_tokens": 3904,
+            "supported_tokens": 1902,
+            "total_pnl_sol_supported": 1.617286574962776
+          }
+        }
+      },
+      "quality_augmented_replica": {
+        "fixed_quote": {
+          "fee_0.0095": {
+            "coverage": 0.4997769848349688,
+            "hit_rate": 0.35162873717090587,
+            "max_drawdown_sol_supported": 177.60991335693885,
+            "mean_net_roi": -0.0348005038854882,
+            "median_net_roi": -0.09847633505947899,
+            "p99_capped_total_pnl_sol_supported": -175.3407090271258,
+            "selected_tokens": 4484,
+            "supported_tokens": 2241,
+            "total_pnl_sol_supported": -154.05023045703211
+          },
+          "fee_0.0125": {
+            "coverage": 0.4997769848349688,
+            "hit_rate": 0.3471664435519857,
+            "max_drawdown_sol_supported": 198.10230838102467,
+            "mean_net_roi": -0.04089219487580791,
+            "median_net_roi": -0.1043751663895039,
+            "p99_capped_total_pnl_sol_supported": -202.24211043025971,
+            "selected_tokens": 4484,
+            "supported_tokens": 2241,
+            "total_pnl_sol_supported": -181.0161158941997
+          }
+        },
+        "fixed_token": {
+          "fee_0.0095": {
+            "coverage": 0.5138269402319358,
+            "hit_rate": 0.3910590277777778,
+            "max_drawdown_sol_supported": 78.40682448772267,
+            "mean_net_roi": 0.0030762250370531957,
+            "median_net_roi": -0.0773486309916112,
+            "p99_capped_total_pnl_sol_supported": -5.479514186592162,
+            "selected_tokens": 4484,
+            "supported_tokens": 2304,
+            "total_pnl_sol_supported": 14.00024193949838
+          },
+          "fee_0.0125": {
+            "coverage": 0.5138269402319358,
+            "hit_rate": 0.3845486111111111,
+            "max_drawdown_sol_supported": 93.56586238002467,
+            "mean_net_roi": -0.0031301859802908808,
+            "median_net_roi": -0.08331145334859583,
+            "p99_capped_total_pnl_sol_supported": -33.66658054764595,
+            "selected_tokens": 4484,
+            "supported_tokens": 2304,
+            "total_pnl_sol_supported": -14.245824187712188
+          }
+        }
+      },
+      "selective_two_stage": {
+        "fixed_quote": {
+          "fee_0.0095": {
+            "coverage": 0.5057983942908117,
+            "hit_rate": 0.3950617283950617,
+            "max_drawdown_sol_supported": 28.84590241075904,
+            "mean_net_roi": 0.015474131484165331,
+            "median_net_roi": -0.07143777852359426,
+            "p99_capped_total_pnl_sol_supported": 9.750411674275705,
+            "selected_tokens": 1121,
+            "supported_tokens": 567,
+            "total_pnl_sol_supported": 17.331027253707983
+          },
+          "fee_0.0125": {
+            "coverage": 0.5057983942908117,
+            "hit_rate": 0.3844797178130511,
+            "max_drawdown_sol_supported": 33.20208050552493,
+            "mean_net_roi": 0.009230170018218188,
+            "median_net_roi": -0.07741850351299094,
+            "p99_capped_total_pnl_sol_supported": 2.780134802287092,
+            "selected_tokens": 1121,
+            "supported_tokens": 567,
+            "total_pnl_sol_supported": 10.33779041530009
+          }
+        },
+        "fixed_token": {
+          "fee_0.0095": {
+            "coverage": 0.5156110615521855,
+            "hit_rate": 0.42387543252595156,
+            "max_drawdown_sol_supported": 17.25916942970148,
+            "mean_net_roi": 0.05089956702222121,
+            "median_net_roi": -0.06337085045916122,
+            "p99_capped_total_pnl_sol_supported": 51.13795368392577,
+            "selected_tokens": 1121,
+            "supported_tokens": 578,
+            "total_pnl_sol_supported": 58.113480936923985
+          },
+          "fee_0.0125": {
+            "coverage": 0.5156110615521855,
+            "hit_rate": 0.4186851211072664,
+            "max_drawdown_sol_supported": 19.09203595771249,
+            "mean_net_roi": 0.04454830994131781,
+            "median_net_roi": -0.06937600834526989,
+            "p99_capped_total_pnl_sol_supported": 43.9076704249256,
+            "selected_tokens": 1121,
+            "supported_tokens": 578,
+            "total_pnl_sol_supported": 50.862070386900086
+          }
+        }
+      },
+      "target_equal_stake": {
+        "fixed_quote": {
+          "fee_0.0095": {
+            "coverage": 0.5244338498212158,
+            "hit_rate": 0.3390909090909091,
+            "max_drawdown_sol_supported": 178.4071511677138,
+            "mean_net_roi": -0.03773676406315863,
+            "median_net_roi": -0.12746123714306684,
+            "p99_capped_total_pnl_sol_supported": -187.9816616424771,
+            "selected_tokens": 4195,
+            "supported_tokens": 2200,
+            "total_pnl_sol_supported": -163.99186350213813
+          },
+          "fee_0.0125": {
+            "coverage": 0.5244338498212158,
+            "hit_rate": 0.33545454545454545,
+            "max_drawdown_sol_supported": 203.53653610214977,
+            "mean_net_roi": -0.043819561786912965,
+            "median_net_roi": -0.13327227977420156,
+            "p99_capped_total_pnl_sol_supported": -214.3428883726862,
+            "selected_tokens": 4195,
+            "supported_tokens": 2200,
+            "total_pnl_sol_supported": -190.42574989354966
+          }
+        },
+        "fixed_token": {
+          "fee_0.0095": {
+            "coverage": 0.5439809296781883,
+            "hit_rate": 0.3768624014022787,
+            "max_drawdown_sol_supported": 57.26261662785657,
+            "mean_net_roi": 0.002409605046355452,
+            "median_net_roi": -0.10340948310935386,
+            "p99_capped_total_pnl_sol_supported": -18.096283061327266,
+            "selected_tokens": 4195,
+            "supported_tokens": 2282,
+            "total_pnl_sol_supported": 10.861666593714872
+          },
+          "fee_0.0125": {
+            "coverage": 0.5439809296781883,
+            "hit_rate": 0.37160385626643294,
+            "max_drawdown_sol_supported": 71.53376526833732,
+            "mean_net_roi": -0.003794786930128358,
+            "median_net_roi": -0.10929337305204948,
+            "p99_capped_total_pnl_sol_supported": -45.97583028332379,
+            "selected_tokens": 4195,
+            "supported_tokens": 2282,
+            "total_pnl_sol_supported": -17.105587694374663
+          }
+        }
+      },
+      "two_stage": {
+        "fixed_quote": {
+          "fee_0.0095": {
+            "coverage": 0.5158340767172168,
+            "hit_rate": 0.36186770428015563,
+            "max_drawdown_sol_supported": 172.57114253139957,
+            "mean_net_roi": -0.0276313745830466,
+            "median_net_roi": -0.09037348830161877,
+            "p99_capped_total_pnl_sol_supported": -155.5346834624006,
+            "selected_tokens": 4484,
+            "supported_tokens": 2313,
+            "total_pnl_sol_supported": -126.24468025487512
+          },
+          "fee_0.0125": {
+            "coverage": 0.5158340767172168,
+            "hit_rate": 0.3558149589277994,
+            "max_drawdown_sol_supported": 193.07879885026222,
+            "mean_net_roi": -0.033744779241117275,
+            "median_net_roi": -0.09629686131793708,
+            "p99_capped_total_pnl_sol_supported": -183.37743728310767,
+            "selected_tokens": 4484,
+            "supported_tokens": 2313,
+            "total_pnl_sol_supported": -154.17614685662468
+          }
+        },
+        "fixed_token": {
+          "fee_0.0095": {
+            "coverage": 0.5274308652988403,
+            "hit_rate": 0.40084566596194504,
+            "max_drawdown_sol_supported": 65.87821798827864,
+            "mean_net_roi": 0.012602918783749114,
+            "median_net_roi": -0.06925095283299572,
+            "p99_capped_total_pnl_sol_supported": 27.988528420664835,
+            "selected_tokens": 4484,
+            "supported_tokens": 2365,
+            "total_pnl_sol_supported": 58.87585759772837
+          },
+          "fee_0.0125": {
+            "coverage": 0.5274308652988403,
+            "hit_rate": 0.3949260042283298,
+            "max_drawdown_sol_supported": 79.20518395078726,
+            "mean_net_roi": 0.006367653570301971,
+            "median_net_roi": -0.0752383012217581,
+            "p99_capped_total_pnl_sol_supported": -1.0466166081605408,
+            "selected_tokens": 4484,
+            "supported_tokens": 2365,
+            "total_pnl_sol_supported": 29.74716184953784
+          }
+        }
+      }
+    }
+  },
+  "scope": "Integer replay for standard SOL-paired Pump bonding curves only; strategy orders are inserted after the entry and exit anchor events."
+}

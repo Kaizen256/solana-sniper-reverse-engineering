@@ -1,0 +1,140 @@
+{
+  "batch": "batch_002806.jsonl.zst",
+  "candidate_cohorts": {
+    "baseline": 8,
+    "quality_augmented": 8,
+    "selective_two_stage": 2,
+    "target": 3,
+    "two_stage": 10
+  },
+  "candidate_tokens": 14,
+  "compressed_bytes": 169101732,
+  "conclusion": "One batch is enough to verify June instruction/event variants, but not enough to estimate full-cohort instruction shares.",
+  "decoded_tokens": 14,
+  "decoded_trade_events": 82,
+  "fee_modes": [
+    {
+      "creator_fee_bps": 0,
+      "events": 38,
+      "mayhem_mode": false,
+      "protocol_fee_bps": 95
+    },
+    {
+      "creator_fee_bps": 30,
+      "events": 44,
+      "mayhem_mode": false,
+      "protocol_fee_bps": 95
+    }
+  ],
+  "instruction_event_counts": [
+    {
+      "events": 1,
+      "instruction_logs": "BuybackPump|GetFees|GetAccountDataSize|InitializeImmutableOwner|InitializeAccount3|BuyV2|GetFees|TransferChecked",
+      "ix_name": "buy",
+      "mayhem_mode": false
+    },
+    {
+      "events": 1,
+      "instruction_logs": "Buy|GetFees|TransferChecked",
+      "ix_name": "buy",
+      "mayhem_mode": false
+    },
+    {
+      "events": 4,
+      "instruction_logs": "CreateV2|InitializeMint2|GetAccountDataSize|InitializeImmutableOwner|InitializeAccount3|MintTo|SetAuthority|ExtendAccount|GetAccountDataSize|InitializeImmutableOwner|InitializeAccount3|BuyExactSolIn|GetFees|TransferChecked",
+      "ix_name": "buy_exact_sol_in",
+      "mayhem_mode": false
+    },
+    {
+      "events": 1,
+      "instruction_logs": "CreateV2|InitializeMint2|GetAccountDataSize|InitializeImmutableOwner|InitializeAccount3|MintTo|SetAuthority|ExtendAccount|GetAccountDataSize|InitializeImmutableOwner|InitializeAccount3|BuyExactSolIn|GetFees|TransferChecked|AgentInitialize",
+      "ix_name": "buy_exact_sol_in",
+      "mayhem_mode": false
+    },
+    {
+      "events": 7,
+      "instruction_logs": "CreateV2|InitializeMint2|GetAccountDataSize|InitializeImmutableOwner|InitializeAccount3|MintTo|SetAuthority|GetAccountDataSize|InitializeImmutableOwner|InitializeAccount3|BuyV2|GetFees|TransferChecked",
+      "ix_name": "buy",
+      "mayhem_mode": false
+    },
+    {
+      "events": 2,
+      "instruction_logs": "CreateV2|InitializeMint2|GetAccountDataSize|InitializeImmutableOwner|InitializeAccount3|MintTo|SetAuthority|GetAccountDataSize|InitializeImmutableOwner|InitializeAccount3|Buy|GetFees|TransferChecked",
+      "ix_name": "buy",
+      "mayhem_mode": false
+    },
+    {
+      "events": 1,
+      "instruction_logs": "GetAccountDataSize|InitializeImmutableOwner|InitializeAccount3|BuyExactQuoteInV2|GetFees|TransferChecked",
+      "ix_name": "buy_exact_quote_in",
+      "mayhem_mode": false
+    },
+    {
+      "events": 13,
+      "instruction_logs": "GetAccountDataSize|InitializeImmutableOwner|InitializeAccount3|BuyExactSolIn|GetFees|TransferChecked",
+      "ix_name": "buy_exact_sol_in",
+      "mayhem_mode": false
+    },
+    {
+      "events": 4,
+      "instruction_logs": "GetAccountDataSize|InitializeImmutableOwner|InitializeAccount3|BuyExactSolIn|GetFees|TransferChecked|GetAccountDataSize|InitializeImmutableOwner|InitializeAccount3|BuyExactSolIn|GetFees|TransferChecked",
+      "ix_name": "buy_exact_sol_in",
+      "mayhem_mode": false
+    },
+    {
+      "events": 9,
+      "instruction_logs": "GetAccountDataSize|InitializeImmutableOwner|InitializeAccount3|Buy|GetFees|TransferChecked",
+      "ix_name": "buy",
+      "mayhem_mode": false
+    },
+    {
+      "events": 21,
+      "instruction_logs": "InitializeAccount3|BuyExactSolIn|GetFees|TransferChecked",
+      "ix_name": "buy_exact_sol_in",
+      "mayhem_mode": false
+    },
+    {
+      "events": 5,
+      "instruction_logs": "InitializeAccount3|Buy|GetFees|TransferChecked",
+      "ix_name": "buy",
+      "mayhem_mode": false
+    },
+    {
+      "events": 1,
+      "instruction_logs": "InitializeAccount|BuyV2|GetFees|TransferChecked",
+      "ix_name": "buy",
+      "mayhem_mode": false
+    },
+    {
+      "events": 1,
+      "instruction_logs": "InitializeImmutableOwner|InitializeAccount3|Buy|GetFees|TransferChecked",
+      "ix_name": "buy",
+      "mayhem_mode": false
+    },
+    {
+      "events": 2,
+      "instruction_logs": "SellV2|GetFees|TransferChecked|CloseAccount",
+      "ix_name": "sell",
+      "mayhem_mode": false
+    },
+    {
+      "events": 9,
+      "instruction_logs": "Sell|GetFees|TransferChecked",
+      "ix_name": "sell",
+      "mayhem_mode": false
+    }
+  ],
+  "ix_name_counts": {
+    "buy": 27,
+    "buy_exact_quote_in": 1,
+    "buy_exact_sol_in": 43,
+    "sell": 11
+  },
+  "matched_transactions": 115,
+  "normalization_audit": {
+    "max_sol_error": 0.0,
+    "max_token_error": 0.0,
+    "sol_exact_events": 82,
+    "token_exact_events": 82
+  }
+}

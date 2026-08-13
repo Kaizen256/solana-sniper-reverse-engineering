@@ -1,0 +1,19 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+
+# Competition data
+data/downloads/
+data/raw/
+data/interim/
+data/processed/
+data
+
+# Large/generated artifacts
+artifacts/
+
+# Local junk
+.ipynb_checkpoints/
+.DS_Store
+.pytest_cache

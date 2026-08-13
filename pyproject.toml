@@ -1,0 +1,35 @@
+[project]
+name = "solana-sniper-reverse-engineering"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "kaizen256", email = "kaizenrowe@proton.me" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "duckdb>=1.4,<2",
+    "joblib>=1.5,<2",
+    "lightgbm>=4.6,<5",
+    "matplotlib>=3.10,<4",
+    "nbformat>=5.10,<6",
+    "numpy>=2.3,<3",
+    "orjson>=3.11,<4",
+    "pandas>=2.3,<4",
+    "polars>=1.32,<2",
+    "pyarrow>=21,<22",
+    "scikit-learn>=1.7,<2",
+    "seaborn>=0.13,<1",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4,<9",
+]
+
+[project.scripts]
+solana-sniper-reverse-engineering = "solana_sniper_reverse_engineering:main"
+
+[build-system]
+requires = ["uv_build>=0.12.3,<0.13.0"]
+build-backend = "uv_build"

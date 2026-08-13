@@ -1,0 +1,159 @@
+{
+  "active_era_cutoff": "2026-03-12T00:00:00Z; the date boundary retains all observed positive deployments",
+  "active_era_model": {
+    "june": {
+      "f1": 0.13927645388319546,
+      "positives": 4195,
+      "pr_auc": 0.06871922442070301,
+      "pr_auc_lift_over_prevalence": 13.958160405736802,
+      "precision": 0.1444672131147541,
+      "precision_lift_over_prevalence": 29.34399436292229,
+      "predicted_entries": 3904,
+      "predicted_entry_rate": 0.004581713283799817,
+      "prevalence": 0.004923229309820757,
+      "recall": 0.13444576877234804,
+      "roc_auc": 0.9005481712710521,
+      "rows": 852083,
+      "threshold": 0.1034692931126972,
+      "true_positives": 564
+    },
+    "may": {
+      "f1": 0.2391653290529695,
+      "positives": 5077,
+      "pr_auc": 0.14451334697333862,
+      "pr_auc_lift_over_prevalence": 25.357324620407883,
+      "precision": 0.21851067296724785,
+      "precision_lift_over_prevalence": 38.34141401815656,
+      "predicted_entries": 6137,
+      "predicted_entry_rate": 0.006888957238400352,
+      "prevalence": 0.005699077057089553,
+      "recall": 0.2641323616308844,
+      "roc_auc": 0.9247023833937306,
+      "rows": 890846,
+      "threshold": 0.1034692931126972,
+      "true_positives": 1341
+    },
+    "policy": "adopted final March 12-April population",
+    "threshold": 0.1034692931126972,
+    "top10": [
+      "seconds_since_prior_deploy",
+      "hist_open_close_count",
+      "hist_quote_sol_sum",
+      "dev_buy_sol",
+      "hist_cost_usd_sum",
+      "observed_wallet_age_seconds",
+      "prior_deploy_count_7d",
+      "hist_tip_fee_sum",
+      "prior_deploy_count_1d",
+      "uri_length"
+    ]
+  },
+  "decision": "Adopt active-era training: it improves May PR-AUC, precision, and F1 under the declared selection protocol; June PR-AUC and precision also improve, while June recall and F1 are slightly lower.",
+  "existing_model": {
+    "june": {
+      "f1": 0.14037164161439222,
+      "positives": 4195,
+      "pr_auc": 0.06606999551345978,
+      "pr_auc_lift_over_prevalence": 13.420052440308783,
+      "precision": 0.13939821344616832,
+      "precision_lift_over_prevalence": 28.314385675292357,
+      "predicted_entries": 4254,
+      "predicted_entry_rate": 0.004992471390697854,
+      "prevalence": 0.004923229309820757,
+      "recall": 0.14135876042908224,
+      "roc_auc": 0.8919201939876602,
+      "rows": 852083,
+      "threshold": 0.0910787714426489,
+      "true_positives": 593
+    },
+    "may": {
+      "f1": 0.22600567517943582,
+      "positives": 5077,
+      "pr_auc": 0.13833410228728993,
+      "pr_auc_lift_over_prevalence": 24.27307104317965,
+      "precision": 0.19608979000724114,
+      "precision_lift_over_prevalence": 34.40728876675019,
+      "predicted_entries": 6905,
+      "predicted_entry_rate": 0.007751059105614214,
+      "prevalence": 0.005699077057089553,
+      "recall": 0.2666929288950167,
+      "roc_auc": 0.9222346169819422,
+      "rows": 890846,
+      "threshold": 0.0910787714426489,
+      "true_positives": 1354
+    },
+    "policy": "legacy January-April population",
+    "threshold": 0.0910787714426489,
+    "top10": [
+      "seconds_since_prior_deploy",
+      "dev_buy_sol",
+      "hist_quote_sol_sum",
+      "hist_open_close_count",
+      "hist_cost_usd_sum",
+      "prior_deploy_count_7d",
+      "prior_deploy_count_1d",
+      "hist_tip_fee_sum",
+      "hist_sell_count",
+      "observed_wallet_age_seconds"
+    ]
+  },
+  "identical_controls": {
+    "features": "same final leakage-safe allowlist",
+    "model": "same regularized LightGBM parameters and random seed",
+    "negative_sampling": "deterministic token hash, one half of negatives, inverse sampling weights",
+    "reporting_test": "full June population",
+    "threshold": "separately maximized May F1",
+    "validation": "full May population"
+  },
+  "june_selection_overlap_between_models": {
+    "active_era_count": 3904,
+    "active_only": 1185,
+    "existing_count": 4254,
+    "existing_only": 1535,
+    "intersection": 2719,
+    "jaccard": 0.4999080713366428,
+    "union": 5439
+  },
+  "question": "Does excluding negatives before 2026-03-12 change temporal generalization?",
+  "top_feature_stability": {
+    "all_feature_rank_spearman": 0.8625376741965324,
+    "intersection": [
+      "dev_buy_sol",
+      "hist_cost_usd_sum",
+      "hist_open_close_count",
+      "hist_quote_sol_sum",
+      "hist_tip_fee_sum",
+      "observed_wallet_age_seconds",
+      "prior_deploy_count_1d",
+      "prior_deploy_count_7d",
+      "seconds_since_prior_deploy"
+    ],
+    "intersection_count": 9,
+    "jaccard": 0.8181818181818182
+  },
+  "training_counts": {
+    "active_era_march12_april": {
+      "candidates": 1293587,
+      "negatives": 1286932,
+      "positives": 6655
+    },
+    "active_era_sampled_training": {
+      "candidates": 650194,
+      "positives": 6655
+    },
+    "excluded_before_march12": {
+      "candidates": 2039905,
+      "negatives": 2039905,
+      "positives": 0
+    },
+    "existing_january_april": {
+      "candidates": 3333492,
+      "negatives": 3326837,
+      "positives": 6655
+    },
+    "existing_sampled_training": {
+      "candidates": 1670760,
+      "positives": 6655
+    }
+  }
+}

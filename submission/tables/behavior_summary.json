@@ -1,0 +1,109 @@
+{
+  "cashflow_performance_bought_positions": {
+    "average_loser_usd": -27.062089737289718,
+    "average_winner_usd": 116.0128527979904,
+    "fees_usd": 439839.54959506285,
+    "gross_buy_usd": 4254940.518100565,
+    "gross_pnl_usd": 1488268.2714001331,
+    "gross_sell_usd": 5743208.789500698,
+    "hit_rate_net": 0.6425168594939058,
+    "mean_net_pnl_usd": 64.86597301274952,
+    "median_net_pnl_usd": 12.880306849400021,
+    "net_pnl_usd": 1048428.7218050704,
+    "scope_bought_positions": 16163
+  },
+  "entry_quote_core": {
+    "iqr": 1.481481481,
+    "max": 2064.062222,
+    "mean": 8.678220497101337,
+    "median": 2.469135801,
+    "min": 9.8764e-05,
+    "n": 15927,
+    "p10": 1.48148148,
+    "p90": 6.913580246,
+    "std": 55.541878333430176
+  },
+  "entry_usd_core": {
+    "iqr": 136.02962967852002,
+    "max": 2800.88888882937,
+    "mean": 263.7361052439615,
+    "median": 184.11851842761,
+    "min": 0.00681175308,
+    "n": 15927,
+    "p10": 116.891259197004,
+    "p90": 525.33333325125,
+    "std": 233.103391808898
+  },
+  "exit_structure": {
+    "all_wallet_sell_transactions": 70812,
+    "bought_position_tokens": 16163,
+    "burn_transactions": 2,
+    "mean_sells_per_bought_token": 4.3806842789086184,
+    "median_sells_per_bought_token": 4.0,
+    "partial_exit_share": 0.965909793973891,
+    "sell_transactions_for_bought_positions": 70805,
+    "tokens_with_burn_activity": 2,
+    "tokens_with_partial_exits": 15612
+  },
+  "hold_seconds": {
+    "iqr": 5.0,
+    "max": 3661.0,
+    "mean": 10.620659775948505,
+    "median": 6.0,
+    "min": 0.0,
+    "n": 16157,
+    "p10": 3.0,
+    "p90": 17.0,
+    "std": 56.9081856671354
+  },
+  "june_same_bundle": {
+    "median_bundle_delta": null,
+    "next_bundle_transaction_count": 0,
+    "paired_tokens": 0
+  },
+  "latency_seconds": {
+    "iqr": 0.0,
+    "max": 244113.0,
+    "mean": 36.418534563948015,
+    "median": 0.0,
+    "min": 0.0,
+    "n": 15927,
+    "p10": 0.0,
+    "p90": 0.0,
+    "std": 2395.7154923077624
+  },
+  "latency_slots": {
+    "iqr": 0.0,
+    "max": 616782.0,
+    "mean": 91.98970302002888,
+    "median": 0.0,
+    "min": 0.0,
+    "n": 15927,
+    "p10": 0.0,
+    "p90": 1.0,
+    "std": 6062.650028367491
+  },
+  "limitations": [
+    "P&L is activity-table USD cash flow less transaction gas charged once; it is not a full mark-to-market ledger.",
+    "Same-slot transaction indexes establish relative landed order for the two known transactions but not private mempool observability.",
+    "Same-bundle analysis is June-only and ex-post behavioral context; Jito fields are not model features."
+  ],
+  "same_slot_position": {
+    "median_tx_delta": 118.0,
+    "negative_delta_count": 0,
+    "next_transaction_count": 1,
+    "next_transaction_share": 7.884569896712135e-05,
+    "observations": 12683
+  },
+  "scope": {
+    "activity_rows": 87007,
+    "activity_transactions": 87006,
+    "core_bought_deployment_tokens": 15927,
+    "core_tokens_with_first_buy": 15927,
+    "wallet_bought_tokens": 16163
+  },
+  "zero_slot": {
+    "count": 12683,
+    "share": 0.7963207132542224
+  }
+}

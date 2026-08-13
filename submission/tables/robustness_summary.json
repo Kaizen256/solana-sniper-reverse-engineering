@@ -1,0 +1,68 @@
+{
+  "alternate_temporal_validation": {
+    "metrics": {
+      "f1": 0.18984637297792248,
+      "positives": 3410,
+      "pr_auc": 0.09632851157375566,
+      "pr_auc_lift_over_prevalence": 22.697680965662318,
+      "precision": 0.14534974295061537,
+      "precision_lift_over_prevalence": 34.248448772179735,
+      "predicted_entries": 6419,
+      "predicted_entry_rate": 0.007988888487861097,
+      "prevalence": 0.004243980330831335,
+      "recall": 0.27360703812316717,
+      "roc_auc": 0.9088863704162857,
+      "rows": 803491,
+      "threshold": 0.06568684806611284,
+      "true_positives": 933
+    },
+    "train": "2026-03-12 through 2026-03-31, all positives + deterministic 1/2 negatives",
+    "validation": "2026-04-01 through 2026-04-30, full population"
+  },
+  "calibration_path": "submission/tables/calibration_bins.csv",
+  "deployer_concentration_path": "submission/tables/deployer_concentration.csv",
+  "notes": [
+    "Final model selection was based on May only; June threshold rows are robustness reporting, not retuning.",
+    "Observed wallet age/counts are left-censored for wallets hitting the provider's 10,000-event cap."
+  ],
+  "subgroup_path": "submission/tables/robustness_subgroups.csv",
+  "threshold_sensitivity_path": "submission/tables/threshold_sensitivity.csv",
+  "top10_stability": {
+    "april_top10": [
+      "dev_buy_sol",
+      "seconds_since_prior_deploy",
+      "prior_deploy_count_1d",
+      "hist_open_close_count",
+      "hist_cost_usd_sum",
+      "hist_quote_sol_sum",
+      "hist_burn_count",
+      "hist_tip_fee_sum",
+      "prior_deploy_count_7d",
+      "hist_sell_count"
+    ],
+    "intersection": [
+      "dev_buy_sol",
+      "hist_cost_usd_sum",
+      "hist_open_close_count",
+      "hist_quote_sol_sum",
+      "hist_tip_fee_sum",
+      "prior_deploy_count_1d",
+      "prior_deploy_count_7d",
+      "seconds_since_prior_deploy"
+    ],
+    "intersection_count": 8,
+    "jaccard": 0.6666666666666666,
+    "may_top10": [
+      "seconds_since_prior_deploy",
+      "hist_open_close_count",
+      "hist_quote_sol_sum",
+      "dev_buy_sol",
+      "hist_cost_usd_sum",
+      "observed_wallet_age_seconds",
+      "prior_deploy_count_7d",
+      "hist_tip_fee_sum",
+      "prior_deploy_count_1d",
+      "uri_length"
+    ]
+  }
+}

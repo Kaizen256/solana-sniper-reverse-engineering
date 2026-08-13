@@ -1,0 +1,93 @@
+{
+  "all_may_pairwise_spearman": {
+    "max": 0.9989109691081987,
+    "median": 0.9407173091725483,
+    "min": 0.7782522272084953
+  },
+  "correlation_method": "Spearman rank correlation on the full May population and two policy-relevant May subsets",
+  "grouped_permutation": {
+    "baseline_pr_auc": 0.1438765674677488,
+    "joint_five_signal_drop": 0.06434135193794754,
+    "joint_to_summed_individual_drop_ratio": 0.4500109394052891,
+    "method": "one shared row permutation per group preserves within-group relationships while breaking association with outcomes and other features",
+    "results": {
+      "all_five_activity_scale_signals": {
+        "features": [
+          "hist_quote_sol_sum",
+          "hist_cost_usd_sum",
+          "hist_open_close_count",
+          "hist_sell_count",
+          "hist_tip_fee_sum"
+        ],
+        "permuted_pr_auc": 0.07953521552980125,
+        "pr_auc_drop": 0.06434135193794754
+      },
+      "historical_sells": {
+        "features": [
+          "hist_sell_count"
+        ],
+        "permuted_pr_auc": 0.1337573973299972,
+        "pr_auc_drop": 0.010119170137751599
+      },
+      "historical_sol_activity": {
+        "features": [
+          "hist_quote_sol_sum"
+        ],
+        "permuted_pr_auc": 0.10712569366404297,
+        "pr_auc_drop": 0.03675087380370583
+      },
+      "historical_tips": {
+        "features": [
+          "hist_tip_fee_sum"
+        ],
+        "permuted_pr_auc": 0.1334225608389316,
+        "pr_auc_drop": 0.010454006628817208
+      },
+      "historical_usd_activity": {
+        "features": [
+          "hist_cost_usd_sum"
+        ],
+        "permuted_pr_auc": 0.10957451092326384,
+        "pr_auc_drop": 0.034302056544484955
+      },
+      "open_close_activity": {
+        "features": [
+          "hist_open_close_count"
+        ],
+        "permuted_pr_auc": 0.0925253682464053,
+        "pr_auc_drop": 0.0513511992213435
+      },
+      "open_close_and_sells": {
+        "features": [
+          "hist_open_close_count",
+          "hist_sell_count"
+        ],
+        "permuted_pr_auc": 0.07804988216373378,
+        "pr_auc_drop": 0.06582668530401502
+      },
+      "sol_and_usd_activity": {
+        "features": [
+          "hist_quote_sol_sum",
+          "hist_cost_usd_sum"
+        ],
+        "permuted_pr_auc": 0.0713704647567438,
+        "pr_auc_drop": 0.072506102711005
+      }
+    },
+    "sample_rows": 200000,
+    "sum_of_five_individual_drops": 0.1429773063361031
+  },
+  "interpretation_guardrail": "Correlation and grouped permutation identify predictive redundancy, not a causal wallet policy.",
+  "rank_pca_first_component_variance_share": {
+    "all_may_candidates": 0.9150206974953763,
+    "may_replica_selected": 0.9061964850324846,
+    "may_target_bought": 0.8987394038094794
+  },
+  "signals": [
+    "hist_quote_sol_sum",
+    "hist_cost_usd_sum",
+    "hist_open_close_count",
+    "hist_sell_count",
+    "hist_tip_fee_sum"
+  ]
+}

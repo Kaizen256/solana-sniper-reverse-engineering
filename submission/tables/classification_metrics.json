@@ -1,0 +1,202 @@
+{
+  "chosen_model": "regularized_lightgbm",
+  "chosen_threshold": 0.1034692931126972,
+  "experiments_may": {
+    "constrained_hist_gradient_boosting": {
+      "f1": 0.211703511053316,
+      "positives": 5077,
+      "pr_auc": 0.11130294158857006,
+      "pr_auc_lift_over_prevalence": 19.529994150563578,
+      "precision": 0.18906782285537319,
+      "precision_lift_over_prevalence": 33.175165199806536,
+      "predicted_entries": 6458,
+      "predicted_entry_rate": 0.007249288878212396,
+      "prevalence": 0.005699077057089553,
+      "recall": 0.24049635611581643,
+      "roc_auc": 0.9121235690822314,
+      "rows": 890846,
+      "threshold": 0.1607726970171138,
+      "true_positives": 1221
+    },
+    "hgb_without_activity": {
+      "f1": 0.1472199397425363,
+      "positives": 5077,
+      "pr_auc": 0.07233318244985583,
+      "pr_auc_lift_over_prevalence": 12.692087109065248,
+      "precision": 0.11283719953815471,
+      "precision_lift_over_prevalence": 19.799205802593455,
+      "predicted_entries": 9527,
+      "predicted_entry_rate": 0.010694328761649038,
+      "prevalence": 0.005699077057089553,
+      "recall": 0.21173921607248375,
+      "roc_auc": 0.8968898151793475,
+      "rows": 890846,
+      "threshold": 0.10512541227539371,
+      "true_positives": 1075
+    },
+    "prevalence_baseline": {
+      "f1": 0.0,
+      "positives": 5077,
+      "pr_auc": 0.005699077057089553,
+      "pr_auc_lift_over_prevalence": 1.0,
+      "precision": 0.0,
+      "precision_lift_over_prevalence": 0.0,
+      "predicted_entries": 0,
+      "predicted_entry_rate": 0.0,
+      "prevalence": 0.005699077057089553,
+      "recall": 0.0,
+      "roc_auc": 0.5,
+      "rows": 890846,
+      "threshold": 1.0,
+      "true_positives": 0
+    },
+    "regularized_lightgbm": {
+      "f1": 0.2391653290529695,
+      "positives": 5077,
+      "pr_auc": 0.14451334697333862,
+      "pr_auc_lift_over_prevalence": 25.357324620407883,
+      "precision": 0.21851067296724785,
+      "precision_lift_over_prevalence": 38.34141401815656,
+      "predicted_entries": 6137,
+      "predicted_entry_rate": 0.006888957238400352,
+      "prevalence": 0.005699077057089553,
+      "recall": 0.2641323616308844,
+      "roc_auc": 0.9247023833937306,
+      "rows": 890846,
+      "threshold": 0.1034692931126972,
+      "true_positives": 1341
+    },
+    "regularized_logistic": {
+      "f1": 0.11777586611402205,
+      "positives": 5077,
+      "pr_auc": 0.05605580496391792,
+      "pr_auc_lift_over_prevalence": 9.835944382290018,
+      "precision": 0.09766536964980545,
+      "precision_lift_over_prevalence": 17.13705020505231,
+      "predicted_entries": 7710,
+      "predicted_entry_rate": 0.00865469452632666,
+      "prevalence": 0.005699077057089553,
+      "recall": 0.14831593460705142,
+      "roc_auc": 0.8730098816021118,
+      "rows": 890846,
+      "threshold": 0.055054896574866286,
+      "true_positives": 753
+    },
+    "time_only_hgb": {
+      "f1": 0.011571530065416015,
+      "positives": 5077,
+      "pr_auc": 0.005588591129280577,
+      "pr_auc_lift_over_prevalence": 0.9806133648128984,
+      "precision": 0.0058277222461869845,
+      "precision_lift_over_prevalence": 1.0225729864342505,
+      "predicted_entries": 700102,
+      "predicted_entry_rate": 0.7858844289585405,
+      "prevalence": 0.005699077057089553,
+      "recall": 0.8036241875123105,
+      "roc_auc": 0.4988477586624978,
+      "rows": 890846,
+      "threshold": 0.007075657409411001,
+      "true_positives": 4080
+    }
+  },
+  "final_test": {
+    "f1": 0.13927645388319546,
+    "positives": 4195,
+    "pr_auc": 0.06871922442070301,
+    "pr_auc_lift_over_prevalence": 13.958160405736802,
+    "precision": 0.1444672131147541,
+    "precision_lift_over_prevalence": 29.34399436292229,
+    "predicted_entries": 3904,
+    "predicted_entry_rate": 0.004581713283799817,
+    "prevalence": 0.004923229309820757,
+    "recall": 0.13444576877234804,
+    "roc_auc": 0.9005481712710521,
+    "rows": 852083,
+    "threshold": 0.1034692931126972,
+    "true_positives": 564
+  },
+  "surrogate_rules_path": "submission/tables/surrogate_rules.txt",
+  "top_features": [
+    {
+      "direction": "increasing",
+      "feature": "seconds_since_prior_deploy",
+      "permutation_pr_auc_drop": 0.051668859966271186,
+      "rank": 1
+    },
+    {
+      "direction": "increasing",
+      "feature": "hist_open_close_count",
+      "permutation_pr_auc_drop": 0.04480881527998262,
+      "rank": 2
+    },
+    {
+      "direction": "increasing",
+      "feature": "hist_quote_sol_sum",
+      "permutation_pr_auc_drop": 0.042346771896516006,
+      "rank": 3
+    },
+    {
+      "direction": "increasing",
+      "feature": "dev_buy_sol",
+      "permutation_pr_auc_drop": 0.029310119105116786,
+      "rank": 4
+    },
+    {
+      "direction": "increasing",
+      "feature": "hist_cost_usd_sum",
+      "permutation_pr_auc_drop": 0.02610629462017991,
+      "rank": 5
+    },
+    {
+      "direction": "increasing",
+      "feature": "observed_wallet_age_seconds",
+      "permutation_pr_auc_drop": 0.016353416511302538,
+      "rank": 6
+    },
+    {
+      "direction": "decreasing",
+      "feature": "prior_deploy_count_7d",
+      "permutation_pr_auc_drop": 0.015187864592265843,
+      "rank": 7
+    },
+    {
+      "direction": "increasing",
+      "feature": "hist_tip_fee_sum",
+      "permutation_pr_auc_drop": 0.01462933297601679,
+      "rank": 8
+    },
+    {
+      "direction": "decreasing",
+      "feature": "prior_deploy_count_1d",
+      "permutation_pr_auc_drop": 0.01357328385362172,
+      "rank": 9
+    },
+    {
+      "direction": "increasing",
+      "feature": "uri_length",
+      "permutation_pr_auc_drop": 0.013259299758224846,
+      "rank": 10
+    }
+  ],
+  "validation": {
+    "f1": 0.2391653290529695,
+    "positives": 5077,
+    "pr_auc": 0.14451334697333862,
+    "pr_auc_lift_over_prevalence": 25.357324620407883,
+    "precision": 0.21851067296724785,
+    "precision_lift_over_prevalence": 38.34141401815656,
+    "predicted_entries": 6137,
+    "predicted_entry_rate": 0.006888957238400352,
+    "prevalence": 0.005699077057089553,
+    "recall": 0.2641323616308844,
+    "roc_auc": 0.9247023833937306,
+    "rows": 890846,
+    "threshold": 0.1034692931126972,
+    "true_positives": 1341
+  },
+  "validation_policy": {
+    "final_test": "2026-06-01 through 2026-06-30; full reporting population. LightGBM and its threshold were selected on May only, but an earlier HGB run had already inspected June.",
+    "train": "2026-03-12 through 2026-04-30 (target active era); chosen LightGBM uses all positives and deterministic 1/2 negatives with inverse sampling weights (baselines use 1/10)",
+    "validation": "2026-05-01 through 2026-05-31; full population"
+  }
+}
