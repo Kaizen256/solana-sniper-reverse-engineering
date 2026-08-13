@@ -37,9 +37,8 @@ Raw and generated large data are ignored by Git. Nothing under `data/raw/` is mo
 
 ## Data layout
 
-Competition data is **not included in this repository**. Participants must obtain it
-through the competition source and handle it under the competition rules. After
-obtaining the authorized files, place them at these paths without renaming their
+Competition data is not included in this repository. If you wish to replicate,
+obtain the authorized files, and place them at these paths without renaming their
 contents:
 
 ```text
@@ -118,5 +117,3 @@ Large deterministic outputs and models live in ignored `data/interim/`, `data/pr
 - `submission/writeup.md`
 - `submission/figures/cover.png` plus seven analysis figures
 - `submission/tables/` traceable summaries, feature dictionary, effects, and robustness tables
-
-The user must create the public repository/Kaggle resources, attach the notebook and cover/media, paste or adapt the writeup, and submit. This repository does not publish or submit anything externally.
