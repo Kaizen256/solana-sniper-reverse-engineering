@@ -24,6 +24,7 @@ RESULTS = SUBMISSION / "tables" / "backtest_results.json"
 INTRASLOT_OUTCOMES = ARTIFACTS / "tables" / "june_intraslot_outcomes.parquet"
 INTRASLOT_RESULTS = SUBMISSION / "tables" / "intraslot_latency_sensitivity.json"
 INTRASLOT_TABLE = SUBMISSION / "tables" / "intraslot_latency_sensitivity.csv"
+ACTIVE_ERA_PREDICTIONS = ARTIFACTS / "tables" / "active_era_predictions.parquet"
 INTRASLOT_OFFSETS = (1, 10, 25, 50, 100, 118, 150, 250)
 
 
@@ -58,13 +59,18 @@ def _strategy_parameters() -> tuple[float, int, float]:
     )
     round_trips = buys.merge(closes, on="token_address", how="inner")
     hold_seconds = int(np.nanmedian(round_trips.close_time - round_trips.buy_time))
-    fee_sol = float(np.nanmedian(round_trips.buy_fee + round_trips.close_fee))
-    return stake_sol, hold_seconds, fee_sol
+    network_cost_sol = float(np.nanmedian(round_trips.buy_fee + round_trips.close_fee))
+    return stake_sol, hold_seconds, network_cost_sol
 
 
-def _build_outcomes(predictions: pd.DataFrame, hold_seconds: int, force: bool) -> pd.DataFrame:
-    if OUTCOMES.exists() and not force:
-        return pd.read_parquet(OUTCOMES)
+def _build_outcomes(
+    predictions: pd.DataFrame,
+    hold_seconds: int,
+    force: bool,
+    output_path: Path = OUTCOMES,
+) -> pd.DataFrame:
+    if output_path.exists() and not force:
+        return pd.read_parquet(output_path)
     wanted = predictions[(predictions.selected == 1) | (predictions.label == 1)][
         ["token_address", "block_time", "label", "selected", "score"]
     ].copy()
@@ -129,7 +135,8 @@ def _build_outcomes(predictions: pd.DataFrame, hold_seconds: int, force: bool) -
         )
         """
     ).fetch_df()
-    result.to_parquet(OUTCOMES, index=False)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    result.to_parquet(output_path, index=False)
     return result
 
 
@@ -293,7 +300,22 @@ def run_intraslot_sensitivity(
     if predictions is None:
         predictions = pd.read_parquet(PREDICTIONS)
         predictions = predictions[predictions.split == "test"].copy()
-    stake_sol, hold_seconds, fee_sol = _strategy_parameters()
+    if ACTIVE_ERA_PREDICTIONS.exists() and "legacy_population_selected" not in predictions:
+        preserved_diagnostics = pd.read_parquet(
+            ACTIVE_ERA_PREDICTIONS,
+            columns=[
+                "token_address",
+                "active_era_selected",
+                "legacy_population_selected",
+            ],
+        )
+        predictions = predictions.merge(
+            preserved_diagnostics,
+            on="token_address",
+            how="left",
+            validate="one_to_one",
+        )
+    stake_sol, hold_seconds, network_cost_sol = _strategy_parameters()
     outcomes, empirical_summary = _build_intraslot_outcomes(
         predictions, hold_seconds, force=force
     )
@@ -318,7 +340,7 @@ def run_intraslot_sensitivity(
         for cohort, column in cohort_columns.items():
             expected = int(predictions[column].sum())
             values, _ = _metrics(
-                policy_rows[policy_rows[column] == 1], expected, stake_sol, fee_sol
+                policy_rows[policy_rows[column] == 1], expected, stake_sol, network_cost_sol
             )
             policy_result[cohort] = values
             flat_rows.append(
@@ -341,7 +363,8 @@ def run_intraslot_sensitivity(
         "exit_and_cost": {
             "hold_seconds": hold_seconds,
             "stake_sol": stake_sol,
-            "round_trip_fee_sol": fee_sol,
+            "round_trip_network_cost_sol": network_cost_sol,
+            "swap_fee_scope": "not applied; this is network-cost-adjusted and gross of proportional swap fees",
             "missing_exit": "-100% gross return",
         },
         "empirical_policy": empirical_summary,
@@ -350,6 +373,7 @@ def run_intraslot_sensitivity(
             "tx_index is landed transaction order, not elapsed wall-clock latency.",
             "The trade table establishes ordering only for recorded Pump.fun trades; it does not reveal private submission paths, mempool visibility, or bundle intent.",
             "Event prices are marginal observed prices and omit the strategy's own bonding-curve impact.",
+            "Returns subtract the inclusive two-leg network cost but remain gross of proportional Pump swap fees.",
             "The empirical policy is conditional on pre-June target entries that were same-slot; it does not model the target's non-same-slot tail.",
         ],
     }
@@ -361,39 +385,39 @@ def _metrics(
     cohort: pd.DataFrame,
     expected_tokens: int,
     stake_sol: float,
-    fee_sol: float,
+    network_cost_sol: float,
     symmetric_slippage: float = 0.0,
 ) -> tuple[dict[str, float | int], pd.DataFrame]:
     ordered = cohort.sort_values(["entry_time", "token_address"]).copy()
     price_ratio = (1.0 + ordered.gross_roi) * (1.0 - symmetric_slippage) / (
         1.0 + symmetric_slippage
     )
-    ordered["net_roi"] = np.where(
+    ordered["network_cost_adjusted_roi"] = np.where(
         ordered.forced_total_loss.eq(1),
-        -1.0 - fee_sol / stake_sol,
-        price_ratio - 1.0 - fee_sol / stake_sol,
+        -1.0 - network_cost_sol / stake_sol,
+        price_ratio - 1.0 - network_cost_sol / stake_sol,
     )
-    ordered["pnl_sol"] = ordered.net_roi * stake_sol
+    ordered["pnl_sol"] = ordered.network_cost_adjusted_roi * stake_sol
     ordered["equity_sol"] = ordered.pnl_sol.cumsum()
     running_peak = np.maximum.accumulate(np.r_[0.0, ordered.equity_sol.to_numpy()])
     drawdowns = running_peak[1:] - ordered.equity_sol.to_numpy()
     positive_pnl = ordered.pnl_sol.clip(lower=0)
     total_positive = positive_pnl.sum()
-    p99 = ordered.net_roi.quantile(0.99) if len(ordered) else 0.0
+    p99 = ordered.network_cost_adjusted_roi.quantile(0.99) if len(ordered) else 0.0
     values: dict[str, float | int] = {
         "selected_tokens": int(expected_tokens),
         "filled_trades": int(len(ordered)),
         "fill_rate": float(len(ordered) / expected_tokens) if expected_tokens else 0.0,
         "forced_total_losses": int(ordered.forced_total_loss.sum()),
-        "hit_rate": float(ordered.net_roi.gt(0).mean()) if len(ordered) else 0.0,
-        "mean_roi": float(ordered.net_roi.mean()) if len(ordered) else 0.0,
-        "median_roi": float(ordered.net_roi.median()) if len(ordered) else 0.0,
-        "p90_roi": float(ordered.net_roi.quantile(0.90)) if len(ordered) else 0.0,
+        "hit_rate": float(ordered.network_cost_adjusted_roi.gt(0).mean()) if len(ordered) else 0.0,
+        "mean_roi": float(ordered.network_cost_adjusted_roi.mean()) if len(ordered) else 0.0,
+        "median_roi": float(ordered.network_cost_adjusted_roi.median()) if len(ordered) else 0.0,
+        "p90_roi": float(ordered.network_cost_adjusted_roi.quantile(0.90)) if len(ordered) else 0.0,
         "p99_roi": float(p99),
-        "max_roi": float(ordered.net_roi.max()) if len(ordered) else 0.0,
+        "max_roi": float(ordered.network_cost_adjusted_roi.max()) if len(ordered) else 0.0,
         "total_pnl_sol": float(ordered.pnl_sol.sum()),
         "total_pnl_sol_roi_capped_at_p99": float(
-            (ordered.net_roi.clip(upper=p99) * stake_sol).sum()
+            (ordered.network_cost_adjusted_roi.clip(upper=p99) * stake_sol).sum()
         ) if len(ordered) else 0.0,
         "top10_positive_pnl_share": float(positive_pnl.nlargest(10).sum() / total_positive)
         if total_positive > 0
@@ -409,16 +433,23 @@ def _actual_target_june() -> dict[str, float | int]:
     latencies = pd.read_parquet(LATENCIES, columns=["token_address", "deploy_time"])
     metrics = pd.read_parquet(TOKEN_METRICS)
     june = latencies[latencies.deploy_time >= JUNE_START].merge(metrics, on="token_address", how="left")
-    invested = float(june.gross_buy_usd.sum() + june.fees_usd.sum())
+    invested = float(june.gross_buy_usd.sum() + june.total_defensible_cost_usd.sum())
     return {
         "tokens": int(len(june)),
-        "hit_rate_net_cashflow": float(june.net_pnl_usd.gt(0).mean()),
-        "gross_buy_usd": float(june.gross_buy_usd.sum()),
-        "fees_usd": float(june.fees_usd.sum()),
-        "net_pnl_usd": float(june.net_pnl_usd.sum()),
-        "net_roi_on_buy_plus_fees": float(june.net_pnl_usd.sum() / invested),
-        "mean_net_pnl_usd": float(june.net_pnl_usd.mean()),
-        "median_net_pnl_usd": float(june.net_pnl_usd.median()),
+        "fully_fee_adjusted_hit_rate": float(june.net_pnl_usd.gt(0).mean()),
+        "quote_principal_buy_usd": float(june.gross_buy_usd.sum()),
+        "quote_principal_sell_usd": float(june.gross_sell_usd.sum()),
+        "network_execution_cost_usd": float(june.network_cost_usd.sum()),
+        "pump_separate_cost_usd": float(june.pump_separate_cost_usd.sum()),
+        "pump_reported_component_usd": float(june.pump_reported_component_usd.sum()),
+        "pump_raw_observed_fallback_usd": float(june.pump_raw_observed_fallback_usd.sum()),
+        "routed_dex_contained_in_quote_usd_not_subtracted": float(june.routed_dex_contained_in_quote_usd.sum()),
+        "unidentified_dex_ambiguous_usd_not_subtracted": float(june.unidentified_dex_ambiguous_usd.sum()),
+        "total_defensible_cost_usd": float(june.total_defensible_cost_usd.sum()),
+        "fully_fee_adjusted_pnl_usd": float(june.net_pnl_usd.sum()),
+        "fully_fee_adjusted_roi_on_buy_plus_costs": float(june.net_pnl_usd.sum() / invested),
+        "mean_fully_fee_adjusted_pnl_usd": float(june.net_pnl_usd.mean()),
+        "median_fully_fee_adjusted_pnl_usd": float(june.net_pnl_usd.median()),
     }
 
 
@@ -444,17 +475,20 @@ def _plot(equities: dict[str, pd.DataFrame]) -> None:
     )
     axes[0].set(
         xlabel="Executed trades (chronological)",
-        ylabel="Cumulative P&L (SOL)",
+        ylabel="Network-cost-adjusted P&L (SOL)\n(gross of swap fees)",
         title="Optimistic marginal equal-stake curves",
     )
     axes[0].legend(fontsize=8)
 
-    distributions = [equities[f"replica_{delay}"].net_roi.clip(-1.1, 3) for delay in (0, 1, 2)]
+    distributions = [
+        equities[f"replica_{delay}"].network_cost_adjusted_roi.clip(-1.1, 3)
+        for delay in (0, 1, 2)
+    ]
     axes[1].boxplot(distributions, tick_labels=["+0", "+1", "+2"], showfliers=False)
     axes[1].axhline(0, color="black", linewidth=1)
     axes[1].set(
         xlabel="Entry delay (slots)",
-        ylabel="Net ROI",
+        ylabel="Network-cost-adjusted ROI\n(gross of swap fees)",
         title="Preserved-control delay sensitivity",
     )
     fig.tight_layout()
@@ -477,10 +511,12 @@ def run(force: bool = False) -> dict[str, object]:
             "entry": "first observed positive-price trade strictly after deploy tx (+0), or at/after deploy slot +1/+2",
             "exit": f"first observed trade at least {hold_seconds}s after entry; horizon fixed from pre-June target median hold",
             "stake_sol": stake_sol,
-            "primary_round_trip_fee_sol": primary_fee_sol,
+            "primary_round_trip_network_cost_sol": primary_fee_sol,
+            "marginal_accounting": "network-cost-adjusted and gross of proportional Pump swap fees",
             "missing_exit": "-100% gross return",
             "limitations": [
                 "The zero-slippage result is an optimistic marginal-price upper bound; observed event prices do not model our own bonding-curve price impact.",
+                "The inclusive two-leg network cost is subtracted once; proportional Pump swap fees are not modeled in this diagnostic.",
                 "A future observed trade supplies the exit price; tokens with no such trade are total losses.",
                 "No-fill tokens are reported in fill rates and are not silently assigned favorable prices.",
                 "Symmetric 10%/25%/50% adverse entry-and-exit price sensitivities bound unsupported fill assumptions.",
@@ -493,8 +529,8 @@ def run(force: bool = False) -> dict[str, object]:
             "precision_vs_target": float(predictions.loc[predictions.selected == 1, "label"].mean()) if expected_replica else 0.0,
             "recall_of_target": float(predictions.loc[predictions.label == 1, "selected"].mean()) if expected_target else 0.0,
         },
-        "primary_fee_results": {},
-        "fee_sensitivity_replica_delay0": {},
+        "primary_network_cost_results": {},
+        "network_cost_sensitivity_replica_delay0": {},
         "slippage_sensitivity_delay0": {},
         "actual_target_cashflow_june": _actual_target_june(),
     }
@@ -505,7 +541,7 @@ def run(force: bool = False) -> dict[str, object]:
         target = delayed[delayed.label == 1]
         replica_metrics, replica_equity = _metrics(replica, expected_replica, stake_sol, primary_fee_sol)
         target_metrics, target_equity = _metrics(target, expected_target, stake_sol, primary_fee_sol)
-        output["primary_fee_results"][f"delay_{delay}"] = {  # type: ignore[index]
+        output["primary_network_cost_results"][f"delay_{delay}"] = {  # type: ignore[index]
             "replica": replica_metrics,
             "target_equal_stake": target_metrics,
         }
@@ -518,7 +554,7 @@ def run(force: bool = False) -> dict[str, object]:
             stake_sol,
             fee,
         )
-        output["fee_sensitivity_replica_delay0"][f"{fee:.6f}_sol"] = values  # type: ignore[index]
+        output["network_cost_sensitivity_replica_delay0"][f"{fee:.6f}_sol"] = values  # type: ignore[index]
     for slippage in (0.0, 0.10, 0.25, 0.50):
         replica_values, _ = _metrics(
             outcomes[(outcomes.delay_slots == 0) & (outcomes.selected == 1)],
@@ -540,7 +576,7 @@ def run(force: bool = False) -> dict[str, object]:
         }
 
     delay0 = outcomes[outcomes.delay_slots == 0].copy()
-    delay0["net_roi"] = delay0.gross_roi - primary_fee_sol / stake_sol
+    delay0["network_cost_adjusted_roi"] = delay0.gross_roi - primary_fee_sol / stake_sol
     disagreement = delay0[
         ((delay0.selected == 1) & (delay0.label == 0))
         | ((delay0.selected == 0) & (delay0.label == 1))
@@ -548,27 +584,31 @@ def run(force: bool = False) -> dict[str, object]:
     disagreement["disagreement"] = np.where(
         disagreement.selected.eq(1), "replica_only", "target_only"
     )
-    disagreement.sort_values("net_roi").to_parquet(
+    disagreement.sort_values("network_cost_adjusted_roi").to_parquet(
         ARTIFACTS / "tables" / "strategy_disagreements.parquet", index=False
     )
     (
-        disagreement.assign(profitable=disagreement.net_roi.gt(0))
+        disagreement.assign(profitable=disagreement.network_cost_adjusted_roi.gt(0))
         .groupby(["disagreement", "profitable"], as_index=False)
-        .agg(cases=("token_address", "size"), mean_net_roi=("net_roi", "mean"), median_net_roi=("net_roi", "median"))
+        .agg(
+            cases=("token_address", "size"),
+            mean_network_cost_adjusted_roi=("network_cost_adjusted_roi", "mean"),
+            median_network_cost_adjusted_roi=("network_cost_adjusted_roi", "median"),
+        )
         .to_csv(SUBMISSION / "tables" / "strategy_disagreement_summary.csv", index=False)
     )
     output["disagreements"] = {
         "replica_only_profitable": int(
-            ((disagreement.disagreement == "replica_only") & (disagreement.net_roi > 0)).sum()
+            ((disagreement.disagreement == "replica_only") & (disagreement.network_cost_adjusted_roi > 0)).sum()
         ),
         "replica_only_harmful": int(
-            ((disagreement.disagreement == "replica_only") & (disagreement.net_roi <= 0)).sum()
+            ((disagreement.disagreement == "replica_only") & (disagreement.network_cost_adjusted_roi <= 0)).sum()
         ),
         "missed_target_profitable": int(
-            ((disagreement.disagreement == "target_only") & (disagreement.net_roi > 0)).sum()
+            ((disagreement.disagreement == "target_only") & (disagreement.network_cost_adjusted_roi > 0)).sum()
         ),
         "missed_target_harmful": int(
-            ((disagreement.disagreement == "target_only") & (disagreement.net_roi <= 0)).sum()
+            ((disagreement.disagreement == "target_only") & (disagreement.network_cost_adjusted_roi <= 0)).sum()
         ),
     }
     RESULTS.write_text(json.dumps(output, indent=2, sort_keys=True) + "\n")

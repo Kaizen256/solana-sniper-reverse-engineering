@@ -23,6 +23,7 @@ from .config import (
     TARGET_TXS,
     ensure_output_dirs,
 )
+from .fee_ledger import PUMP_TARGET_ROUTE_TOTAL_RATE, build_transaction_fee_ledger
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
@@ -111,6 +112,8 @@ def _target_activity() -> pd.DataFrame:
         "cost_usd",
         "gas_usd",
         "gas_native",
+        "dex_usd",
+        "dex_native",
         "priority_fee",
         "tip_fee",
         "token_amount",
@@ -130,6 +133,8 @@ def _target_activity() -> pd.DataFrame:
             "cost_usd",
             "gas_usd",
             "gas_native",
+            "dex_usd",
+            "dex_native",
             "priority_fee",
             "tip_fee",
             "token_amount",
@@ -140,18 +145,26 @@ def _target_activity() -> pd.DataFrame:
 
 def _build_token_metrics(activity: pd.DataFrame) -> pd.DataFrame:
     trade = activity[activity.event_type.isin(["buy", "sell"])].copy()
-    # A transaction can create multiple activity rows. Charge its fee once.
-    tx_fees = (
-        activity.groupby("tx_hash", as_index=False)
-        .agg(gas_usd=("gas_usd", "max"), gas_native=("gas_native", "max"))
-        .fillna(0)
-    )
+    # The canonical ledger is transaction-level, so inclusive gas and any
+    # separately charged Pump cost can only be allocated once.
+    tx_fees = build_transaction_fee_ledger(activity)
     fee_by_token = (
-        activity[["token_address", "tx_hash"]]
-        .drop_duplicates()
-        .merge(tx_fees, on="tx_hash", how="left")
-        .groupby("token_address", as_index=False)
-        .agg(fees_usd=("gas_usd", "sum"), fees_native=("gas_native", "sum"))
+        tx_fees.groupby("token_address", as_index=False)
+        .agg(
+            network_cost_usd=("network_cost_usd", "sum"),
+            network_cost_native=("network_cost_native", "sum"),
+            pump_separate_cost_usd=("pump_separate_cost_usd", "sum"),
+            pump_separate_cost_native=("pump_separate_cost_native", "sum"),
+            pump_reported_component_usd=("pump_reported_component_usd", "sum"),
+            pump_raw_observed_fallback_usd=("pump_raw_observed_fallback_usd", "sum"),
+            pump_reported_residual_ambiguous_usd=("pump_reported_residual_ambiguous_usd", "sum"),
+            routed_dex_contained_in_quote_usd=("routed_dex_contained_in_quote_usd", "sum"),
+            unidentified_dex_ambiguous_usd=("unidentified_dex_ambiguous_usd", "sum"),
+            priority_fee_included_native=("priority_fee_included_native", "sum"),
+            tip_fee_included_native=("tip_fee_included_native", "sum"),
+            total_defensible_cost_usd=("total_defensible_cost_usd", "sum"),
+            total_defensible_cost_native=("total_defensible_cost_native", "sum"),
+        )
     )
     grouped = trade.groupby("token_address", as_index=False).agg(
         symbol=("token_symbol", "first"),
@@ -194,15 +207,19 @@ def _build_token_metrics(activity: pd.DataFrame) -> pd.DataFrame:
     result = grouped.merge(closes, on="token_address", how="left")
     result = result.merge(fee_by_token, on="token_address", how="left")
     result = result.merge(burns, on="token_address", how="left")
-    result[["fees_usd", "fees_native", "burn_transactions", "burned_tokens"]] = result[
-        ["fees_usd", "fees_native", "burn_transactions", "burned_tokens"]
+    fee_columns = [column for column in fee_by_token.columns if column != "token_address"]
+    result[[*fee_columns, "burn_transactions", "burned_tokens"]] = result[
+        [*fee_columns, "burn_transactions", "burned_tokens"]
     ].fillna(0)
+    # Compatibility aliases now mean the full defensible ledger, not gas alone.
+    result["fees_usd"] = result.total_defensible_cost_usd
+    result["fees_native"] = result.total_defensible_cost_native
     result["hold_seconds"] = result.final_close_time - result.first_buy_time
     result["gross_pnl_usd"] = result.gross_sell_usd - result.gross_buy_usd
-    result["net_pnl_usd"] = result.gross_pnl_usd - result.fees_usd
+    result["net_pnl_usd"] = result.gross_pnl_usd - result.total_defensible_cost_usd
     result["gross_roi"] = result.gross_pnl_usd / result.gross_buy_usd.replace(0, np.nan)
     result["net_roi"] = result.net_pnl_usd / (
-        result.gross_buy_usd + result.fees_usd
+        result.gross_buy_usd + result.total_defensible_cost_usd
     ).replace(0, np.nan)
     result.to_parquet(TOKEN_METRICS, index=False)
     return result
@@ -337,9 +354,14 @@ def _figures(
     lo, hi = pnl.quantile([0.01, 0.99])
     axes[0].hist(pnl.clip(lo, hi), bins=60, color=blue)
     axes[0].axvline(0, color="black", linewidth=1)
-    axes[0].set(xlabel="Net cash-flow P&L USD (1–99% winsorized)", ylabel="Tokens", title="Per-token P&L")
-    axes[1].plot(monthly.month, monthly.net_pnl_usd.cumsum(), marker="o", color=orange)
-    axes[1].set(xlabel="Month", ylabel="Cumulative monthly net P&L (USD)", title="Temporal P&L")
+    axes[0].set(xlabel="Fully fee-adjusted cash-flow P&L USD (1–99% winsorized)", ylabel="Tokens", title="Per-token P&L")
+    axes[1].plot(
+        monthly.month,
+        monthly.fully_fee_adjusted_pnl_usd.cumsum(),
+        marker="o",
+        color=orange,
+    )
+    axes[1].set(xlabel="Cumulative month", ylabel="Fully fee-adjusted P&L (USD)", title="Temporal P&L")
     axes[1].tick_params(axis="x", rotation=30)
     _save_figure(fig, "04_pnl_and_time.png")
 
@@ -380,8 +402,8 @@ def run(force: bool = False) -> dict[str, object]:
     ).dt.strftime("%Y-%m")
     pnl_month = token_month.groupby("month", as_index=False).agg(
         closed_tokens=("token_address", "size"),
-        net_pnl_usd=("net_pnl_usd", "sum"),
-        hit_rate=("net_pnl_usd", lambda x: float((x > 0).mean())),
+        fully_fee_adjusted_pnl_usd=("net_pnl_usd", "sum"),
+        fully_fee_adjusted_hit_rate=("net_pnl_usd", lambda x: float((x > 0).mean())),
     )
     monthly = monthly.merge(pnl_month, on="month", how="outer").sort_values("month")
     monthly.to_csv(SUBMISSION / "tables" / "behavior_monthly.csv", index=False)
@@ -432,19 +454,32 @@ def run(force: bool = False) -> dict[str, object]:
         },
         "cashflow_performance_bought_positions": {
             "scope_bought_positions": int(len(bought_positions)),
-            "gross_buy_usd": float(bought_positions.gross_buy_usd.sum()),
-            "gross_sell_usd": float(bought_positions.gross_sell_usd.sum()),
-            "fees_usd": float(bought_positions.fees_usd.sum()),
+            "quote_principal_buy_usd": float(bought_positions.gross_buy_usd.sum()),
+            "quote_principal_sell_usd": float(bought_positions.gross_sell_usd.sum()),
+            "network_execution_cost_usd": float(bought_positions.network_cost_usd.sum()),
+            "priority_fee_included_native": float(bought_positions.priority_fee_included_native.sum()),
+            "tip_fee_included_native": float(bought_positions.tip_fee_included_native.sum()),
+            "pump_target_route_rate": PUMP_TARGET_ROUTE_TOTAL_RATE,
+            "pump_separate_cost_usd": float(bought_positions.pump_separate_cost_usd.sum()),
+            "pump_reported_component_usd": float(bought_positions.pump_reported_component_usd.sum()),
+            "pump_raw_observed_fallback_usd": float(bought_positions.pump_raw_observed_fallback_usd.sum()),
+            "routed_dex_contained_in_quote_usd_not_subtracted": float(bought_positions.routed_dex_contained_in_quote_usd.sum()),
+            "unidentified_dex_ambiguous_usd_not_subtracted": float(bought_positions.unidentified_dex_ambiguous_usd.sum()),
+            "pump_reported_residual_ambiguous_usd_not_subtracted": float(bought_positions.pump_reported_residual_ambiguous_usd.sum()),
+            "total_defensible_cost_usd": float(bought_positions.total_defensible_cost_usd.sum()),
             "gross_pnl_usd": float(bought_positions.gross_pnl_usd.sum()),
-            "net_pnl_usd": float(bought_positions.net_pnl_usd.sum()),
-            "hit_rate_net": float(bought_positions.net_pnl_usd.gt(0).mean()),
+            "fully_fee_adjusted_pnl_usd": float(bought_positions.net_pnl_usd.sum()),
+            "fully_fee_adjusted_hit_rate": float(bought_positions.net_pnl_usd.gt(0).mean()),
             "average_winner_usd": float(winning.mean()),
             "average_loser_usd": float(losing.mean()),
-            "median_net_pnl_usd": float(bought_positions.net_pnl_usd.median()),
-            "mean_net_pnl_usd": float(bought_positions.net_pnl_usd.mean()),
+            "median_fully_fee_adjusted_pnl_usd": float(bought_positions.net_pnl_usd.median()),
+            "mean_fully_fee_adjusted_pnl_usd": float(bought_positions.net_pnl_usd.mean()),
         },
         "limitations": [
-            "P&L is activity-table USD cash flow less transaction gas charged once; it is not a full mark-to-market ledger.",
+            "P&L is quote-principal cash flow less inclusive transaction gas and the raw-supported 1.25% Pump target-route cost; it is not a full mark-to-market ledger.",
+            "Priority and tip components are already inside gas and are never subtracted again.",
+            "The additional Pump amount needed beyond reported dex_* to reach the raw-observed target-route total is intentionally not assigned an unproved semantic fee name.",
+            "Known routed-venue dex_* fields are not charged again because the observed quote transfer is already net; blank-venue DEX fields and rent/residual-account movements remain ambiguous.",
             "Same-slot transaction indexes establish relative landed order for the two known transactions but not private mempool observability.",
             "Same-bundle analysis is June-only and ex-post behavioral context; Jito fields are not model features.",
         ],

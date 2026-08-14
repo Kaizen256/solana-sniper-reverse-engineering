@@ -2,126 +2,126 @@
   "hypothesis": "Whether and how quickly a deployer sold its own prior Pump launches adds point-in-time signal beyond activity and creator-fee quality.",
   "june_reporting_only": {
     "baseline": {
-      "f1": 0.13117283950617284,
+      "f1": 0.1342937998456393,
       "positives": 4195,
-      "pr_auc": 0.06703996035422818,
-      "pr_auc_lift_over_prevalence": 13.6170704501816,
-      "precision": 0.1424183189053337,
-      "precision_lift_over_prevalence": 28.927825608537177,
-      "predicted_entries": 3581,
-      "predicted_entry_rate": 0.004202642230862487,
+      "pr_auc": 0.06807276077423226,
+      "pr_auc_lift_over_prevalence": 13.826851542023872,
+      "precision": 0.14585079631181894,
+      "precision_lift_over_prevalence": 29.625026000897165,
+      "predicted_entries": 3579,
+      "predicted_entry_rate": 0.004200295041680212,
       "prevalence": 0.004923229309820757,
-      "recall": 0.12157330154946365,
-      "roc_auc": 0.896850536424774,
+      "recall": 0.12443384982121573,
+      "roc_auc": 0.8964448778480132,
       "rows": 852083,
-      "threshold": 0.10004841875564156,
+      "threshold": 0.10639753285152861,
       "top_k": {
         "k": 4195,
-        "lift_at_k": 27.889482370891052,
-        "positives_at_k": 576,
-        "precision_at_k": 0.13730631704410012,
-        "recall_at_k": 0.13730631704410012
+        "lift_at_k": 27.937901611118292,
+        "positives_at_k": 577,
+        "precision_at_k": 0.13754469606674613,
+        "recall_at_k": 0.13754469606674613
       },
-      "true_positives": 510
+      "true_positives": 522
     },
     "baseline_plus_developer_sell": {
-      "f1": 0.1267474370922647,
+      "f1": 0.12806430006697925,
       "positives": 4195,
-      "pr_auc": 0.06949800319921663,
-      "pr_auc_lift_over_prevalence": 14.116344948748058,
-      "precision": 0.14354644149577805,
-      "precision_lift_over_prevalence": 29.156968416936127,
-      "predicted_entries": 3316,
-      "predicted_entry_rate": 0.0038916396642111155,
+      "pr_auc": 0.0703914784893326,
+      "pr_auc_lift_over_prevalence": 14.297826499553274,
+      "precision": 0.14617737003058104,
+      "precision_lift_over_prevalence": 29.691359234271175,
+      "predicted_entries": 3270,
+      "predicted_entry_rate": 0.003837654313018802,
       "prevalence": 0.004923229309820757,
-      "recall": 0.1134684147794994,
-      "roc_auc": 0.9001549269095226,
+      "recall": 0.11394517282479141,
+      "roc_auc": 0.9026293295770482,
       "rows": 852083,
-      "threshold": 0.10141534545353033,
+      "threshold": 0.10733710420780526,
       "top_k": {
         "k": 4195,
-        "lift_at_k": 28.42209401339071,
-        "positives_at_k": 587,
-        "precision_at_k": 0.1399284862932062,
-        "recall_at_k": 0.1399284862932062
+        "lift_at_k": 28.56735173407243,
+        "positives_at_k": 590,
+        "precision_at_k": 0.14064362336114422,
+        "recall_at_k": 0.14064362336114422
       },
-      "true_positives": 476
+      "true_positives": 478
     },
     "creator_fee_plus_developer_sell": {
-      "f1": 0.13181242078580482,
+      "f1": 0.13295228628230615,
       "positives": 4195,
-      "pr_auc": 0.06541637332172612,
-      "pr_auc_lift_over_prevalence": 13.287289542096866,
-      "precision": 0.12756467439785907,
-      "precision_lift_over_prevalence": 25.910772456484136,
-      "predicted_entries": 4484,
-      "predicted_entry_rate": 0.005262398146659421,
+      "pr_auc": 0.06662930788626704,
+      "pr_auc_lift_over_prevalence": 13.533659249500376,
+      "precision": 0.1388528419413444,
+      "precision_lift_over_prevalence": 28.203610517260202,
+      "predicted_entries": 3853,
+      "predicted_entry_rate": 0.004521859959651818,
       "prevalence": 0.004923229309820757,
-      "recall": 0.1363528009535161,
-      "roc_auc": 0.9030528295818953,
+      "recall": 0.12753277711561384,
+      "roc_auc": 0.9003467479861678,
       "rows": 852083,
-      "threshold": 0.10032690136565864,
+      "threshold": 0.1108362525034539,
       "top_k": {
         "k": 4195,
-        "lift_at_k": 26.146389722710364,
-        "positives_at_k": 540,
-        "precision_at_k": 0.12872467222884387,
-        "recall_at_k": 0.12872467222884387
+        "lift_at_k": 27.356870728391396,
+        "positives_at_k": 565,
+        "precision_at_k": 0.13468414779499405,
+        "recall_at_k": 0.13468414779499405
       },
-      "true_positives": 572
+      "true_positives": 535
     },
     "creator_fee_quality": {
-      "f1": 0.13475563295961684,
+      "f1": 0.13586291309669524,
       "positives": 4195,
-      "pr_auc": 0.06621391524479077,
-      "pr_auc_lift_over_prevalence": 13.449285230876532,
-      "precision": 0.12399839743589744,
-      "precision_lift_over_prevalence": 25.18639487064882,
-      "predicted_entries": 4992,
-      "predicted_entry_rate": 0.005858584198957144,
+      "pr_auc": 0.06379050047435818,
+      "pr_auc_lift_over_prevalence": 12.957044342238984,
+      "precision": 0.11873774291317525,
+      "precision_lift_over_prevalence": 24.11785749575378,
+      "predicted_entries": 5609,
+      "predicted_entry_rate": 0.006582692061688826,
       "prevalence": 0.004923229309820757,
-      "recall": 0.14755661501787842,
-      "roc_auc": 0.9008628995729235,
+      "recall": 0.15876042908224075,
+      "roc_auc": 0.8986795712578315,
       "rows": 852083,
-      "threshold": 0.105873830714622,
+      "threshold": 0.09954174670251179,
       "top_k": {
         "k": 4195,
-        "lift_at_k": 25.855874281346914,
-        "positives_at_k": 534,
-        "precision_at_k": 0.12729439809296783,
-        "recall_at_k": 0.12729439809296783
+        "lift_at_k": 24.064362392938982,
+        "positives_at_k": 497,
+        "precision_at_k": 0.11847437425506556,
+        "recall_at_k": 0.11847437425506556
       },
-      "true_positives": 619
+      "true_positives": 666
     },
     "developer_sell_only": {
-      "f1": 0.06378173276718764,
+      "f1": 0.06560652734992924,
       "positives": 4195,
-      "pr_auc": 0.026294848227012852,
-      "pr_auc_lift_over_prevalence": 5.340975723913657,
-      "precision": 0.0513529240616817,
-      "precision_lift_over_prevalence": 10.430739831525608,
-      "predicted_entries": 6874,
-      "predicted_entry_rate": 0.008067289219477445,
+      "pr_auc": 0.026348429300676907,
+      "pr_auc_lift_over_prevalence": 5.3518590426242385,
+      "precision": 0.05040941658137155,
+      "precision_lift_over_prevalence": 10.239095806651921,
+      "predicted_entries": 7816,
+      "predicted_entry_rate": 0.009172815324328733,
       "prevalence": 0.004923229309820757,
-      "recall": 0.08414779499404053,
-      "roc_auc": 0.8176885025035465,
+      "recall": 0.09392133492252681,
+      "roc_auc": 0.8166854411663924,
       "rows": 852083,
-      "threshold": 0.06720444342823957,
+      "threshold": 0.0623550269038483,
       "top_k": {
         "k": 4195,
-        "lift_at_k": 10.071201967266214,
-        "positives_at_k": 208,
-        "precision_at_k": 0.04958283671036949,
-        "recall_at_k": 0.04958283671036949
+        "lift_at_k": 10.216459687947937,
+        "positives_at_k": 211,
+        "precision_at_k": 0.05029797377830751,
+        "recall_at_k": 0.05029797377830751
       },
-      "true_positives": 353
+      "true_positives": 394
     }
   },
   "pre_june_decision": {
-    "april_incremental_pr_auc": 0.0002626664329785089,
-    "may_incremental_pr_auc": 0.005407577450553258,
+    "april_incremental_pr_auc": 0.0008308540024735966,
+    "may_incremental_pr_auc": 0.0006652269018083135,
     "rule": "Add developer-sell features only for >=0.002 May PR-AUC lift over creator-fee quality and no material (>0.0005) April regression.",
-    "status": "KEEP"
+    "status": "DROP"
   },
   "semantics": "A developer sell is the deployer wallet's first sell event for a token it previously launched; it becomes visible only at the sell timestamp.",
   "temporal_audit": {
@@ -129,179 +129,181 @@
     "future_launches": 0,
     "future_states": 0,
     "invalid_fractions": 0,
+    "invalid_latest_group_summaries": 0,
     "invalid_recencies": 0,
     "rows": 5076421,
+    "tied_latest_group_rows": 268857,
     "tokens": 5076421
   },
   "windows": {
     "april": {
       "baseline": {
-        "f1": 0.19168325128312558,
+        "f1": 0.19490586932447398,
         "positives": 3410,
-        "pr_auc": 0.09704869763503599,
-        "pr_auc_lift_over_prevalence": 22.867376865534514,
-        "precision": 0.14909564934006844,
-        "precision_lift_over_prevalence": 35.13108867563077,
-        "predicted_entries": 6137,
-        "predicted_entry_rate": 0.007637920026484429,
+        "pr_auc": 0.09704810421090208,
+        "pr_auc_lift_over_prevalence": 22.867237038276222,
+        "precision": 0.14839797639123103,
+        "precision_lift_over_prevalence": 34.96669749224827,
+        "predicted_entries": 6523,
+        "predicted_entry_rate": 0.008118323665106392,
         "prevalence": 0.004243980330831335,
-        "recall": 0.26832844574780057,
-        "roc_auc": 0.9049812755212199,
+        "recall": 0.2838709677419355,
+        "roc_auc": 0.9060151506800699,
         "rows": 803491,
-        "threshold": 0.06897128247933033,
+        "threshold": 0.06416728580061934,
         "top_k": {
           "k": 3410,
-          "lift_at_k": 42.634131715413524,
-          "positives_at_k": 617,
-          "precision_at_k": 0.1809384164222874,
-          "recall_at_k": 0.1809384164222874
+          "lift_at_k": 42.01224000481592,
+          "positives_at_k": 608,
+          "precision_at_k": 0.17829912023460412,
+          "recall_at_k": 0.17829912023460412
         },
-        "true_positives": 915
+        "true_positives": 968
       },
       "baseline_plus_developer_sell": {
-        "f1": 0.19648829431438128,
+        "f1": 0.19628385056335243,
         "positives": 3410,
-        "pr_auc": 0.09716704108297963,
-        "pr_auc_lift_over_prevalence": 22.895261878828265,
-        "precision": 0.15264696329977265,
-        "precision_lift_over_prevalence": 35.96787718143625,
-        "predicted_entries": 6158,
-        "predicted_entry_rate": 0.007664055975735882,
+        "pr_auc": 0.10011567995802949,
+        "pr_auc_lift_over_prevalence": 23.59004334462084,
+        "precision": 0.14803220035778175,
+        "precision_lift_over_prevalence": 34.88051046852622,
+        "predicted_entries": 6708,
+        "predicted_entry_rate": 0.008348568932321582,
         "prevalence": 0.004243980330831335,
-        "recall": 0.2756598240469208,
-        "roc_auc": 0.9129189811760298,
+        "recall": 0.2912023460410557,
+        "roc_auc": 0.9100812615303346,
         "rows": 803491,
-        "threshold": 0.06970267140765862,
+        "threshold": 0.06345451097533465,
         "top_k": {
           "k": 3410,
-          "lift_at_k": 42.841428952279394,
-          "positives_at_k": 620,
-          "precision_at_k": 0.18181818181818182,
-          "recall_at_k": 0.18181818181818182
+          "lift_at_k": 42.979627110189966,
+          "positives_at_k": 622,
+          "precision_at_k": 0.18240469208211144,
+          "recall_at_k": 0.18240469208211144
         },
-        "true_positives": 940
+        "true_positives": 993
       },
       "creator_fee_plus_developer_sell": {
-        "f1": 0.21696252465483234,
+        "f1": 0.21808560899555893,
         "positives": 3410,
-        "pr_auc": 0.10756189042726072,
-        "pr_auc_lift_over_prevalence": 25.34457797691793,
-        "precision": 0.16344725111441308,
-        "precision_lift_over_prevalence": 38.51272587834923,
-        "predicted_entries": 6730,
-        "predicted_entry_rate": 0.008375949450585009,
+        "pr_auc": 0.1082471435289755,
+        "pr_auc_lift_over_prevalence": 25.506042698310868,
+        "precision": 0.16088108183465774,
+        "precision_lift_over_prevalence": 37.90806490451935,
+        "predicted_entries": 7173,
+        "predicted_entry_rate": 0.008927293522889491,
         "prevalence": 0.004243980330831335,
-        "recall": 0.3225806451612903,
-        "roc_auc": 0.9145726988177638,
+        "recall": 0.33841642228739005,
+        "roc_auc": 0.9161351152198772,
         "rows": 803491,
-        "threshold": 0.07856565504756736,
+        "threshold": 0.06927792353755421,
         "top_k": {
           "k": 3410,
-          "lift_at_k": 46.15818474213328,
-          "positives_at_k": 668,
-          "precision_at_k": 0.19589442815249267,
-          "recall_at_k": 0.19589442815249267
+          "lift_at_k": 46.57277921586502,
+          "positives_at_k": 674,
+          "precision_at_k": 0.19765395894428153,
+          "recall_at_k": 0.19765395894428153
         },
-        "true_positives": 1100
+        "true_positives": 1154
       },
       "creator_fee_quality": {
-        "f1": 0.206401766004415,
+        "f1": 0.21018396178473422,
         "positives": 3410,
-        "pr_auc": 0.10729922399428221,
-        "pr_auc_lift_over_prevalence": 25.282686447621643,
-        "precision": 0.15036183328866257,
-        "precision_lift_over_prevalence": 35.429436888838936,
-        "predicted_entries": 7462,
-        "predicted_entry_rate": 0.009286973967349977,
+        "pr_auc": 0.10741628952650191,
+        "pr_auc_lift_over_prevalence": 25.310270348369073,
+        "precision": 0.16083372219629802,
+        "precision_lift_over_prevalence": 37.89690565431838,
+        "predicted_entries": 6429,
+        "predicted_entry_rate": 0.008001334177980836,
         "prevalence": 0.004243980330831335,
-        "recall": 0.32903225806451614,
-        "roc_auc": 0.9147197601741357,
+        "recall": 0.3032258064516129,
+        "roc_auc": 0.9150491540590753,
         "rows": 803491,
-        "threshold": 0.06571984943917399,
+        "threshold": 0.07737718504163639,
         "top_k": {
           "k": 3410,
-          "lift_at_k": 45.81268934735683,
-          "positives_at_k": 663,
-          "precision_at_k": 0.19442815249266862,
-          "recall_at_k": 0.19442815249266862
+          "lift_at_k": 45.12169855780394,
+          "positives_at_k": 653,
+          "precision_at_k": 0.19149560117302053,
+          "recall_at_k": 0.19149560117302053
         },
-        "true_positives": 1122
+        "true_positives": 1034
       },
       "developer_sell_feature_gain_top15": [
         {
-          "feature": "latest_prior_launch_dev_sell_latency_seconds",
-          "gain": 289
+          "feature": "latest_prior_launch_group_dev_sell_latency_median_seconds",
+          "gain": 279
         },
         {
           "feature": "seconds_since_prior_dev_sell",
-          "gain": 220
+          "gain": 223
         },
         {
           "feature": "hist_dev_sold_launch_fraction",
-          "gain": 217
+          "gain": 201
         },
         {
           "feature": "hist_mature_1d_dev_sold_fraction",
-          "gain": 133
+          "gain": 143
         },
         {
           "feature": "hist_mature_7d_dev_sold_fraction",
-          "gain": 128
+          "gain": 131
         },
         {
           "feature": "hist_dev_sold_launch_count_7d",
-          "gain": 97
-        },
-        {
-          "feature": "hist_mature_7d_dev_sold_count",
-          "gain": 92
+          "gain": 91
         },
         {
           "feature": "hist_dev_sold_launch_count_30d",
-          "gain": 81
+          "gain": 90
+        },
+        {
+          "feature": "hist_mature_7d_dev_sold_count",
+          "gain": 89
         },
         {
           "feature": "hist_mature_1d_dev_sold_count",
-          "gain": 60
+          "gain": 71
         },
         {
           "feature": "hist_dev_sold_launch_count",
-          "gain": 47
+          "gain": 46
         },
         {
-          "feature": "latest_prior_launch_dev_sold",
-          "gain": 3
+          "feature": "latest_prior_launch_group_mature_7d_no_dev_sell_fraction",
+          "gain": 6
         },
         {
-          "feature": "latest_prior_launch_mature_7d_no_dev_sell",
+          "feature": "latest_prior_launch_group_dev_sold_fraction",
           "gain": 2
         },
         {
-          "feature": "latest_prior_launch_mature_1d_no_dev_sell",
-          "gain": 1
+          "feature": "latest_prior_launch_group_mature_1d_no_dev_sell_fraction",
+          "gain": 0
         }
       ],
-      "developer_sell_group_permutation_pr_auc_drop": 0.015889711629036393,
+      "developer_sell_group_permutation_pr_auc_drop": 0.013904646425460035,
       "developer_sell_increment_over_creator_fee": {
-        "f1": 0.010560758650417335,
-        "pr_auc": 0.0002626664329785089,
-        "precision": 0.013085417825750512,
-        "recall": -0.006451612903225823
+        "f1": 0.007901647210824703,
+        "pr_auc": 0.0008308540024735966,
+        "precision": 4.735963835972301e-05,
+        "recall": 0.03519061583577715
       },
       "developer_sell_only": {
-        "f1": 0.08352468427095293,
+        "f1": 0.08532816192958002,
         "positives": 3410,
-        "pr_auc": 0.030948682338405042,
-        "pr_auc_lift_over_prevalence": 7.292371765620939,
-        "precision": 0.055291658749762496,
-        "precision_lift_over_prevalence": 13.02825518489895,
-        "predicted_entries": 10526,
-        "predicted_entry_rate": 0.013100333420038308,
+        "pr_auc": 0.030966294682445203,
+        "pr_auc_lift_over_prevalence": 7.296521724543278,
+        "precision": 0.053777404323581086,
+        "precision_lift_over_prevalence": 12.67145465611686,
+        "predicted_entries": 13091,
+        "predicted_entry_rate": 0.016292652935751613,
         "prevalence": 0.004243980330831335,
-        "recall": 0.17067448680351907,
-        "roc_auc": 0.8175354917601984,
+        "recall": 0.2064516129032258,
+        "roc_auc": 0.8197987728669158,
         "rows": 803491,
-        "threshold": 0.06758098089140895,
+        "threshold": 0.05936705897880998,
         "top_k": {
           "k": 3410,
           "lift_at_k": 14.234410264789604,
@@ -309,188 +311,188 @@
           "precision_at_k": 0.06041055718475073,
           "recall_at_k": 0.06041055718475073
         },
-        "true_positives": 582
+        "true_positives": 704
       },
       "incremental_daily_pr_auc_stability": {
         "days": 30,
-        "max_daily_delta": 0.01663348187849273,
-        "mean_daily_delta": 0.0002938682333944074,
-        "median_daily_delta": 0.0012092211626530298,
-        "min_daily_delta": -0.020110049816018827,
-        "positive_delta_days": 18,
-        "positive_delta_share": 0.6,
-        "q25_daily_delta": -0.00445400220088233,
-        "q75_daily_delta": 0.007445263233257629
+        "max_daily_delta": 0.02364447890170257,
+        "mean_daily_delta": 0.0012481130383790245,
+        "median_daily_delta": 0.002202875373108301,
+        "min_daily_delta": -0.016328088657185158,
+        "positive_delta_days": 17,
+        "positive_delta_share": 0.5666666666666667,
+        "q25_daily_delta": -0.004805815760986064,
+        "q75_daily_delta": 0.007001492113299212
       }
     },
     "may": {
       "baseline": {
-        "f1": 0.23564794338788148,
+        "f1": 0.24315068493150685,
         "positives": 5077,
-        "pr_auc": 0.14464900596138452,
-        "pr_auc_lift_over_prevalence": 25.381128297158867,
-        "precision": 0.2138728323699422,
-        "precision_lift_over_prevalence": 37.52762600461563,
-        "predicted_entries": 6228,
-        "predicted_entry_rate": 0.006991107329437411,
+        "pr_auc": 0.14534158550231874,
+        "pr_auc_lift_over_prevalence": 25.502653157060987,
+        "precision": 0.22412360857285263,
+        "precision_lift_over_prevalence": 39.32629903539324,
+        "predicted_entries": 6019,
+        "predicted_entry_rate": 0.006756498878594056,
         "prevalence": 0.005699077057089553,
-        "recall": 0.2623596612172543,
-        "roc_auc": 0.9223995473540307,
+        "recall": 0.26570809533188894,
+        "roc_auc": 0.9241306435976511,
         "rows": 890846,
-        "threshold": 0.10004841875564156,
+        "threshold": 0.10639753285152861,
         "top_k": {
           "k": 5077,
-          "lift_at_k": 40.88585199004855,
-          "positives_at_k": 1183,
-          "precision_at_k": 0.23301162103604492,
-          "recall_at_k": 0.23301162103604492
+          "lift_at_k": 42.33742069975441,
+          "positives_at_k": 1225,
+          "precision_at_k": 0.24128422296631868,
+          "recall_at_k": 0.24128422296631868
         },
-        "true_positives": 1332
+        "true_positives": 1349
       },
       "baseline_plus_developer_sell": {
-        "f1": 0.24927849927849927,
+        "f1": 0.2418422524706321,
         "positives": 5077,
-        "pr_auc": 0.15196400161904472,
-        "pr_auc_lift_over_prevalence": 26.664668699294765,
-        "precision": 0.2299118283147563,
-        "precision_lift_over_prevalence": 40.3419406355894,
-        "predicted_entries": 6011,
-        "predicted_entry_rate": 0.006747518650810577,
+        "pr_auc": 0.1417944165728091,
+        "pr_auc_lift_over_prevalence": 24.88024203786108,
+        "precision": 0.2295981589661887,
+        "precision_lift_over_prevalence": 40.28690201347121,
+        "predicted_entries": 5649,
+        "predicted_entry_rate": 0.006341163343608211,
         "prevalence": 0.005699077057089553,
-        "recall": 0.2722079968485326,
-        "roc_auc": 0.9274770594999935,
+        "recall": 0.25546582627535946,
+        "roc_auc": 0.9250698798167677,
         "rows": 890846,
-        "threshold": 0.10141534545353033,
+        "threshold": 0.10733710420780526,
         "top_k": {
           "k": 5077,
-          "lift_at_k": 42.95952157534264,
-          "positives_at_k": 1243,
-          "precision_at_k": 0.2448296237935789,
-          "recall_at_k": 0.2448296237935789
+          "lift_at_k": 41.92268678269559,
+          "positives_at_k": 1213,
+          "precision_at_k": 0.2389206224148119,
+          "recall_at_k": 0.2389206224148119
         },
-        "true_positives": 1382
+        "true_positives": 1297
       },
       "creator_fee_plus_developer_sell": {
-        "f1": 0.25037356798937405,
+        "f1": 0.24852177029206235,
         "positives": 5077,
-        "pr_auc": 0.15336701606227726,
-        "pr_auc_lift_over_prevalence": 26.91085144593568,
-        "precision": 0.21638685607691205,
-        "precision_lift_over_prevalence": 37.968754222708846,
-        "predicted_entries": 6969,
-        "predicted_entry_rate": 0.007822900927882036,
+        "pr_auc": 0.15139651523831874,
+        "pr_auc_lift_over_prevalence": 26.565093561945105,
+        "precision": 0.22793755135579294,
+        "precision_lift_over_prevalence": 39.99552016448744,
+        "predicted_entries": 6085,
+        "predicted_entry_rate": 0.006830585757807746,
         "prevalence": 0.005699077057089553,
-        "recall": 0.29702580263935396,
-        "roc_auc": 0.9290472167665825,
+        "recall": 0.2731928304116604,
+        "roc_auc": 0.9257169812519905,
         "rows": 890846,
-        "threshold": 0.10032690136565864,
+        "threshold": 0.1108362525034539,
         "top_k": {
           "k": 5077,
-          "lift_at_k": 42.51022649852892,
-          "positives_at_k": 1230,
-          "precision_at_k": 0.24226905652944652,
-          "recall_at_k": 0.24226905652944652
+          "lift_at_k": 42.026370261960295,
+          "positives_at_k": 1216,
+          "precision_at_k": 0.2395115225526886,
+          "recall_at_k": 0.2395115225526886
         },
-        "true_positives": 1508
+        "true_positives": 1387
       },
       "creator_fee_quality": {
-        "f1": 0.24810464050654002,
+        "f1": 0.24852366297928968,
         "positives": 5077,
-        "pr_auc": 0.147959438611724,
-        "pr_auc_lift_over_prevalence": 25.96200000974983,
-        "precision": 0.21498700548657235,
-        "precision_lift_over_prevalence": 37.72312662786902,
-        "predicted_entries": 6926,
-        "predicted_entry_rate": 0.007774632203545843,
+        "pr_auc": 0.15073128833651042,
+        "pr_auc_lift_over_prevalence": 26.448368187793374,
+        "precision": 0.21508782032824647,
+        "precision_lift_over_prevalence": 37.7408163065072,
+        "predicted_entries": 6946,
+        "predicted_entry_rate": 0.0077970827730045374,
         "prevalence": 0.005699077057089553,
-        "recall": 0.2932834350994682,
-        "roc_auc": 0.9275249958221883,
+        "recall": 0.29426826866259603,
+        "roc_auc": 0.92555404185211,
         "rows": 890846,
-        "threshold": 0.105873830714622,
+        "threshold": 0.09954174670251179,
         "top_k": {
           "k": 5077,
-          "lift_at_k": 41.74988098392109,
-          "positives_at_k": 1208,
-          "precision_at_k": 0.23793578885168407,
-          "recall_at_k": 0.23793578885168407
+          "lift_at_k": 42.164614900979906,
+          "positives_at_k": 1220,
+          "precision_at_k": 0.24029938940319087,
+          "recall_at_k": 0.24029938940319087
         },
-        "true_positives": 1489
+        "true_positives": 1494
       },
       "developer_sell_feature_gain_top15": [
         {
-          "feature": "latest_prior_launch_dev_sell_latency_seconds",
-          "gain": 242
+          "feature": "latest_prior_launch_group_dev_sell_latency_median_seconds",
+          "gain": 245
         },
         {
           "feature": "seconds_since_prior_dev_sell",
-          "gain": 200
+          "gain": 220
         },
         {
           "feature": "hist_dev_sold_launch_fraction",
-          "gain": 167
+          "gain": 177
         },
         {
           "feature": "hist_mature_1d_dev_sold_fraction",
-          "gain": 156
+          "gain": 149
         },
         {
           "feature": "hist_mature_7d_dev_sold_fraction",
-          "gain": 135
+          "gain": 132
         },
         {
           "feature": "hist_dev_sold_launch_count_30d",
-          "gain": 126
+          "gain": 127
         },
         {
           "feature": "hist_mature_7d_dev_sold_count",
-          "gain": 116
+          "gain": 99
         },
         {
           "feature": "hist_dev_sold_launch_count_7d",
-          "gain": 79
+          "gain": 87
         },
         {
           "feature": "hist_mature_1d_dev_sold_count",
-          "gain": 68
+          "gain": 72
         },
         {
           "feature": "hist_dev_sold_launch_count",
-          "gain": 60
+          "gain": 52
         },
         {
-          "feature": "latest_prior_launch_dev_sold",
+          "feature": "latest_prior_launch_group_dev_sold_fraction",
           "gain": 7
         },
         {
-          "feature": "latest_prior_launch_mature_1d_no_dev_sell",
-          "gain": 5
+          "feature": "latest_prior_launch_group_mature_1d_no_dev_sell_fraction",
+          "gain": 7
         },
         {
-          "feature": "latest_prior_launch_mature_7d_no_dev_sell",
-          "gain": 2
+          "feature": "latest_prior_launch_group_mature_7d_no_dev_sell_fraction",
+          "gain": 0
         }
       ],
-      "developer_sell_group_permutation_pr_auc_drop": 0.019525794522562534,
+      "developer_sell_group_permutation_pr_auc_drop": 0.01932948608279178,
       "developer_sell_increment_over_creator_fee": {
-        "f1": 0.0022689274828340267,
-        "pr_auc": 0.005407577450553258,
-        "precision": 0.0013998505903397018,
-        "recall": 0.0037423675398857714
+        "f1": -1.8926872273339335e-06,
+        "pr_auc": 0.0006652269018083135,
+        "precision": 0.012849731027546468,
+        "recall": -0.021075438250935608
       },
       "developer_sell_only": {
-        "f1": 0.12123880816086893,
+        "f1": 0.11949602122015915,
         "positives": 5077,
-        "pr_auc": 0.052596112407202626,
-        "pr_auc_lift_over_prevalence": 9.22888248050164,
-        "precision": 0.09661948765937536,
-        "precision_lift_over_prevalence": 16.953532421391355,
-        "predicted_entries": 8549,
-        "predicted_entry_rate": 0.009596495915118887,
+        "pr_auc": 0.05109337684710946,
+        "pr_auc_lift_over_prevalence": 8.96520196784323,
+        "precision": 0.09007297810656803,
+        "precision_lift_over_prevalence": 15.804835976821687,
+        "predicted_entries": 10003,
+        "predicted_entry_rate": 0.011228652314765964,
         "prevalence": 0.005699077057089553,
-        "recall": 0.16269450462871773,
-        "roc_auc": 0.8415994681710858,
+        "recall": 0.17746700807563523,
+        "roc_auc": 0.8412216328574121,
         "rows": 890846,
-        "threshold": 0.06720444342823957,
+        "threshold": 0.0623550269038483,
         "top_k": {
           "k": 5077,
           "lift_at_k": 19.423371782254677,
@@ -498,18 +500,18 @@
           "precision_at_k": 0.11069529249556825,
           "recall_at_k": 0.11069529249556825
         },
-        "true_positives": 826
+        "true_positives": 901
       },
       "incremental_daily_pr_auc_stability": {
         "days": 31,
-        "max_daily_delta": 0.03900507093057318,
-        "mean_daily_delta": 0.00403551530961104,
-        "median_daily_delta": 0.0053420820420193305,
-        "min_daily_delta": -0.03813313079294134,
-        "positive_delta_days": 21,
-        "positive_delta_share": 0.6774193548387096,
-        "q25_daily_delta": -0.006321279495775892,
-        "q75_daily_delta": 0.012432657133733961
+        "max_daily_delta": 0.04580931104306041,
+        "mean_daily_delta": 0.00018213649216158913,
+        "median_daily_delta": 0.0008472178299617633,
+        "min_daily_delta": -0.03198162911555165,
+        "positive_delta_days": 18,
+        "positive_delta_share": 0.5806451612903226,
+        "q25_daily_delta": -0.010934821992163862,
+        "q75_daily_delta": 0.01000065131055796
       }
     }
   }

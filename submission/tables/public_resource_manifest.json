@@ -1,0 +1,278 @@
+{
+  "aggregate_files_requiring_manual_permission_review": [
+    "submission/tables/curve_replay_results.json",
+    "submission/tables/developer_sell_outcome_results.json",
+    "submission/tables/feature_dictionary.csv",
+    "submission/tables/historical_outcome_audit.json",
+    "submission/tables/methodological_audit.json",
+    "submission/tables/profitable_disagreement_results.json",
+    "submission/tables/ranking_hard_negative_results.json",
+    "submission/tables/robustness_summary.json",
+    "submission/tables/target_relationship_feature_dictionary.csv",
+    "submission/tables/target_relationship_feature_importance.csv",
+    "submission/tables/target_relationship_primary_backtest.json",
+    "submission/tables/target_relationship_reproduction_recipe.json",
+    "submission/tables/target_relationship_validation.json",
+    "submission/tables/third_pass_head_to_head.csv"
+  ],
+  "competition_input_policy": "raw files must be mounted separately from an organizer-owned, competition-gated Kaggle input and are read in place; they are never copied into notebook outputs",
+  "contains_competition_raw_data": false,
+  "contains_derived_feature_or_label_cache": false,
+  "contains_exact_curve_outcome_cache": false,
+  "contains_row_level_competition_derivatives": false,
+  "contains_small_aggregate_outputs_and_figures": true,
+  "contains_strategy_prediction_or_selection_cache": false,
+  "contains_trained_models": false,
+  "figure_files_requiring_manual_permission_review": [
+    "submission/figures/05_model_diagnostics.png",
+    "submission/figures/06_backtest_comparison.png"
+  ],
+  "file_count": 32,
+  "files": [
+    {
+      "bytes": 1068,
+      "path": "LICENSE",
+      "sha256": "b3c19267e375f6474fb24ffd7128759f36360922dccfc72bc1ee8b4757299ddc"
+    },
+    {
+      "bytes": 12026,
+      "path": "README.md",
+      "sha256": "9fd1c2246d2684847e1a26267a6d7e07e74a5541cc4ac89d850c056787dbae30"
+    },
+    {
+      "bytes": 769,
+      "path": "pyproject.toml",
+      "sha256": "e1f79ac4e3a8e9c171075cc356c3b120fb7ee9235dc7037d9a40ede3da7946fb"
+    },
+    {
+      "bytes": 1194,
+      "path": "src/solana_sniper_reverse_engineering/__init__.py",
+      "sha256": "de0f378dff0ab52f3f8b273a3f8f4aa0b0f5e9035bdcf2beb08fa63b6ff3426e"
+    },
+    {
+      "bytes": 28831,
+      "path": "src/solana_sniper_reverse_engineering/backtest.py",
+      "sha256": "76055ae1085bfb47ea5b84f02cfd04ddd798bc8e6835fe647b6524247a6a01e8"
+    },
+    {
+      "bytes": 23330,
+      "path": "src/solana_sniper_reverse_engineering/behavior.py",
+      "sha256": "35116e67f12432743d3af2ea3afa5308fcf76e5e00a8ff094d1cc8fbf9353bef"
+    },
+    {
+      "bytes": 2597,
+      "path": "src/solana_sniper_reverse_engineering/config.py",
+      "sha256": "9a3079080bc08ce52da7abebe385f9a556d403860bf7987b8c33344f1487d7ad"
+    },
+    {
+      "bytes": 21991,
+      "path": "src/solana_sniper_reverse_engineering/curve_replay.py",
+      "sha256": "0b1243c24ebec3e51bae5da9db80cad702ef39cd03175dc9ee6b48c67dfc7308"
+    },
+    {
+      "bytes": 24631,
+      "path": "src/solana_sniper_reverse_engineering/feature_store.py",
+      "sha256": "3f080e022a2979431b1ee97bc4803d91e3ae7b77aebceac51622fd28e93c96c6"
+    },
+    {
+      "bytes": 6742,
+      "path": "src/solana_sniper_reverse_engineering/fee_ledger.py",
+      "sha256": "9c4ea5ea3b35a78647b5e6e4269d7662d004a621ffc10214a2981d29fe55c3f5"
+    },
+    {
+      "bytes": 31899,
+      "path": "src/solana_sniper_reverse_engineering/frozen_reproduction.py",
+      "sha256": "1f149b6dd0745f11b6e1ae128c2d21be3062eca8e6a04f3d0d087858574e6b14"
+    },
+    {
+      "bytes": 15265,
+      "path": "src/solana_sniper_reverse_engineering/message_features.py",
+      "sha256": "f92674755a833946235b19d7689008c4ae254e93eb451b1002d9fc3c8c5a8ad7"
+    },
+    {
+      "bytes": 24204,
+      "path": "src/solana_sniper_reverse_engineering/modeling.py",
+      "sha256": "4bd119195c3ff00ea53cd3fdd1ec540c7ed637cc32c39fc2e5edb539e636273d"
+    },
+    {
+      "bytes": 36077,
+      "path": "src/solana_sniper_reverse_engineering/target_relationship.py",
+      "sha256": "50a1116c063d891e01d9a1a80a80b07fa50fe9c4ca545df033f07e99e8f6e988"
+    },
+    {
+      "bytes": 121705,
+      "path": "src/solana_sniper_reverse_engineering/third_pass.py",
+      "sha256": "ac1634040382c43cff03c4b0b35abe6755ccbb96dafc057128af2ebed6032499"
+    },
+    {
+      "bytes": 105030,
+      "path": "submission/figures/05_model_diagnostics.png",
+      "sha256": "b02240ac1d13e3e0dea531222ed009768d13acc9a37c692308c064c0c2aea4f1"
+    },
+    {
+      "bytes": 58044,
+      "path": "submission/figures/06_backtest_comparison.png",
+      "sha256": "c4eb1755e99a688c1370f3f94c37cf9cc6b53bd76810965ea199ea54bea74fde"
+    },
+    {
+      "bytes": 22300,
+      "path": "submission/tables/curve_replay_results.json",
+      "sha256": "48434c56232097c5f71ea2ce991c4fb14b4710537e7b930ec969dba648967f70"
+    },
+    {
+      "bytes": 17567,
+      "path": "submission/tables/developer_sell_outcome_results.json",
+      "sha256": "58ccdc2140deedda95229cb5b31cd70914840ddb7afb260036fd076d022cda96"
+    },
+    {
+      "bytes": 4973,
+      "path": "submission/tables/feature_dictionary.csv",
+      "sha256": "be92f5945c901b62f59e7508db1c06b8858846420a73145b3a0d40e29b2aac44"
+    },
+    {
+      "bytes": 12057,
+      "path": "submission/tables/historical_outcome_audit.json",
+      "sha256": "7d6051730bdf2d72d8c41f48a675c8fdcbb496acd139342626ce24db5d65d983"
+    },
+    {
+      "bytes": 31593,
+      "path": "submission/tables/methodological_audit.json",
+      "sha256": "da2ae65cd6a9cbd495fe8935ff178d2a7d31b6719518d30da3ed5d5698d8164b"
+    },
+    {
+      "bytes": 18056,
+      "path": "submission/tables/profitable_disagreement_results.json",
+      "sha256": "fb6f6c322e05ce84d5e2f644310ec8e0bf6bc1e9b71cd8d24600f3e2a6e82bc6"
+    },
+    {
+      "bytes": 14636,
+      "path": "submission/tables/ranking_hard_negative_results.json",
+      "sha256": "2bd9c841fba52d6a75c5ab46fa664f304fe191a252d99f621f7b989d008a9687"
+    },
+    {
+      "bytes": 2264,
+      "path": "submission/tables/robustness_summary.json",
+      "sha256": "ec95a4b4c1f498012b1c8e80f4950f448c82aced61779b2bd136c2811df24dd1"
+    },
+    {
+      "bytes": 2981,
+      "path": "submission/tables/target_relationship_feature_dictionary.csv",
+      "sha256": "2f909fdada58cd404eb37567c51ee91fbd7caeae5f89e3455c71e8fbdec10050"
+    },
+    {
+      "bytes": 22247,
+      "path": "submission/tables/target_relationship_feature_importance.csv",
+      "sha256": "d669b0430bcb02d7c39ad177ef69208bb4a70cf66d83e6e52f418ed9dde487af"
+    },
+    {
+      "bytes": 5878,
+      "path": "submission/tables/target_relationship_primary_backtest.json",
+      "sha256": "e211a47fb3d1762f9440eae75dd05c818af019f6218c34129578a2faecd3d9d0"
+    },
+    {
+      "bytes": 24280,
+      "path": "submission/tables/target_relationship_reproduction_recipe.json",
+      "sha256": "144374fb67edc4744e3f23ada9ee4de771b5d844e1301b18cec69ad140bb109a"
+    },
+    {
+      "bytes": 28211,
+      "path": "submission/tables/target_relationship_validation.json",
+      "sha256": "4ba914a83e6169cd6d893938eaa11f477869cb4d0911555966552e68e641c083"
+    },
+    {
+      "bytes": 2378,
+      "path": "submission/tables/third_pass_head_to_head.csv",
+      "sha256": "0f3b3d3b36d98d10de36ff8755169fadc2374e50708890410168b7d8e80dcf37"
+    },
+    {
+      "bytes": 224500,
+      "path": "uv.lock",
+      "sha256": "eb1e601796f81d073c6a69d4b79b2ba6a91cbb41eb045deac706095f92672ac5"
+    }
+  ],
+  "notebook_output_policy": "all regenerated row-level features, labels, scores, selections, models, and replay outcomes must stay under ephemeral KAGGLE_PRIVATE_WORK_DIR (default /kaggle/temp), outside persistent /kaggle/working",
+  "prohibited_files": [],
+  "public_resource_required_for_current_notebook": true,
+  "publication_blockers": [
+    "The competition rules do not themselves grant this automated pass authority to publish derived aggregate tables or figures; manually confirm organizer/Kaggle permission for every explicitly listed aggregate before upload."
+  ],
+  "publication_status": "READY_FOR_MANUAL_AGGREGATE_PERMISSION_REVIEW",
+  "required_competition_inputs": [
+    {
+      "bytes": 50815788,
+      "environment_variable": "SOLANA_BOUGHT_TXS",
+      "relative_path": "data/raw/core/bought_deploy_txs.jsonl.gz"
+    },
+    {
+      "bytes": 1947279,
+      "environment_variable": "SOLANA_BOUGHT_INDEX",
+      "relative_path": "data/raw/core/bought_deploy_txs_index.parquet"
+    },
+    {
+      "bytes": 656959815,
+      "environment_variable": "SOLANA_BOUGHT_ACTIVITY",
+      "relative_path": "data/raw/core/bought_deployers_activity.parquet"
+    },
+    {
+      "bytes": 14955899885,
+      "environment_variable": "SOLANA_NOT_BOUGHT_TXS",
+      "relative_path": "data/raw/core/not_bought_deploy_txs.jsonl.gz"
+    },
+    {
+      "bytes": 597044788,
+      "environment_variable": "SOLANA_NOT_BOUGHT_INDEX",
+      "relative_path": "data/raw/core/not_bought_deploy_txs_index.parquet"
+    },
+    {
+      "bytes": 25284834617,
+      "environment_variable": "SOLANA_NOT_BOUGHT_ACTIVITY",
+      "relative_path": "data/raw/core/not_bought_deployers_activity.parquet"
+    },
+    {
+      "bytes": 12535961,
+      "environment_variable": "SOLANA_TARGET_ACTIVITY",
+      "relative_path": "data/raw/target_wallet/5brv79e_activity.parquet"
+    },
+    {
+      "bytes": 91781848,
+      "environment_variable": "SOLANA_TARGET_TXS",
+      "relative_path": "data/raw/target_wallet/5brv79e_activity_txs.jsonl.gz"
+    },
+    {
+      "bytes": 6766577,
+      "environment_variable": "SOLANA_TARGET_TX_INDEX",
+      "relative_path": "data/raw/target_wallet/5brv79e_activity_txs_index.parquet"
+    },
+    {
+      "bytes": 4929322771,
+      "environment_variable": "SOLANA_JITO_TRANSACTIONS",
+      "relative_path": "data/raw/june/jito/jito_bundle_transactions.parquet"
+    },
+    {
+      "bytes": 17944584022,
+      "environment_variable": "SOLANA_JUNE_TRADES",
+      "relative_path": "data/raw/june/trades/pumpfun_trades.parquet"
+    }
+  ],
+  "resource_role": "source-only public notebook runtime",
+  "safe_to_publish_now": false,
+  "source_and_configuration_files": [
+    "LICENSE",
+    "README.md",
+    "pyproject.toml",
+    "src/solana_sniper_reverse_engineering/__init__.py",
+    "src/solana_sniper_reverse_engineering/backtest.py",
+    "src/solana_sniper_reverse_engineering/behavior.py",
+    "src/solana_sniper_reverse_engineering/config.py",
+    "src/solana_sniper_reverse_engineering/curve_replay.py",
+    "src/solana_sniper_reverse_engineering/feature_store.py",
+    "src/solana_sniper_reverse_engineering/fee_ledger.py",
+    "src/solana_sniper_reverse_engineering/frozen_reproduction.py",
+    "src/solana_sniper_reverse_engineering/message_features.py",
+    "src/solana_sniper_reverse_engineering/modeling.py",
+    "src/solana_sniper_reverse_engineering/target_relationship.py",
+    "src/solana_sniper_reverse_engineering/third_pass.py",
+    "uv.lock"
+  ],
+  "total_bytes": 949324
+}

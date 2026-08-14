@@ -404,20 +404,26 @@ def _outcome_metrics(frame: pd.DataFrame, expected: int) -> dict[str, float | in
     }
 
 
-def run_curve_replay(force: bool = False) -> dict[str, object]:
+def run_curve_replay(
+    force: bool = False,
+    *,
+    predictions_path: Path = STRATEGY_PREDICTIONS,
+    outcomes_path: Path = CURVE_OUTCOMES,
+    publish_outputs: bool = True,
+) -> dict[str, object]:
     """Replay supported standard Pump curves and report explicit bounds."""
     ensure_output_dirs()
-    if not STRATEGY_PREDICTIONS.exists():
+    if not predictions_path.exists():
         raise FileNotFoundError(
-            f"Missing {STRATEGY_PREDICTIONS}; run the profitable-disagreement experiment first"
+            f"Missing {predictions_path}; reproduce the frozen strategy selections first"
         )
-    predictions = pd.read_parquet(STRATEGY_PREDICTIONS)
+    predictions = pd.read_parquet(predictions_path)
     anchors = _build_anchors(predictions)
     trades = _load_curve_trades(anchors)
     stake_sol, _, network_fee_sol = _strategy_parameters()
 
-    if CURVE_OUTCOMES.exists() and not force:
-        outcomes = pd.read_parquet(CURVE_OUTCOMES)
+    if outcomes_path.exists() and not force:
+        outcomes = pd.read_parquet(outcomes_path)
     else:
         trade_groups = {token: frame for token, frame in trades.groupby("token_address", sort=False)}
         rows: list[dict[str, object]] = []
@@ -447,7 +453,8 @@ def run_curve_replay(force: bool = False) -> dict[str, object]:
                             row[column] = anchor[column]
                     rows.append(row)
         outcomes = pd.DataFrame(rows)
-        outcomes.to_parquet(CURVE_OUTCOMES, index=False)
+        outcomes_path.parent.mkdir(parents=True, exist_ok=True)
+        outcomes.to_parquet(outcomes_path, index=False)
 
     coverage = (
         outcomes.groupby(["latency_policy", "buy_intent_bound", "fee_rate", "status"])
@@ -455,7 +462,8 @@ def run_curve_replay(force: bool = False) -> dict[str, object]:
         .rename("tokens")
         .reset_index()
     )
-    coverage.to_csv(CURVE_COVERAGE, index=False)
+    if publish_outputs:
+        coverage.to_csv(CURVE_COVERAGE, index=False)
 
     result: dict[str, object] = {
         "scope": "Integer replay for standard SOL-paired Pump bonding curves only; strategy orders are inserted after the entry and exit anchor events.",
@@ -509,6 +517,7 @@ def run_curve_replay(force: bool = False) -> dict[str, object]:
                 cohort_result[buy_intent] = intent_result
             latency_result[cohort] = cohort_result
         result["results"][latency] = latency_result  # type: ignore[index]
-    CURVE_RESULTS.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
+    if publish_outputs:
+        CURVE_RESULTS.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
     print(json.dumps(result, indent=2, sort_keys=True))
     return result

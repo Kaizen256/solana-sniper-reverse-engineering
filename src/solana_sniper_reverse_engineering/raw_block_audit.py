@@ -14,7 +14,7 @@ from .config import ARTIFACTS, JUNE_TRADES, SUBMISSION, ensure_output_dirs
 SLOT_INDEX = Path("data/downloads/raw_block_index/june_slots_index.parquet")
 STRATEGY_PREDICTIONS = ARTIFACTS / "tables" / "third_pass_june_strategy_predictions.parquet"
 RAW_AUDIT_RESULTS = SUBMISSION / "tables" / "targeted_raw_block_audit.json"
-RAW_EVENT_TABLE = SUBMISSION / "tables" / "targeted_raw_block_trade_events.csv"
+RAW_EVENT_TABLE = ARTIFACTS / "tables" / "targeted_raw_block_trade_events.csv"
 TRADE_EVENT_DISCRIMINATOR = bytes([189, 219, 127, 211, 78, 230, 97, 238])
 PUMP_PROGRAM = "6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P"
 BASE58_ALPHABET = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"

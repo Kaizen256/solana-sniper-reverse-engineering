@@ -1,0 +1,812 @@
+{
+  "confirmation_lag_5_seconds": {
+    "temporal_audit": {
+      "duplicate_tokens": 0,
+      "expected_rows": 4224338,
+      "future_or_equal_states": 0,
+      "invalid_counts": 0,
+      "invalid_deployments_since_buy": 0,
+      "invalid_first_buy_times": 0,
+      "invalid_rates": 0,
+      "invalid_recencies": 0,
+      "rows": 4224338,
+      "tokens": 4224338
+    },
+    "windows": {
+      "april": {
+        "f1": 0.39685393258426965,
+        "positives": 3410,
+        "pr_auc": 0.2788638875189978,
+        "pr_auc_delta_vs_zero_lag": -0.003199034964352976,
+        "pr_auc_lift_over_prevalence": 65.70810083475867,
+        "precision": 0.32167577413479054,
+        "precision_lift_over_prevalence": 75.79577402795806,
+        "predicted_entries": 5490,
+        "predicted_entry_rate": 0.006832683875737252,
+        "prevalence": 0.004243980330831335,
+        "recall": 0.5178885630498534,
+        "roc_auc": 0.9673847141378695,
+        "rows": 803491,
+        "threshold": 0.13453425204173114,
+        "top_k": {
+          "k": 3410,
+          "lift_at_k": 85.4755606676929,
+          "positives_at_k": 1237,
+          "precision_at_k": 0.3627565982404692,
+          "recall_at_k": 0.3627565982404692
+        },
+        "true_positives": 1766
+      },
+      "may": {
+        "f1": 0.5056179775280899,
+        "positives": 5077,
+        "pr_auc": 0.3900883175263099,
+        "pr_auc_delta_vs_zero_lag": 0.004089073215929939,
+        "pr_auc_lift_over_prevalence": 68.44762996159997,
+        "precision": 0.41136504014823966,
+        "precision_lift_over_prevalence": 72.18099282172517,
+        "predicted_entries": 8095,
+        "predicted_entry_rate": 0.009086867988406525,
+        "prevalence": 0.005699077057089553,
+        "recall": 0.6558991530431357,
+        "roc_auc": 0.9726530771234414,
+        "rows": 890846,
+        "threshold": 0.2281375393939021,
+        "top_k": {
+          "k": 5077,
+          "lift_at_k": 81.70258166058728,
+          "positives_at_k": 2364,
+          "precision_at_k": 0.46562930864683866,
+          "recall_at_k": 0.46562930864683866
+        },
+        "true_positives": 3330
+      }
+    }
+  },
+  "decision_clock": "A raw target buy contributes only when target_buy_time < candidate block_time; equality is excluded.",
+  "developer_sell_feature_audit": {
+    "duplicate_keys": 0,
+    "future_launches": 0,
+    "future_states": 0,
+    "invalid_fractions": 0,
+    "invalid_latest_group_summaries": 0,
+    "invalid_recencies": 0,
+    "rows": 5076421,
+    "tied_latest_group_rows": 268857,
+    "tokens": 5076421
+  },
+  "developer_sell_tie_audit": {
+    "activity_identifier_fields": [
+      "tx_hash"
+    ],
+    "activity_temporal_fields": [
+      "timestamp"
+    ],
+    "contract": "Group all launches sharing (wallet, launch_time); use symmetric fractions and the observed-latency median. Transaction hash and file order are identifiers/storage order, not temporal order.",
+    "deployment_index_temporal_fields": [
+      "blockTime",
+      "blockSlot"
+    ],
+    "fully_mapped_groups": 156271,
+    "fully_mapped_groups_with_same_slot_ties": 137880,
+    "fully_resolved_unique_slot_groups": 18391,
+    "mapped_launches": 516222,
+    "mapped_signer_matches": 516222,
+    "mapped_time_matches": 516222,
+    "mapped_tx_hash_matches": 516222,
+    "max_tie_size": 84,
+    "partially_mapped_groups": 800,
+    "tie_groups": 157071,
+    "tied_launches": 518390
+  },
+  "developer_sell_tie_contract": {
+    "eligibility": "launch_time < candidate block_time",
+    "features": {
+      "latest_prior_launch_group_dev_sell_latency_median_seconds": "median latency among tied launches whose developer sell is observed strictly before the candidate",
+      "latest_prior_launch_group_dev_sold_fraction": "fraction of tied launches with a developer sell observed strictly before the candidate",
+      "latest_prior_launch_group_mature_1d_no_dev_sell_fraction": "after group age exceeds one day, fraction without a developer sell in the first day",
+      "latest_prior_launch_group_mature_7d_no_dev_sell_fraction": "after group age exceeds seven days, fraction without a developer sell in the first seven days"
+    },
+    "group_key": [
+      "wallet",
+      "launch_time"
+    ],
+    "id": "latest-prior-launch-group-v1",
+    "ordering_excluded": [
+      "transaction hash",
+      "file order"
+    ]
+  },
+  "event_audit": {
+    "buys_after_source_deployment_second": 1216,
+    "buys_at_source_deployment_second": 10516,
+    "buys_before_source_deployment": 0,
+    "duplicate_event_tokens": 0,
+    "emitted_events": 11732,
+    "matched_negative_tokens": 0,
+    "matched_positive_tokens": 11732,
+    "raw_buy_tokens": 11937,
+    "unmatched_tokens": 205
+  },
+  "feature_path": "/home/arc/Documents/ML-Comps/solana-sniper-reverse-engineering/data/interim/target_signer_relationship_features_pre_june.parquet",
+  "feature_sets": {
+    "core": [
+      "target_signer_known",
+      "prior_target_buy_count",
+      "prior_target_buy_count_1h",
+      "prior_target_buy_count_6h",
+      "prior_target_buy_count_1d",
+      "prior_target_buy_count_7d",
+      "prior_target_buy_count_30d",
+      "seconds_since_prior_target_buy",
+      "prior_target_buy_fraction",
+      "prior_target_buy_rate_shrunk_5",
+      "prior_target_buy_rate_shrunk_20",
+      "prior_target_buy_count_log1p",
+      "prior_target_buy_recency_log1p"
+    ],
+    "expanded_candidates": [
+      "deployments_since_prior_target_buy",
+      "seconds_since_first_target_buy",
+      "prior_target_buy_rate_1h",
+      "prior_target_buy_rate_1d",
+      "prior_target_buy_rate_7d",
+      "prior_target_buy_rate_30d",
+      "prior_target_buys_per_known_day",
+      "prior_target_deployments_per_buy"
+    ],
+    "selected_model": "final_plus_expanded_relationship"
+  },
+  "june_opened": false,
+  "selection_rule": {
+    "confirmation_lag": "Require no worse than a 0.03 absolute AP loss in either window after excluding target buys from the prior five seconds.",
+    "core": "PROMOTE only for AP >=0.20 April, >=0.30 May, and >=0.05 AP lift over the preserved final on both windows.",
+    "expanded": "Use expanded features only for >=0.005 AP lift over core on both windows."
+  },
+  "source": "data/raw/target_wallet/5brv79e_activity.parquet",
+  "status": "PROMOTE",
+  "temporal_audit": {
+    "duplicate_tokens": 0,
+    "expected_rows": 4224338,
+    "future_or_equal_states": 0,
+    "invalid_counts": 0,
+    "invalid_deployments_since_buy": 0,
+    "invalid_first_buy_times": 0,
+    "invalid_rates": 0,
+    "invalid_recencies": 0,
+    "rows": 4224338,
+    "tokens": 4224338
+  },
+  "windows": {
+    "april": {
+      "core_minus_preserved_final_pr_auc": 0.14458121800281798,
+      "daily_stability_vs_preserved_final": {
+        "days": 30,
+        "mean_daily_delta": 0.1413347403444372,
+        "median_daily_delta": 0.13956468023425603,
+        "positive_delta_days": 30,
+        "positive_delta_share": 1.0,
+        "rows": [
+          {
+            "baseline_pr_auc": 0.22510569193429833,
+            "date": "2026-04-01",
+            "delta": 0.13189097278231052,
+            "rescue_pr_auc": 0.35699666471660885
+          },
+          {
+            "baseline_pr_auc": 0.15761366511933275,
+            "date": "2026-04-02",
+            "delta": 0.14066651766824875,
+            "rescue_pr_auc": 0.2982801827875815
+          },
+          {
+            "baseline_pr_auc": 0.18256321741320314,
+            "date": "2026-04-03",
+            "delta": 0.11514150236926957,
+            "rescue_pr_auc": 0.2977047197824727
+          },
+          {
+            "baseline_pr_auc": 0.17269681606471476,
+            "date": "2026-04-04",
+            "delta": 0.15947180578867004,
+            "rescue_pr_auc": 0.3321686218533848
+          },
+          {
+            "baseline_pr_auc": 0.1902408701944796,
+            "date": "2026-04-05",
+            "delta": 0.1474290676937443,
+            "rescue_pr_auc": 0.3376699378882239
+          },
+          {
+            "baseline_pr_auc": 0.17744807087353287,
+            "date": "2026-04-06",
+            "delta": 0.13751536403666265,
+            "rescue_pr_auc": 0.3149634349101955
+          },
+          {
+            "baseline_pr_auc": 0.17846557866411547,
+            "date": "2026-04-07",
+            "delta": 0.13140347782294556,
+            "rescue_pr_auc": 0.30986905648706103
+          },
+          {
+            "baseline_pr_auc": 0.16297548748764562,
+            "date": "2026-04-08",
+            "delta": 0.16137874992935441,
+            "rescue_pr_auc": 0.32435423741700004
+          },
+          {
+            "baseline_pr_auc": 0.11723714633980703,
+            "date": "2026-04-09",
+            "delta": 0.19654227966260007,
+            "rescue_pr_auc": 0.3137794260024071
+          },
+          {
+            "baseline_pr_auc": 0.10256357921587007,
+            "date": "2026-04-10",
+            "delta": 0.10550977253628603,
+            "rescue_pr_auc": 0.2080733517521561
+          },
+          {
+            "baseline_pr_auc": 0.0534523213165623,
+            "date": "2026-04-11",
+            "delta": 0.07469875219707145,
+            "rescue_pr_auc": 0.12815107351363375
+          },
+          {
+            "baseline_pr_auc": 0.15384838487067534,
+            "date": "2026-04-12",
+            "delta": 0.12143175566700518,
+            "rescue_pr_auc": 0.2752801405376805
+          },
+          {
+            "baseline_pr_auc": 0.1828756689747674,
+            "date": "2026-04-13",
+            "delta": 0.16498614581728302,
+            "rescue_pr_auc": 0.3478618147920504
+          },
+          {
+            "baseline_pr_auc": 0.1250174088139073,
+            "date": "2026-04-14",
+            "delta": 0.16153244358301264,
+            "rescue_pr_auc": 0.28654985239691994
+          },
+          {
+            "baseline_pr_auc": 0.14307453330992306,
+            "date": "2026-04-15",
+            "delta": 0.11874981372489177,
+            "rescue_pr_auc": 0.26182434703481483
+          },
+          {
+            "baseline_pr_auc": 0.05812311403318783,
+            "date": "2026-04-16",
+            "delta": 0.09804628423737292,
+            "rescue_pr_auc": 0.15616939827056076
+          },
+          {
+            "baseline_pr_auc": 0.0808719543688661,
+            "date": "2026-04-17",
+            "delta": 0.1384628428002633,
+            "rescue_pr_auc": 0.2193347971691294
+          },
+          {
+            "baseline_pr_auc": 0.09677390223404714,
+            "date": "2026-04-18",
+            "delta": 0.15030226972330565,
+            "rescue_pr_auc": 0.2470761719573528
+          },
+          {
+            "baseline_pr_auc": 0.09028179705027285,
+            "date": "2026-04-19",
+            "delta": 0.21375538864391014,
+            "rescue_pr_auc": 0.304037185694183
+          },
+          {
+            "baseline_pr_auc": 0.1009040705483635,
+            "date": "2026-04-20",
+            "delta": 0.09794084335771111,
+            "rescue_pr_auc": 0.19884491390607462
+          },
+          {
+            "baseline_pr_auc": 0.09165785564364988,
+            "date": "2026-04-21",
+            "delta": 0.15000976704100039,
+            "rescue_pr_auc": 0.24166762268465028
+          },
+          {
+            "baseline_pr_auc": 0.13192298734026128,
+            "date": "2026-04-22",
+            "delta": 0.1359274967054879,
+            "rescue_pr_auc": 0.2678504840457492
+          },
+          {
+            "baseline_pr_auc": 0.10808003897228796,
+            "date": "2026-04-23",
+            "delta": 0.10002496477129216,
+            "rescue_pr_auc": 0.20810500374358012
+          },
+          {
+            "baseline_pr_auc": 0.07630256025790383,
+            "date": "2026-04-24",
+            "delta": 0.2197665838405688,
+            "rescue_pr_auc": 0.2960691440984726
+          },
+          {
+            "baseline_pr_auc": 0.06715399431316613,
+            "date": "2026-04-25",
+            "delta": 0.07816373323948689,
+            "rescue_pr_auc": 0.14531772755265301
+          },
+          {
+            "baseline_pr_auc": 0.15332301710072277,
+            "date": "2026-04-26",
+            "delta": 0.12096591019417657,
+            "rescue_pr_auc": 0.27428892729489934
+          },
+          {
+            "baseline_pr_auc": 0.08067171726452059,
+            "date": "2026-04-27",
+            "delta": 0.15495200963729977,
+            "rescue_pr_auc": 0.23562372690182037
+          },
+          {
+            "baseline_pr_auc": 0.08650020062171569,
+            "date": "2026-04-28",
+            "delta": 0.15236525785516353,
+            "rescue_pr_auc": 0.23886545847687923
+          },
+          {
+            "baseline_pr_auc": 0.06249737064125572,
+            "date": "2026-04-29",
+            "delta": 0.1502946790316854,
+            "rescue_pr_auc": 0.2127920496729411
+          },
+          {
+            "baseline_pr_auc": 0.08531022515394099,
+            "date": "2026-04-30",
+            "delta": 0.21071575797503472,
+            "rescue_pr_auc": 0.2960259831289757
+          }
+        ]
+      },
+      "expanded_minus_core_pr_auc": 0.030065414954030922,
+      "final_plus_core_relationship": {
+        "f1": 0.3661610766930143,
+        "positives": 3410,
+        "pr_auc": 0.2519975075293199,
+        "pr_auc_lift_over_prevalence": 59.37763323232866,
+        "precision": 0.2879704301075269,
+        "precision_lift_over_prevalence": 67.85385596994922,
+        "predicted_entries": 5952,
+        "predicted_entry_rate": 0.007407674759269239,
+        "prevalence": 0.004243980330831335,
+        "recall": 0.5026392961876833,
+        "roc_auc": 0.9667131186471769,
+        "rows": 803491,
+        "threshold": 0.1303398545748318,
+        "top_k": {
+          "k": 3410,
+          "lift_at_k": 79.32574264067216,
+          "positives_at_k": 1148,
+          "precision_at_k": 0.3366568914956012,
+          "recall_at_k": 0.3366568914956012
+        },
+        "true_positives": 1714
+      },
+      "final_plus_expanded_relationship": {
+        "f1": 0.4030333444853351,
+        "positives": 3410,
+        "pr_auc": 0.2820629224833508,
+        "pr_auc_lift_over_prevalence": 66.46188259503519,
+        "precision": 0.32517545438186074,
+        "precision_lift_over_prevalence": 76.6203961925911,
+        "predicted_entries": 5557,
+        "predicted_entry_rate": 0.00691606999953951,
+        "prevalence": 0.004243980330831335,
+        "recall": 0.5299120234604106,
+        "roc_auc": 0.9674500183762553,
+        "rows": 803491,
+        "threshold": 0.13647306765566658,
+        "top_k": {
+          "k": 3410,
+          "lift_at_k": 85.5446597466482,
+          "positives_at_k": 1238,
+          "precision_at_k": 0.363049853372434,
+          "recall_at_k": 0.363049853372434
+        },
+        "true_positives": 1807
+      },
+      "preserved_control": {
+        "f1": 0.19490586932447398,
+        "positives": 3410,
+        "pr_auc": 0.09704810421090208,
+        "pr_auc_lift_over_prevalence": 22.867237038276222,
+        "precision": 0.14839797639123103,
+        "precision_lift_over_prevalence": 34.96669749224827,
+        "predicted_entries": 6523,
+        "predicted_entry_rate": 0.008118323665106392,
+        "prevalence": 0.004243980330831335,
+        "recall": 0.2838709677419355,
+        "roc_auc": 0.9060151506800699,
+        "rows": 803491,
+        "threshold": 0.06416728580061928,
+        "top_k": {
+          "k": 3410,
+          "lift_at_k": 42.01224000481592,
+          "positives_at_k": 608,
+          "precision_at_k": 0.17829912023460412,
+          "recall_at_k": 0.17829912023460412
+        },
+        "true_positives": 968
+      },
+      "preserved_final": {
+        "f1": 0.21018396178473422,
+        "positives": 3410,
+        "pr_auc": 0.10741628952650191,
+        "pr_auc_lift_over_prevalence": 25.310270348369073,
+        "precision": 0.16083372219629802,
+        "precision_lift_over_prevalence": 37.89690565431838,
+        "predicted_entries": 6429,
+        "predicted_entry_rate": 0.008001334177980836,
+        "prevalence": 0.004243980330831335,
+        "recall": 0.3032258064516129,
+        "roc_auc": 0.9150491540590753,
+        "rows": 803491,
+        "threshold": 0.07737718504163636,
+        "top_k": {
+          "k": 3410,
+          "lift_at_k": 45.12169855780394,
+          "positives_at_k": 653,
+          "precision_at_k": 0.19149560117302053,
+          "recall_at_k": 0.19149560117302053
+        },
+        "true_positives": 1034
+      },
+      "relationship_only": {
+        "f1": 0.2866673207102914,
+        "positives": 3410,
+        "pr_auc": 0.16931499938991157,
+        "pr_auc_lift_over_prevalence": 39.895330843049685,
+        "precision": 0.21539141972578504,
+        "precision_lift_over_prevalence": 50.75221912812045,
+        "predicted_entries": 6783,
+        "predicted_entry_rate": 0.00844191160821963,
+        "prevalence": 0.004243980330831335,
+        "recall": 0.42844574780058653,
+        "roc_auc": 0.8612555029756315,
+        "rows": 803491,
+        "threshold": 0.23886012961610817,
+        "top_k": {
+          "k": 3410,
+          "lift_at_k": 60.876288559609904,
+          "positives_at_k": 881,
+          "precision_at_k": 0.25835777126099707,
+          "recall_at_k": 0.25835777126099707
+        },
+        "true_positives": 1461
+      },
+      "train_positives": 3245,
+      "train_rows": 246416,
+      "validation_positives": 3410,
+      "validation_rows": 803491
+    },
+    "may": {
+      "core_minus_preserved_final_pr_auc": 0.21883609525895467,
+      "daily_stability_vs_preserved_final": {
+        "days": 31,
+        "mean_daily_delta": 0.21575277318306832,
+        "median_daily_delta": 0.21832628313191849,
+        "positive_delta_days": 31,
+        "positive_delta_share": 1.0,
+        "rows": [
+          {
+            "baseline_pr_auc": 0.30816229906279025,
+            "date": "2026-05-01",
+            "delta": 0.1334786717823958,
+            "rescue_pr_auc": 0.44164097084518605
+          },
+          {
+            "baseline_pr_auc": 0.1745622391802743,
+            "date": "2026-05-02",
+            "delta": 0.3064401867584719,
+            "rescue_pr_auc": 0.4810024259387462
+          },
+          {
+            "baseline_pr_auc": 0.18363115000585534,
+            "date": "2026-05-03",
+            "delta": 0.19784398504389,
+            "rescue_pr_auc": 0.38147513504974534
+          },
+          {
+            "baseline_pr_auc": 0.20069739737071754,
+            "date": "2026-05-04",
+            "delta": 0.1282081934405637,
+            "rescue_pr_auc": 0.32890559081128123
+          },
+          {
+            "baseline_pr_auc": 0.26919119591257273,
+            "date": "2026-05-05",
+            "delta": 0.15134565681676132,
+            "rescue_pr_auc": 0.42053685272933405
+          },
+          {
+            "baseline_pr_auc": 0.2365119782051872,
+            "date": "2026-05-06",
+            "delta": 0.1799878592502211,
+            "rescue_pr_auc": 0.4164998374554083
+          },
+          {
+            "baseline_pr_auc": 0.19839138538653037,
+            "date": "2026-05-07",
+            "delta": 0.2520747444576704,
+            "rescue_pr_auc": 0.45046612984420076
+          },
+          {
+            "baseline_pr_auc": 0.2007246073101441,
+            "date": "2026-05-08",
+            "delta": 0.16290999094383937,
+            "rescue_pr_auc": 0.3636345982539835
+          },
+          {
+            "baseline_pr_auc": 0.18140300691289915,
+            "date": "2026-05-09",
+            "delta": 0.2767949120286558,
+            "rescue_pr_auc": 0.458197918941555
+          },
+          {
+            "baseline_pr_auc": 0.1434212263901584,
+            "date": "2026-05-10",
+            "delta": 0.30690628599124015,
+            "rescue_pr_auc": 0.4503275123813985
+          },
+          {
+            "baseline_pr_auc": 0.18600278186622568,
+            "date": "2026-05-11",
+            "delta": 0.22434478785758635,
+            "rescue_pr_auc": 0.41034756972381203
+          },
+          {
+            "baseline_pr_auc": 0.12002568386719434,
+            "date": "2026-05-12",
+            "delta": 0.16599060083298198,
+            "rescue_pr_auc": 0.2860162847001763
+          },
+          {
+            "baseline_pr_auc": 0.17832001349874413,
+            "date": "2026-05-13",
+            "delta": 0.2279050249848885,
+            "rescue_pr_auc": 0.4062250384836326
+          },
+          {
+            "baseline_pr_auc": 0.1507767211993834,
+            "date": "2026-05-14",
+            "delta": 0.2180882459473964,
+            "rescue_pr_auc": 0.3688649671467798
+          },
+          {
+            "baseline_pr_auc": 0.1617062175784449,
+            "date": "2026-05-15",
+            "delta": 0.30703159686851766,
+            "rescue_pr_auc": 0.46873781444696255
+          },
+          {
+            "baseline_pr_auc": 0.16994481158699923,
+            "date": "2026-05-16",
+            "delta": 0.2557568095324041,
+            "rescue_pr_auc": 0.42570162111940335
+          },
+          {
+            "baseline_pr_auc": 0.1458849128176523,
+            "date": "2026-05-17",
+            "delta": 0.3100567688408671,
+            "rescue_pr_auc": 0.4559416816585194
+          },
+          {
+            "baseline_pr_auc": 0.11562325800407283,
+            "date": "2026-05-18",
+            "delta": 0.3179342944392406,
+            "rescue_pr_auc": 0.4335575524433134
+          },
+          {
+            "baseline_pr_auc": 0.14591033403169454,
+            "date": "2026-05-19",
+            "delta": 0.21050577028527864,
+            "rescue_pr_auc": 0.3564161043169732
+          },
+          {
+            "baseline_pr_auc": 0.1401943857765716,
+            "date": "2026-05-20",
+            "delta": 0.27233422391263584,
+            "rescue_pr_auc": 0.41252860968920746
+          },
+          {
+            "baseline_pr_auc": 0.10045569828082813,
+            "date": "2026-05-21",
+            "delta": 0.0953776043220415,
+            "rescue_pr_auc": 0.19583330260286963
+          },
+          {
+            "baseline_pr_auc": 0.07582482197020719,
+            "date": "2026-05-22",
+            "delta": 0.3088267924898989,
+            "rescue_pr_auc": 0.3846516144601061
+          },
+          {
+            "baseline_pr_auc": 0.12983564913932255,
+            "date": "2026-05-23",
+            "delta": 0.21832628313191849,
+            "rescue_pr_auc": 0.34816193227124104
+          },
+          {
+            "baseline_pr_auc": 0.16335971265906507,
+            "date": "2026-05-24",
+            "delta": 0.12390692679271925,
+            "rescue_pr_auc": 0.2872666394517843
+          },
+          {
+            "baseline_pr_auc": 0.09518935712823896,
+            "date": "2026-05-25",
+            "delta": 0.1375375440718875,
+            "rescue_pr_auc": 0.23272690120012646
+          },
+          {
+            "baseline_pr_auc": 0.11224613859242437,
+            "date": "2026-05-26",
+            "delta": 0.24506782991409787,
+            "rescue_pr_auc": 0.35731396850652225
+          },
+          {
+            "baseline_pr_auc": 0.09248128974081432,
+            "date": "2026-05-27",
+            "delta": 0.28293152139003924,
+            "rescue_pr_auc": 0.37541281113085356
+          },
+          {
+            "baseline_pr_auc": 0.10093135834297805,
+            "date": "2026-05-28",
+            "delta": 0.11292788232814009,
+            "rescue_pr_auc": 0.21385924067111814
+          },
+          {
+            "baseline_pr_auc": 0.10743720674109365,
+            "date": "2026-05-29",
+            "delta": 0.21971412918319694,
+            "rescue_pr_auc": 0.3271513359242906
+          },
+          {
+            "baseline_pr_auc": 0.0932212265039469,
+            "date": "2026-05-30",
+            "delta": 0.1786234339769349,
+            "rescue_pr_auc": 0.2718446604808818
+          },
+          {
+            "baseline_pr_auc": 0.20667550200910842,
+            "date": "2026-05-31",
+            "delta": 0.15915741105873552,
+            "rescue_pr_auc": 0.36583291306784393
+          }
+        ]
+      },
+      "expanded_minus_core_pr_auc": 0.01643186071491487,
+      "final_plus_core_relationship": {
+        "f1": 0.4779641021319626,
+        "positives": 5077,
+        "pr_auc": 0.3695673835954651,
+        "pr_auc_lift_over_prevalence": 64.84688308183685,
+        "precision": 0.41767304860088367,
+        "precision_lift_over_prevalence": 73.28784019182643,
+        "predicted_entries": 6790,
+        "predicted_entry_rate": 0.007621968331226721,
+        "prevalence": 0.005699077057089553,
+        "recall": 0.558597597006106,
+        "roc_auc": 0.9720759813708536,
+        "rows": 890846,
+        "threshold": 0.2640984174187627,
+        "top_k": {
+          "k": 5077,
+          "lift_at_k": 78.31558800460694,
+          "positives_at_k": 2266,
+          "precision_at_k": 0.4463265708095332,
+          "recall_at_k": 0.4463265708095332
+        },
+        "true_positives": 2836
+      },
+      "final_plus_expanded_relationship": {
+        "f1": 0.5036739113620543,
+        "positives": 5077,
+        "pr_auc": 0.38599924431037996,
+        "pr_auc_lift_over_prevalence": 67.73013251859854,
+        "precision": 0.41467142129393786,
+        "precision_lift_over_prevalence": 72.76115362891854,
+        "predicted_entries": 7852,
+        "predicted_entry_rate": 0.00881409356948339,
+        "prevalence": 0.005699077057089553,
+        "recall": 0.6413236163088438,
+        "roc_auc": 0.9727803730396933,
+        "rows": 890846,
+        "threshold": 0.23211809647507783,
+        "top_k": {
+          "k": 5077,
+          "lift_at_k": 81.25328658377357,
+          "positives_at_k": 2351,
+          "precision_at_k": 0.4630687413827063,
+          "recall_at_k": 0.4630687413827063
+        },
+        "true_positives": 3256
+      },
+      "preserved_control": {
+        "f1": 0.24315068493150685,
+        "positives": 5077,
+        "pr_auc": 0.14534158550231874,
+        "pr_auc_lift_over_prevalence": 25.502653157060987,
+        "precision": 0.22412360857285263,
+        "precision_lift_over_prevalence": 39.32629903539324,
+        "predicted_entries": 6019,
+        "predicted_entry_rate": 0.006756498878594056,
+        "prevalence": 0.005699077057089553,
+        "recall": 0.26570809533188894,
+        "roc_auc": 0.9241306435976511,
+        "rows": 890846,
+        "threshold": 0.10639753285152875,
+        "top_k": {
+          "k": 5077,
+          "lift_at_k": 42.33742069975441,
+          "positives_at_k": 1225,
+          "precision_at_k": 0.24128422296631868,
+          "recall_at_k": 0.24128422296631868
+        },
+        "true_positives": 1349
+      },
+      "preserved_final": {
+        "f1": 0.24852366297928968,
+        "positives": 5077,
+        "pr_auc": 0.15073128833651042,
+        "pr_auc_lift_over_prevalence": 26.448368187793374,
+        "precision": 0.21508782032824647,
+        "precision_lift_over_prevalence": 37.7408163065072,
+        "predicted_entries": 6946,
+        "predicted_entry_rate": 0.0077970827730045374,
+        "prevalence": 0.005699077057089553,
+        "recall": 0.29426826866259603,
+        "roc_auc": 0.92555404185211,
+        "rows": 890846,
+        "threshold": 0.09954174670251179,
+        "top_k": {
+          "k": 5077,
+          "lift_at_k": 42.164614900979906,
+          "positives_at_k": 1220,
+          "precision_at_k": 0.24029938940319087,
+          "recall_at_k": 0.24029938940319087
+        },
+        "true_positives": 1494
+      },
+      "relationship_only": {
+        "f1": 0.3800793542208236,
+        "positives": 5077,
+        "pr_auc": 0.26101755648432573,
+        "pr_auc_lift_over_prevalence": 45.79996969151775,
+        "precision": 0.29116444817105125,
+        "precision_lift_over_prevalence": 51.08975457856772,
+        "predicted_entries": 9541,
+        "predicted_entry_rate": 0.010710044160270125,
+        "prevalence": 0.005699077057089553,
+        "recall": 0.5471735276738231,
+        "roc_auc": 0.8991453188484375,
+        "rows": 890846,
+        "threshold": 0.18594993774257332,
+        "top_k": {
+          "k": 5077,
+          "lift_at_k": 60.170979133283616,
+          "positives_at_k": 1741,
+          "precision_at_k": 0.3429190466811109,
+          "recall_at_k": 0.3429190466811109
+        },
+        "true_positives": 2778
+      },
+      "train_positives": 6655,
+      "train_rows": 650194,
+      "validation_positives": 5077,
+      "validation_rows": 890846
+    }
+  }
+}

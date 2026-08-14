@@ -15,13 +15,15 @@
   "exit_and_cost": {
     "hold_seconds": 6,
     "missing_exit": "-100% gross return",
-    "round_trip_fee_sol": 0.09101000000000001,
-    "stake_sol": 1.975308641
+    "round_trip_network_cost_sol": 0.09101000000000001,
+    "stake_sol": 1.975308641,
+    "swap_fee_scope": "not applied; this is network-cost-adjusted and gross of proportional swap fees"
   },
   "limitations": [
     "tx_index is landed transaction order, not elapsed wall-clock latency.",
     "The trade table establishes ordering only for recorded Pump.fun trades; it does not reveal private submission paths, mempool visibility, or bundle intent.",
     "Event prices are marginal observed prices and omit the strategy's own bonding-curve impact.",
+    "Returns subtract the inclusive two-leg network cost but remain gross of proportional Pump swap fees.",
     "The empirical policy is conditional on pre-June target entries that were same-slot; it does not model the target's non-same-slot tail."
   ],
   "no_fill_rule": "no eligible trade remaining in the deployment slot means no fill; execution is not rolled into a later slot",

@@ -190,7 +190,9 @@ def _load_split(
     con.execute("SET memory_limit='24GB'")
     con.execute("SET threads=16")
     return con.execute(
-        f"SELECT {query_columns} FROM read_parquet(?) WHERE {predicate}", [str(path)]
+        f"SELECT {query_columns} FROM read_parquet(?) WHERE {predicate} "
+        "ORDER BY block_time, token_address",
+        [str(path)],
     ).fetch_df()
 
 

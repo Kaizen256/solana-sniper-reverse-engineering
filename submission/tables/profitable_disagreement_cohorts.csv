@@ -1,5 +1,5 @@
-cohort,tokens,median_net_roi,mean_net_roi,median_score,median_dev_buy_sol,median_seconds_since_prior_deploy,median_hist_quote_sol_sum,median_observed_wallet_age_seconds,median_prior_deploy_count_7d,median_hist_claimed_launch_count,median_hist_mature_1d_success_fraction
-replica_only_profitable,2001,0.5085451800337843,3.7570143976096277,0.1650540279404615,3.3,31280.0,1418.1874939199997,10195106.0,8.0,0.0,0.0
-replica_only_unprofitable,1333,-0.1751459231534574,-0.2643220646401846,0.15080850299883689,3.0,10704.0,6646.472666792999,9792791.0,9.0,0.0,0.0
-target_only,3631,0.12343885133196703,0.8157525343090345,0.010499339770731147,0.0,11895.0,636.930073898,7411915.0,6.0,0.0,0.0
-target_replica_overlap,564,0.45703011327505844,1.6845224089988453,0.16569300500161063,3.5,64005.0,1038.5130493285,11364697.5,5.0,0.0,0.0
+cohort,tokens,median_network_cost_adjusted_roi,mean_network_cost_adjusted_roi,median_score,median_dev_buy_sol,median_seconds_since_prior_deploy,median_hist_quote_sol_sum,median_observed_wallet_age_seconds,median_prior_deploy_count_7d,median_hist_claimed_launch_count,median_hist_mature_1d_success_fraction
+replica_only_profitable,2001,0.5085451800337843,3.757014397609628,0.1650540279404687,3.3,31280.0,1418.18749392,10195106.0,8.0,0.0,0.0
+replica_only_unprofitable,1333,-0.1751459231534574,-0.2643220646401846,0.15080850299883777,3.0,10704.0,6646.472666793,9792791.0,9.0,0.0,0.0
+target_only,3631,0.12343885133196703,0.8157525343090345,0.010499339770730611,0.0,11895.0,636.930073898,7411915.0,6.0,0.0,0.0
+target_replica_overlap,564,0.45703011327505844,1.6845224089988453,0.1656930050016181,3.5,64005.0,1038.5130493285,11364697.5,5.0,0.0,0.0

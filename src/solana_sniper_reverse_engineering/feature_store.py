@@ -26,6 +26,10 @@ ACTIVITY_WALLETS = INTERIM / "not_bought_activity_wallets.parquet"
 ACTIVITY_STATE = INTERIM / "deployer_activity_state.parquet"
 FEATURE_STORE = PROCESSED / "deployment_features.parquet"
 FEATURE_MANIFEST = PROCESSED / "deployment_features.manifest.json"
+# Organizer activity amounts are strings. Canonicalize them to nanounits before
+# aggregation: this matches native SOL's 1e-9 unit, is finer than observed USD
+# economic precision, and keeps aggregation on DuckDB's fast 64-bit decimal path.
+ACTIVITY_AMOUNT_DECIMAL = "DECIMAL(18,9)"
 
 
 def _sql(path: Path) -> str:
@@ -208,12 +212,17 @@ def build_activity_state(force: bool = False) -> Path:
               count(*) FILTER (WHERE event_type='burn')::BIGINT AS burns,
               count(*) FILTER (WHERE is_open_or_close=1)::BIGINT AS opens_or_closes,
               count(*) FILTER (WHERE launchpad='pump')::BIGINT AS pump_events,
-              coalesce(sum(try_cast(cost_usd AS DOUBLE)), 0) AS cost_usd,
-              coalesce(sum(try_cast(quote_amount AS DOUBLE)) FILTER (
-                WHERE quote_token_symbol IN ('SOL','WSOL')), 0) AS quote_sol,
-              coalesce(sum(try_cast(gas_native AS DOUBLE)), 0) AS gas_native,
-              coalesce(sum(try_cast(priority_fee AS DOUBLE)), 0) AS priority_fee,
-              coalesce(sum(try_cast(tip_fee AS DOUBLE)), 0) AS tip_fee
+              coalesce(sum(try_cast(cost_usd AS {ACTIVITY_AMOUNT_DECIMAL})),
+                       0::{ACTIVITY_AMOUNT_DECIMAL}) AS cost_usd,
+              coalesce(sum(try_cast(quote_amount AS {ACTIVITY_AMOUNT_DECIMAL})) FILTER (
+                WHERE quote_token_symbol IN ('SOL','WSOL')),
+                       0::{ACTIVITY_AMOUNT_DECIMAL}) AS quote_sol,
+              coalesce(sum(try_cast(gas_native AS {ACTIVITY_AMOUNT_DECIMAL})),
+                       0::{ACTIVITY_AMOUNT_DECIMAL}) AS gas_native,
+              coalesce(sum(try_cast(priority_fee AS {ACTIVITY_AMOUNT_DECIMAL})),
+                       0::{ACTIVITY_AMOUNT_DECIMAL}) AS priority_fee,
+              coalesce(sum(try_cast(tip_fee AS {ACTIVITY_AMOUNT_DECIMAL})),
+                       0::{ACTIVITY_AMOUNT_DECIMAL}) AS tip_fee
             FROM raw_activity
             WHERE timestamp IS NOT NULL
             GROUP BY wallet, timestamp
@@ -228,11 +237,11 @@ def build_activity_state(force: bool = False) -> Path:
             sum(burns) OVER w AS hist_burn_count,
             sum(opens_or_closes) OVER w AS hist_open_close_count,
             sum(pump_events) OVER w AS hist_pump_event_count,
-            sum(cost_usd) OVER w AS hist_cost_usd_sum,
-            sum(quote_sol) OVER w AS hist_quote_sol_sum,
-            sum(gas_native) OVER w AS hist_gas_native_sum,
-            sum(priority_fee) OVER w AS hist_priority_fee_sum,
-            sum(tip_fee) OVER w AS hist_tip_fee_sum
+            cast(sum(cost_usd) OVER w AS DOUBLE) AS hist_cost_usd_sum,
+            cast(sum(quote_sol) OVER w AS DOUBLE) AS hist_quote_sol_sum,
+            cast(sum(gas_native) OVER w AS DOUBLE) AS hist_gas_native_sum,
+            cast(sum(priority_fee) OVER w AS DOUBLE) AS hist_priority_fee_sum,
+            cast(sum(tip_fee) OVER w AS DOUBLE) AS hist_tip_fee_sum
           FROM per_second
           WINDOW w AS (
             PARTITION BY wallet ORDER BY timestamp
@@ -350,14 +359,19 @@ def write_feature_dictionary() -> None:
         ("historical activity", "cumulative prior event/tx/type/volume/fee counts", "deployer activity", "ASOF activity.timestamp < block_time", "zero + history_missing", "only strictly earlier rows", "wallet experience/activity"),
         ("rolling activity", "1d/7d/30d differences of cumulative counts", "deployer activity", "[t-window,t) via strict ASOF states", "zero", "only strictly earlier rows", "recent activity intensity"),
         ("observed age/recency", "observed_wallet_age_seconds; seconds_since_activity", "deployer activity", "strict prior state", "null", "only prior rows, but snapshot can be left-censored", "wallet tenure/recency"),
+        ("historical launch quality", "hist_pump_launch_count; hist_claimed_launch_count; hist_claim_event_count; bounded claimed-launch fractions", "deployer Pump launch and creator-fee activity", "wallet state updated only at each observed launch/claim timestamp; ASOF state < t_decision", "zero + missing/incomplete-history flags", "only outcomes already observed strictly before deployment", "prior launches that generated creator-fee claims; incomplete marks retained claims whose launch fell outside the capped snapshot"),
+        ("historical quality value", "hist_claim_fee_{sol/usd}_{sum/max}; per-claimed-launch; 7d/30d sums", "deployer creator-fee claim activity", "claim value enters state only at its observed timestamp; rolling windows end before t_decision", "zero", "strictly prior observed economic outcomes", "scale and recency of prior creator-fee realization"),
+        ("matured launch outcomes", "hist_mature_{1d/7d}_{launch/success}_{count/fraction}; decayed 30d fraction", "prior Pump launches and later creator-fee claims", "a launch enters a horizon denominator only after the horizon matures; success counts only if the claim had occurred by then", "zero", "strict as-of maturity prevents future-success leakage", "consistent prior success versus untested recent launches"),
+        ("latest prior launch quality", "latest_prior_launch_claimed; mature failure flags; claim latency", "prior Pump launch lifecycle", "latest launch and any claim must both predate t_decision; maturity flags activate only after 1d/7d", "zero/null", "strictly prior lifecycle state", "recency and one-hit behavior"),
+        ("prior developer sells", "hist_dev_sold_launch_count/fraction; seconds_since_prior_dev_sell; 7d/30d counts", "deployer sells of tokens it previously launched", "a launch counts as sold only after the deployer wallet's first observed sell; rolling windows end before t_decision", "zero/null", "only strictly prior observed sell outcomes", "deployer exit behavior on prior launches; excluded from the final classifier by the pre-June gate"),
+        ("matured developer-sell outcomes", "hist_mature_{1d/7d}_dev_sold_{count/fraction}", "prior Pump launch and developer-sell lifecycle", "horizon denominators activate only after 1d/7d; a sell is positive only if already observed", "zero", "strict as-of maturity prevents future-sell leakage", "rapid prior developer exits versus sustained/no-observed-sale launches; excluded from the final classifier by the pre-June gate"),
+        ("latest tied launch-group developer sell", "latest_prior_launch_group_dev_sold_fraction; latest_prior_launch_group_mature_{1d/7d}_no_dev_sell_fraction; latest_prior_launch_group_dev_sell_latency_median_seconds", "latest strict-prior same-wallet/same-second Pump launch group", "all launches sharing the latest (wallet,launch_time) are summarized symmetrically; sells must be observed before t_decision; maturity fractions activate only after 1d/7d", "zero/null", "order-invariant and strictly prior lifecycle state", "ambiguity-safe group exit behavior; excluded from the final classifier by the pre-June gate"),
     ]
-    header = "family,features,source,temporal_construction,missing_policy,legality,interpretation\n"
-    lines = [header]
     import csv
     import io
 
     stream = io.StringIO()
-    writer = csv.writer(stream)
+    writer = csv.writer(stream, lineterminator="\n")
     writer.writerow(["family", "features", "source", "temporal_construction", "missing_policy", "legality", "interpretation"])
     writer.writerows(rows)
     (SUBMISSION / "tables" / "feature_dictionary.csv").write_text(stream.getvalue())

@@ -2,122 +2,124 @@
 
 ## 1. Problem and decision clock
 
-We reconstruct wallet `5brv7...LyAr`, predict its deployment-time selections among 5,076,421 Pump.fun tokens, and test a replica without allowing future information into entry decisions. `t_decision` is deployment. Features use only the signed deployment message and deployer facts observed strictly before `deployment.blockTime`. Same-second history, transaction `meta`, target reactions, landed Jito facts, trades, candles, and future outcomes are excluded.
+The goal is to reconstruct wallet 5brv7...LyAr, predict which tokens it would buy at deployment time from a pool of 5,076,421 Pump.fun tokens, and separately evaluate whether those predictions could form a profitable trading strategy.
 
-Historical outcomes require a second guard. A creator-fee claim or deployer sale on a prior launch enters history only at its observed timestamp; one- and seven-day denominators activate only after maturity. June outcomes are joined only after predictions freeze.
+`t_decision` is the token deployment time. For information about a previous target buy to be available, it must satisfy:
 
-## 2. The bot's fast trading behavior
+`target_buy_time < current candidate block_time`
 
-The core positive class contains 15,927 deployment tokens, all linked to a target first buy. The broader wallet record contains 16,163 bought positions and 87,007 activity rows.
+Equality is excluded. The target wallet's reaction to the current token, along with every action it takes afterward, is used only for labels and evaluation.
 
-| Requested statistic | Result |
+At prediction time, the model can use the signed deployment message and information about the deployer that was available strictly before deployment. Transaction meta, trades, candles, and landed Jito information are not used as features.
+
+## 2. Fast behavior and a venue-aware fee ledger
+
+The core positive class contains 15,927 deployed tokens that were followed by a target first buy. The broader wallet history contains 16,163 bought positions and 87,007 activity rows.
+
+| Statistic | Result |
 |---|---:|
 | Entry size, USD | mean **$263.74**; median **$184.12**; SD **$233.10**; IQR $136.03 |
 | Entry size, SOL-equivalent quote | mean 8.678; median **2.469**; SD 55.542; IQR 1.481 |
-| Deployment --> first buy | median **0 seconds / 0 slots**; p90 0 seconds / 1 slot |
+| Deployment → first buy | median **0 seconds / 0 slots**; p90 0 seconds / 1 slot |
 | Same-slot entries | **12,683 / 15,927 (79.63%)** |
 | Same-slot landed position | median **+118 transactions** after deployment; only 1 was literally next |
 | Hold time | median **6 s**; IQR 5 s; p90 17 s; mean 10.62 s |
 | Partial exits | **15,612 / 16,163 (96.59%)** |
 | Sell structure | median **4 sells/token**; **70,805** sells across bought positions |
 | Burns | **2 transactions / 2 tokens** |
-| Net cash-flow hit rate | **64.25%** |
-| Average winner / loser | **+$116.01 / -$27.06** |
-| Activity-table cash flow | $4.255M bought; $5.743M sold; $439,840 costs; **+$1.048M net** |
+| Fully fee-adjusted hit rate | **58.65%** |
+| Average winner / loser | **+$117.55 / -$28.30** |
+| Fully fee-adjusted P&L | **+$925,056**; mean $57.23; median $8.00 per position |
 
-The latency mean is 36.4 seconds because of a tiny extreme tail; medians and quantiles describe the fast path better. Transaction indexes establish landed order, not wall-clock latency, mempool visibility, or private ordering. Activity-table cash flow is not a complete marked residual-inventory ledger.
+The fee ledger treats cost_usd as the actual quote principal paid or received. Across the dataset, the wallet paid $4.254941M and received $5.743209M.
 
-## 3. Leakage-safe store and preserved control
+The sparse buy_cost_usd field appears on only 22 sell rows. It is treated as a reference or cost-basis field rather than another cash outflow.
 
-We streamed both deployment archives and decoded only signed-message facts: metadata, dev-buy arguments, ComputeBudget choices, account/instruction structure, and top-level System transfers. No `meta` field is read. Coverage is 5,070,147 deployments; 6,274 unsupported messages receive a missing flag.
+Transaction-level gas_usd is subtracted exactly once, for a total of $439,839.55. Since gas_native and gas_usd already include priority and tip components when those values are present, priority_fee and tip_fee are not subtracted again.
 
-For history, 177.4M activity rows become 158.4M wallet-second states. Every candidate ASOF-joins only a state with `activity.timestamp < deployment.blockTime`, plus strict 1/7/30-day differences. The store has 5,076,421 unique tokens, 15,927 labels, no duplicate keys, and no non-positive recencies. Provider histories are capped at 10,000 events per wallet, so age and activity totals are explicitly left-censored.
+Pump trading costs are separate from principal. The target's observed Pump route costs total 1.25% of Pump principal, or $123,373.00. Of this amount, $110,500.77 is represented by the applicable `dex_*` component. Another $12,872.23 is needed to match the total cost visible in the raw data.
 
-The preserved control is regularized LightGBM trained from the target's March 12 active start through April, with deterministic half-negative sampling and inverse weights. Model family and the 0.10347 threshold are selected on full May.
+The data does not clearly identify what that additional 30 bp transfer represents, so it is not labeled as a creator, referral, or routing fee. Total defensible costs are $563,212.55.
 
-| Preserved control | Prevalence | PR-AUC | Precision | Recall | F1 | Entries |
-|---|---:|---:|---:|---:|---:|---:|
-| May selection | 0.570% | 0.14451 | 21.85% | 26.41% | 0.23917 | 6,137 |
-| June reporting | 0.492% | 0.06872 | 14.45% | 13.44% | 0.13928 | 3,904 |
+For known routed venues, the observed quote transfer already reflects the wallet's cash flow, so the additional $0.18 of dex_usd is treated as a diagnostic rather than charged again. Blank-venue DEX fields totaling $0.005 and a $4.66 Pump component residual are too ambiguous to count as additional costs.
 
-Thus June PR-AUC is 13.96x prevalence and precision is 29.34x prevalence-meaningful enrichment, but still low absolute precision under extreme imbalance. Accuracy is not reported.
+Refundable rent, unidentified account residuals, remaining inventory, and other unobserved costs are not included. The result should therefore be interpreted as a fee-adjusted cash-flow analysis of the activity table, not a tax ledger or mark-to-market portfolio calculation.
 
-## 4. Final imitation selector: strict-as-of prior-launch quality
+## 3. Legal feature store and preserved control
 
-Full historical token ROI, peak, migration, survival, and rug labels are absent. The defensible local proxies are a realized Pump creator-fee claim and the deployer's first observed sale of its own earlier token. These are timestamped economic/behavioral outcomes, not true token ROI, migration, survival, rug status, or profit.
+Both deployment archives are streamed once. Current metadata, dev-buy arguments, ComputeBudget choices, account/instruction structure, and top-level System transfers come only from the signed message; no `meta` field is read. Strict ASOF states require `activity.timestamp < deployment.blockTime`. The store has 5,076,421 unique tokens, 15,927 labels, zero duplicate keys, and zero non-positive recencies.
 
-Mechanical lifecycles update launches, claims, claim value, first developer sells, maturity, recency, and consistency only when observable. The 5,076,421-row audits find zero future states/launches, same-second outcome recencies, invalid fractions, or duplicate keys. If the provider cap retains a claim after its older launch falls outside the snapshot, ratios are bounded and an incomplete-history flag is set.
+The activity source timestamps launches only to the second. It has no slot or transaction index; the deployment index adds slots, but 137,880 fully mapped same-wallet/same-second groups still contain same-slot ties. Transaction hash and file order are identifiers/storage order, not time. The former ASOF implementation therefore selected different tied rows in 6,831 candidates. The corrected contract groups every latest launch sharing `(wallet, launch_time)` and uses order-invariant sold/maturity fractions plus the median observed sell latency. All sell visibility checks remain strict-prior to the candidate. No row-level cache or arbitrary hash order is used.
 
-| Chronological window | Prevalence | Control PR-AUC | Final PR-AUC | Final precision | Recall | F1 | Entries |
+The creator-fee family passes its unchanged pre-June gate. After correcting the tie semantics, developer-sell history adds only +0.000831 April and +0.000665 May PR-AUC; the frozen rule requires at least +0.002 May with no material April regression. It therefore returns `DROP`, and all developer-sell fields are mechanically excluded from the promoted classifier. Organizer monetary strings are accumulated at fixed nine-decimal precision before conversion to model doubles, making source reconstruction independent of parallel floating-point reduction order.
+
+## 4. Promoted target–signer relationship selector
+
+The missing policy signal is live memory of deployment signers the bot previously bought from. For each signer, the model sees only strictly earlier public target buys: cumulative and 1h/6h/1d/7d/30d counts, recency, lifetime and recent conditional rates, relationship age, and launches since the prior target buy. The point-in-time audit reports zero future/equal states, invalid recencies, invalid counts/rates, or duplicate tokens across all 5,076,421 candidates.
+
+Training chronology is fixed and explicit:
+
+- The April gate fits March 12–31 and validates on full April.
+- The final frozen model fits **2026-03-12 inclusive through 2026-05-01 exclusive**. April therefore enters the final weights.
+- Full May is the final model-promotion and threshold-selection population. May labels do **not** enter the fitted weights.
+- The max-F1 threshold is frozen at `0.23211809647507783`.
+- June is reporting only. There is no through-May refit and no post-June redesign.
+
+| Chronological result | Prevalence | PR-AUC | Precision | Recall | F1 | Entries | TP |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| March 12–31 --> April | 0.424% | 0.09705 | **0.10756** | 16.34% | 32.26% | 0.21696 | 6,730 |
-| March 12–April --> May | 0.570% | 0.14465 | **0.15337** | 21.64% | 29.70% | **0.25037** | 6,969 |
-| June reporting | 0.492% | 0.06872 | **0.06542** | 12.76% | 13.64% | 0.13181 | 4,484 |
+| April promotion gate | 0.424% | **0.282063** | 32.52% | 52.99% | 0.40303 | 5,557 | 1,807 |
+| May promotion/threshold gate | 0.570% | **0.385999** | 41.47% | 64.13% | 0.50367 | 7,852 | 3,256 |
+| Canonical corrected June report | 0.492% | **0.2047103771** | **29.32%** | **42.60%** | **0.34736** | **6,094** | **1,787** |
 
-Creator fees improve April/May PR-AUC by +0.01025/+0.00331; developer sells then add +0.00026/+0.00541. Their incremental daily delta is positive on 18/30 and 21/31 days. The final May threshold is 0.10033. In June, final PR-AUC is 13.29x prevalence and precision 25.91x prevalence, but both are slightly worse than the preserved control. We retain the augmented selector because every third-pass KEEP/DROP decision used pre-June chronological evidence.
+The promoted system beats the preserved final by +0.17465 April AP and +0.23527 May AP. Every daily delta is positive in both months. Excluding target buys from the preceding five seconds changes AP by -0.00320 in April and +0.00409 in May. June PR-AUC is 41.58× prevalence and precision is 59.56× prevalence; absolute precision remains the honest headline under extreme imbalance. The old 0.2082199639 and clean 0.2100330525 June scores are superseded implementation artifacts, not candidate results.
 
-June is a reporting test, not a pristine blind holdout: an early HGB run had already inspected it before LightGBM was introduced. No later choice uses June to tune this result.
+## 5. Reverse-engineered rule and importance
 
-## 5. Explicit Top-10 reverse-engineered features
+Frozen-model tree gain is descriptive, correlated importance—not a causal effect and not an additive decomposition. The top objective-gain feature, `deployments_since_prior_target_buy`, contributes 58.58% of total gain. It directly represents whether a known signer has launched repeatedly since the bot last chose it. prior_target_buy_rate_30d and prior_target_buy_rate_7d rank fourth and fifth. The retained foundation supplies spacing (`seconds_since_prior_deploy`), signed developer commitment (`dev_buy_sol`), time/regime, recent activity, prior claimed-launch fraction, seven-day cadence, and compute-budget intent.
 
-This is the promoted selector's deterministic permutation ranking on a 200,000-row May sample (sample baseline PR-AUC 0.14013). Drops are single-feature perturbations and are not additive when predictors correlate. Effect patterns come from the frozen selector's 300,000-row May effect table.
+The inferred rule hierarchy is therefore:
 
-| Rank | Feature | PR-AUC drop | Supported effect / pattern | Stability or evidence | Interpretation |
-|---:|---|---:|---|---|---|
-| 1 | `seconds_since_prior_deploy` | 0.03692 | Increasing; buy rate rises sharply beyond ~184 s and again beyond ~829 s | Control top-2 in April/May; spacing stays stable weekly | Rejects near-simultaneous launchers; favors meaningful spacing |
-| 2 | `dev_buy_sol` | 0.02848 | Stronger above ~1.1 SOL; low/micro buys are weak | Control top-4 May/top-1 April; effect weakens in June | Signed dev commitment, but regime-dependent |
-| 3 | `hist_quote_sol_sum` | 0.02466 | Higher at large historical SOL scale, especially the upper tail | Control top-6 April/top-3 May; redundant-group audit | Wallet scale/sophistication proxy |
-| 4 | `hist_open_close_count` | 0.02286 | Mixed middle; high extreme (>~3,437) is elevated | Control top-4 April/top-2 May; redundant-group audit | Breadth/scale of prior activity |
-| 5 | `hist_cost_usd_sum` | 0.02086 | Upper-tail historical USD value is elevated | Control top-5 in both windows; redundant-group audit | Fiat-valued manifestation of wallet scale |
-| 6 | `latest_prior_launch_dev_sell_latency_seconds` | 0.01319 | Decreasing; 1–6 s prior sells score above >10 s | #1 developer-sell split feature in April and May; family adds +0.00541 May PR-AUC | Captures a repeatable fast-exit launch style |
-| 7 | `prior_deploy_count_1d` | 0.00954 | Peaks around 2–5; falls sharply above ~39/day | Control top-3 April/top-9 May | Moderate cadence favored; industrial cadence rejected |
-| 8 | `hist_burn_count` | 0.00901 | >6 historical events is elevated | Control top-7 April; correlated activity family | Another wallet-scale/activity manifestation, not a causal burn rule |
-| 9 | `hist_burn_count_30d` | 0.00815 | >2 recent events is elevated | Final-selector May permutation; companion to cumulative activity | Recent scale/engagement manifestation |
-| 10 | `hist_claim_fee_usd_per_claimed_launch` | 0.00801 | Sparse/non-monotonic alone; useful jointly | Creator-fee split top-4 April/top-5 May; family improves both windows | Realized fee quality per prior claimed launch |
+1. **Dominant:** maintain a live, strict-prior relationship state for signers already bought from.
+2. **Strong context:** prefer meaningful deployment spacing and non-industrial cadence.
+3. **Supporting:** signed dev-buy size, wallet activity/quality history, and compute-budget intent.
+4. **Rejected additions:** signed-message identity/archetype recurrence failed its pre-June materiality gate and was never scored on June.
 
-Several historical-activity variables-SOL/USD value, open/close events, sells, tips, and burns are highly correlated manifestations of a latent wallet-scale/sophistication factor and must not be read as independent causal rules. Median pairwise Spearman among the audited core activity group is 0.941; one rank component explains 91.5%.
+The relationship feature is online, not a static train-only signer whitelist: earlier target transactions during April or May may inform later candidates in the same month, but only after their timestamps. A month-start-frozen sensitivity is much weaker, supporting the live-memory interpretation.
 
-The separate rule hierarchy is: **strong** meaningful spacing, moderate cadence, signed dev-buy commitment, and the latent wallet-scale factor; **strong incremental** strict-as-of creator-fee realization and prior developer-sell timing; **plausible** observed wallet age, subject to left-censoring; **speculative/unsupported** counterparty graphs and wrapper internals, which are excluded.
+## 6. Classification and economic selection are different tasks
 
-## 6. Regime shift and the limit of one imitation rule
+The promoted classifier estimates target-buy probability. Model B separately estimates a creator-fee claim within seven days using only labels mature before each evaluation boundary. After rebuilding its inputs from source, its selective policy makes 1,402 June entries, with 205 target overlaps, 14.62% overlap precision, and 4.89% target recall. That selectivity is a secondary economic strategy choice, not a claim that Model B improves target classification.
 
-May and June target rates overlap (463–681 versus 412–706 buys per 100,000), so frequency drift is insufficient. Positive zero-dev-buy share changes from roughly 0–1% through April to 41.31% late May and 42.89–55.60% in June. Spacing remains comparatively stable, while dev-buy and wallet-scale effects weaken and signer composition changes. This is consistent with compositional/effect drift; it is not evidence of one abrupt bot rewrite. It also explains why outcome augmentation improves both pre-June windows yet transfers adversely to June.
+We preserve this economic analysis without retuning its feature families, hyperparameters, or operating-point rule. The old classifier likewise remains a secondary control in the exact-execution comparisons below.
 
-Six-hour LambdaRank, 3x chronological hard negatives, a missing-history submodel, and expanded metadata fail their pre-June gates and remain dropped.
+## 7. Primary Part 3: source-built marginal-price backtest
 
-## 7. Imitation is not economic selection
+| Cohort/policy | Entries | Overlap | Immediate hit / median ROI | +1-slot fill | +1-slot hit / median ROI | +1-slot p99-cap P&L | Drawdown |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Target equal-stake diagnostic | 4,195 | — | 64.10% / +15.66% | 99.98% | 32.64% / −13.13% | −369.05 SOL | 338.28 SOL |
+| **Corrected Part 2 selector** | **6,094** | **1,787** | **66.74% / +20.27%** | **99.82%** | **34.93% / −10.71%** | **−405.63 SOL** | **332.23 SOL** |
 
-Model A estimates target-buy probability. Model B separately estimates a creator-fee claim within seven days using only labels matured before evaluation. Model-B PR-AUC is 0.10450 in April (26.5x prevalence) and 0.05911 in May (14.2x). At equal Model-A trade count, two-stage reranking raises claim hit rate from 4.71%-->6.36% in April and 4.38%-->5.22% in May. The pre-June-selected 0.25x point is the final economic strategy: 1,121 June entries, 177 target overlaps, 15.79% overlap precision, and 4.22% target recall.
+These are marginal observed-price diagnostics with the same 1.9753 SOL stake and six-second exit. They subtract the pre-June target median two-leg **network cost of 0.09101 SOL exactly once**. That inclusive `gas_native` amount already contains priority/tip components. Because this architecture cannot apply proportional Pump fees without unsupported fill assumptions, these results are labeled **network-cost-adjusted and gross of swap fees**, never fully net.
 
-That selectivity is an economic choice, not a classification improvement. The selective policy is not a better imitation model simply because it trades fewer tokens.
+Immediate execution is optimistic. The primary table uses whole-slot delays; it does not claim a mempool view. Increasing delay changes the executable population, so conditional ROI need not decline monotonically. A separate pre-existing +118 landed-position control diagnostic has -4.88% median ROI; its 3,904-token cohort is not the corrected Part 2 selector and remains supporting evidence only.
 
-## 8. Target versus replica, under the same execution diagnostic
+The target's separate actual June activity ledger has $971,151.32 quote principal paid, $1,290,787.90 received, $105,752.16 inclusive network cost, and $28,274.24 separate Pump cost. Its fully fee-adjusted result is **+$185,610.17**, **57.26%** hit rate, **$5.28** median P&L, and **16.79%** ROI on buys plus defensible costs. Its variable sizing and multi-exit cash flow are not substituted into the equal-stake table.
 
-| Cohort/policy | Entries | Overlap | Precision | Recall | Immediate hit / median ROI | +118 fill | +118 hit / median ROI | +118 p99-cap P&L | Drawdown |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| Target cohort, equal-stake replay | 4,195 | - | - | - | 64.10% / +15.66% | 73.30% | 40.07% / -7.77% | +108.84 SOL | 58.12 SOL |
-| Preserved control imitation | 3,904 | 564 | 14.45% | 13.44% | 62.98% / +15.29% | 62.76% | 43.22% / -4.88% | +172.77 SOL | 28.40 SOL |
-| **Final selective two-stage** | **1,121** | **177** | **15.79%** | 4.22% | 62.01% / +14.39% | 64.41% | **48.61% / -2.06%** | **+215.76 SOL** | **11.41 SOL** |
+## 8. Exact Pump mechanics and bounded conclusions
 
-These are comparable marginal-price diagnostics with the same 1.9753 SOL stake, six-second exit, 0.09101 SOL cost, and p99 cap, not the target's actual fills. Immediate execution is an optimistic bound. +118 is approximately the target's median landed-position offset; it is not 118 milliseconds or evidence of mempool visibility. Higher offsets change which tokens fill, so conditional ROI need not decline monotonically.
+The secondary integer constant-product replay inserts our buy and sell, own price impact, intervening events, proportional swap fees, and the same 0.09101 SOL inclusive network cost. It applies trade principal/curve impact first; then 0.95–1.25% fee assumptions separately on entry and exit; then network cost once. Priority and tips are not added again.
 
-Separately, the target's **actual June activity-table cash flow** is +$213,884, 63.36% hit rate, $9.32 median net P&L, and 19.86% net ROI on buys plus recorded fees. That differently sized, multi-exit cash-flow measurement is not an exact-curve counterfactual and is not substituted into the equal-stake table.
+A targeted 169 MB raw batch decodes 82 current-cohort events, confirms fixed-quote and fixed-token buy variants plus 0/30 bp creator fields, and matches every normalized SOL/token amount. At +118 and 0.95% fees:
 
-## 9. Exact Pump mechanics and bounded conclusions
-
-Integer constant-product replay materially reduces the optimism of marginal event prices by inserting our buy and sell, price impact, 0.95–1.25% swap fees, and intervening events. A targeted 169 MB raw batch decodes 82 exact current-cohort events, confirms fixed-quote and fixed-token buy variants plus 0/30 bps creator fees, and matches every normalized SOL/token amount.
-
-At +118 and 0.95% fees:
-
-| Strategy | Supported coverage | Median ROI bound | p99-capped P&L bound |
+| Strategy | Supported coverage | Median fully modeled ROI bound | p99-capped P&L bound |
 |---|---:|---:|---:|
-| Preserved control | 46.90–48.72% | -9.44% to -7.54% | -117.5 to +9.7 SOL |
-| Final imitation | 49.98–51.38% | -9.85% to -7.73% | -175.3 to -5.5 SOL |
-| Equal-count two-stage | 51.58–52.74% | -9.04% to -6.93% | -155.5 to +28.0 SOL |
-| **Selective two-stage** | **50.58–51.56%** | **-7.14% to -6.34%** | **+9.8 to +51.1 SOL** |
+| Preserved control | 48.54–50.17% | −9.91% to −7.77% | −141.0 to −12.3 SOL |
+| Prior quality selector | 43.43–44.89% | −10.41% to −8.50% | −212.4 to −43.4 SOL |
+| Equal-count two-stage | 45.28–46.59% | −9.45% to −7.49% | −174.1 to +17.0 SOL |
+| **Selective two-stage** | **46.86–47.93%** | **−8.46% to −7.06%** | **−9.0 to +38.2 SOL** |
 
-The selective strategy remains positive on capped P&L under both intent bounds (+2.8 to +43.9 SOL even at 1.25% fees), but its median is negative. Its advantage is principally selectivity and tail robustness-not robust positive median profitability, and not proof that it beats the bot.
+At 0.95% fees the selective strategy's capped P&L spans a small loss under fixed quote to a gain under fixed token, while its median is negative under both. At 1.25%, the fixed-quote to fixed-token bounds span −17.0 to +29.9 SOL. Its advantage is selectivity and tail behavior, not robust positive median profitability and not proof it beats the bot.
 
-Exact delayed counterfactual execution remains underidentified because the normalized table omits downstream instruction intent, slippage limits, and exact reserves. Unsupported nonstandard/Mayhem curves, PumpSwap migrations, counterfactual curve completion, and possible slippage failures are excluded rather than assigned fabricated prices. A target exact-curve replay of its actual variable sizing and multi-leg exits is therefore not claimed.
+The former exact outcome cache is superseded and remains private: it represented an earlier membership state, with 1,133 replayed tokens outside and 1,141 tokens missing from the then-current union. A clean audit also exposed physical-Parquet-order dependence in the legacy control fit; its candidate order is now frozen as `(block_time, token_address)`, yielding 3,735 control entries. The corrected 1,402-entry selective membership, all exact outcomes, and these aggregates now regenerate from source. No old cache is an input or a publication artifact. Exact replay remains secondary; the source-built marginal backtest is the primary Part 3 claim.
 
-The most credible remaining improvement requires new timestamped pre-June market outcomes or richer raw/live execution data. Every reported number maps to tracked tables under `submission/tables/`; no live trading or external execution was performed.
+Unsupported nonstandard/Mayhem curves, PumpSwap migrations, exact delayed intent, slippage limits, counterfactual curve completion, rent/refunds, residual accounts, and the target's actual variable-size multi-exit curve path remain unresolved rather than fabricated. No live trading or external execution was performed.

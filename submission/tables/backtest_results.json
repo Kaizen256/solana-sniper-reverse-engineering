@@ -1,13 +1,20 @@
 {
   "actual_target_cashflow_june": {
-    "fees_usd": 105752.16124478322,
-    "gross_buy_usd": 971151.3239144663,
-    "hit_rate_net_cashflow": 0.633611442193087,
-    "mean_net_pnl_usd": 50.98555756407559,
-    "median_net_pnl_usd": 9.324831383469974,
-    "net_pnl_usd": 213884.4139812971,
-    "net_roi_on_buy_plus_fees": 0.19861056903318358,
-    "tokens": 4195
+    "fully_fee_adjusted_hit_rate": 0.5725864123957092,
+    "fully_fee_adjusted_pnl_usd": 185610.17369310948,
+    "fully_fee_adjusted_roi_on_buy_plus_costs": 0.16794599585144931,
+    "mean_fully_fee_adjusted_pnl_usd": 44.245571798119066,
+    "median_fully_fee_adjusted_pnl_usd": 5.276240792365492,
+    "network_execution_cost_usd": 105752.16124478323,
+    "pump_raw_observed_fallback_usd": 2473.948224824687,
+    "pump_reported_component_usd": 25800.292063362976,
+    "pump_separate_cost_usd": 28274.240288187662,
+    "quote_principal_buy_usd": 971151.3239144663,
+    "quote_principal_sell_usd": 1290787.8991405466,
+    "routed_dex_contained_in_quote_usd_not_subtracted": 0.0,
+    "tokens": 4195,
+    "total_defensible_cost_usd": 134026.4015329709,
+    "unidentified_dex_ambiguous_usd_not_subtracted": 0.0
   },
   "disagreements": {
     "missed_target_harmful": 1396,
@@ -15,7 +22,7 @@
     "replica_only_harmful": 1333,
     "replica_only_profitable": 2001
   },
-  "fee_sensitivity_replica_delay0": {
+  "network_cost_sensitivity_replica_delay0": {
     "0.000000_sol": {
       "fill_rate": 0.9984631147540983,
       "filled_trades": 3898,
@@ -107,7 +114,7 @@
       "total_pnl_sol_roi_capped_at_p99": 14256.328729610868
     }
   },
-  "primary_fee_results": {
+  "primary_network_cost_results": {
     "delay_0": {
       "replica": {
         "fill_rate": 0.9984631147540983,
@@ -389,12 +396,14 @@
     "exit": "first observed trade at least 6s after entry; horizon fixed from pre-June target median hold",
     "limitations": [
       "The zero-slippage result is an optimistic marginal-price upper bound; observed event prices do not model our own bonding-curve price impact.",
+      "The inclusive two-leg network cost is subtracted once; proportional Pump swap fees are not modeled in this diagnostic.",
       "A future observed trade supplies the exit price; tokens with no such trade are total losses.",
       "No-fill tokens are reported in fill rates and are not silently assigned favorable prices.",
       "Symmetric 10%/25%/50% adverse entry-and-exit price sensitivities bound unsupported fill assumptions."
     ],
+    "marginal_accounting": "network-cost-adjusted and gross of proportional Pump swap fees",
     "missing_exit": "-100% gross return",
-    "primary_round_trip_fee_sol": 0.09101000000000001,
+    "primary_round_trip_network_cost_sol": 0.09101000000000001,
     "selection": "fixed May-validation score threshold",
     "stake_sol": 1.975308641
   }

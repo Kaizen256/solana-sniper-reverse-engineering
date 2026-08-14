@@ -1,19 +1,36 @@
 # Solana Sniper Bot Reverse-Engineering
 
-Reconstruction and replica of the Kaggle target wallet `5brv79eFZ2rGprXNvqgVJBkBptkkw8GJX1XydJyZLyAr`.
+Reconstruction of the Kaggle target wallet `5brv79eFZ2rGprXNvqgVJBkBptkkw8GJX1XydJyZLyAr`.
 
-The pipeline preserves one hard boundary: entry features may use only the signed deployment transaction and deployer facts already observed strictly before deployment. A prior launch outcome enters only after its timestamped creator-fee claim or deployer sell; future outcomes never backfill history. Target reactions, future history, transaction execution metadata, landed Jito data, June trades, and candles are never model inputs.
+The pipeline enforces a strict deployment-time decision boundary. Current-token features come only from information available at deployment. Historical deployer state and historical target-wallet behavior may contribute only when they were observed strictly before the candidate deployment. In particular, a prior target buy enters the relationship state only when:
+
+`target_buy_time < current candidate block_time`
+
+Equality, the target reaction to the current token, and all future actions are excluded. Transaction execution metadata, June trades, candles, and landed Jito information are evaluation-only.
 
 ## Results at a glance
 
-- 15,927 core bot-bought tokens; 79.63% bought in the deployment slot.
-- Median hold: 6 seconds; 96.59% use partial exits.
-- Active-era May validation: PR-AUC 0.1445, precision 21.85%, recall 26.41%, F1 0.2392.
-- June reporting test: PR-AUC 0.0687, precision 14.45%, recall 13.44%, F1 0.1393. PR-AUC is 13.96× prevalence; precision is 29.34× prevalence.
-- Strict-as-of creator-fee plus developer-sell history improves paired April/May PR-AUC from 0.09705/0.14465 to 0.10756/0.15337. Its June PR-AUC is 0.06542, reported without tuning.
-- The controlled January–April model is weaker on May and June PR-AUC, so the final trains from the target's 2026-03-12 active-era start.
-- A separate economic ranker improves seven-day creator-claim hit rate in both pre-June windows. Its selective June strategy makes 1,121 entries.
-- At +118 positions, integer Pump replay gives the selective strategy −7.14% to −6.34% median ROI but +9.8 to +51.1 SOL p99-capped P&L on 50.58–51.56% supported coverage. See the writeup for bounds.
+- 15,927 core bot-bought deployment tokens; 79.63% were bought in the deployment slot.
+- Median same-slot position: +118 transactions after deployment.
+- Median hold: 6 seconds; 96.59% of bought positions use partial exits.
+- Historical target-wallet cash flow: **+$925,056 fully fee-adjusted P&L**, with a **58.65% hit rate**.
+- Promoted target-signer classifier:
+  - **April PR-AUC: 0.282063**
+  - **May PR-AUC: 0.385999**
+  - **June PR-AUC: 0.2047103771**
+- Frozen June operating point: **29.32% precision**, **42.60% recall**, **0.34736 F1**, **6,094 selections**, and **1,787 true positives**.
+- The dominant feature is `deployments_since_prior_target_buy`, accounting for **58.59% of model gain**.
+- Primary marginal backtest:
+  - immediate execution: **66.74% hit rate, +20.27% median ROI**
+  - +1 slot: **34.93% hit rate, -10.71% median ROI**
+- Actual target June activity: **+$185,610 fully fee-adjusted P&L** and **16.79% ROI**.
+- Exact Pump +118 replay for the selective strategy:
+  - **46.86-47.93% supported coverage**
+  - **-8.46% to -7.06% median fully modeled ROI**
+  - **-9.0 to +38.2 SOL p99-capped P&L at 0.95% fees**
+  - **-17.0 to +29.9 SOL at 1.25% fees**
+
+The exact replay is a bounded secondary analysis. The source-built marginal backtest remains the primary Part 3 result.
 
 ## Repository map
 
@@ -37,9 +54,7 @@ Raw and generated large data are ignored by Git. Nothing under `data/raw/` is mo
 
 ## Data layout
 
-Competition data is not included in this repository. If you wish to replicate,
-obtain the authorized files, and place them at these paths without renaming their
-contents:
+Competition data is not included in this repository. If you want to reproduce the results, place the files at these paths without renaming their contents:
 
 ```text
 data/raw/core/bought_deploy_txs.jsonl.gz
@@ -63,10 +78,6 @@ only for execution analysis. None of these may become entry features. Raw files 
 immutable inputs, and generated caches belong only under `data/interim/`,
 `data/processed/`, or `artifacts/`.
 
-The optional roughly 429 GiB raw-block supplement is not required. This project used
-one targeted batch to validate event decoding and pricing mechanics; reproducing the
-main notebook does not require downloading the full supplement.
-
 ## Reproduce
 
 Python 3.12 and `uv` are expected.
@@ -78,7 +89,7 @@ MPLCONFIGDIR=/tmp/solana-mpl .venv/bin/python scripts/run_pipeline.py
 MPLCONFIGDIR=/tmp/solana-mpl .venv/bin/python scripts/run_third_pass.py all
 ```
 
-The notebook is an alternative end-to-end orchestration path, not an additional required rerun:
+The notebook provides the judge-facing end-to-end orchestration path over the same tested pipeline:
 
 ```bash
 MPLCONFIGDIR=/tmp/solana-mpl .venv/bin/python scripts/execute_notebook_cells.py submission/final_notebook.ipynb

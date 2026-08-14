@@ -1,0 +1,151 @@
+{
+  "actual_target_cashflow_june": {
+    "fully_fee_adjusted_hit_rate": 0.5725864123957092,
+    "fully_fee_adjusted_pnl_usd": 185610.17369310948,
+    "fully_fee_adjusted_roi_on_buy_plus_costs": 0.16794599585144931,
+    "mean_fully_fee_adjusted_pnl_usd": 44.245571798119066,
+    "median_fully_fee_adjusted_pnl_usd": 5.276240792365492,
+    "network_execution_cost_usd": 105752.16124478323,
+    "pump_raw_observed_fallback_usd": 2473.948224824687,
+    "pump_reported_component_usd": 25800.292063362976,
+    "pump_separate_cost_usd": 28274.240288187662,
+    "quote_principal_buy_usd": 971151.3239144663,
+    "quote_principal_sell_usd": 1290787.8991405466,
+    "routed_dex_contained_in_quote_usd_not_subtracted": 0.0,
+    "tokens": 4195,
+    "total_defensible_cost_usd": 134026.4015329709,
+    "unidentified_dex_ambiguous_usd_not_subtracted": 0.0
+  },
+  "marginal_execution": {
+    "delay_0": {
+      "reproduced_selector": {
+        "fill_rate": 0.9981949458483754,
+        "filled_trades": 6083,
+        "forced_total_losses": 74,
+        "hit_rate": 0.667433831990794,
+        "max_drawdown_sol": 12.68010483564467,
+        "max_roi": 177.48478781934097,
+        "mean_roi": 1.0614901878011103,
+        "median_roi": 0.20274380230439565,
+        "p90_roi": 1.3073423221576081,
+        "p99_roi": 33.79298714316089,
+        "roi_on_total_staked": 1.0614901878011103,
+        "selected_tokens": 6094,
+        "symmetric_entry_exit_slippage": 0.0,
+        "top10_positive_pnl_share": 0.17450651247399812,
+        "total_pnl_sol": 12754.656413246397,
+        "total_pnl_sol_roi_capped_at_p99": 8967.578449035263
+      },
+      "target_equal_stake": {
+        "fill_rate": 1.0,
+        "filled_trades": 4195,
+        "forced_total_losses": 78,
+        "hit_rate": 0.6410011918951132,
+        "max_drawdown_sol": 16.107711352281513,
+        "max_roi": 177.48478781934097,
+        "mean_roi": 0.9325549679979627,
+        "median_roi": 0.15655138629231818,
+        "p90_roi": 1.2304144910527777,
+        "p99_roi": 10.191542545388847,
+        "roi_on_total_staked": 0.9325549679979627,
+        "selected_tokens": 4195,
+        "symmetric_entry_exit_slippage": 0.0,
+        "top10_positive_pnl_share": 0.2576202903671814,
+        "total_pnl_sol": 7727.5419038417185,
+        "total_pnl_sol_roi_capped_at_p99": 3536.934760518524
+      }
+    },
+    "delay_1": {
+      "reproduced_selector": {
+        "fill_rate": 0.9981949458483754,
+        "filled_trades": 6083,
+        "forced_total_losses": 81,
+        "hit_rate": 0.34933421009370375,
+        "max_drawdown_sol": 332.22955813546923,
+        "max_roi": 139.99740520181768,
+        "mean_roi": 0.3454893155692927,
+        "median_roi": -0.10714454363272491,
+        "p90_roi": 0.4294720918569575,
+        "p99_roi": 2.76021024747796,
+        "roi_on_total_staked": 0.34548931556929274,
+        "selected_tokens": 6094,
+        "symmetric_entry_exit_slippage": 0.0,
+        "top10_positive_pnl_share": 0.2604668695939485,
+        "total_pnl_sol": 4151.331369027826,
+        "total_pnl_sol_roi_capped_at_p99": -405.6257126153852
+      },
+      "target_equal_stake": {
+        "fill_rate": 0.999761620977354,
+        "filled_trades": 4194,
+        "forced_total_losses": 80,
+        "hit_rate": 0.32641869337148305,
+        "max_drawdown_sol": 338.27597065945156,
+        "max_roi": 103.4138628191274,
+        "mean_roi": 0.3625027637193674,
+        "median_roi": -0.1313479015371639,
+        "p90_roi": 0.4243352291932306,
+        "p99_roi": 3.5151035023964465,
+        "roi_on_total_staked": 0.36250276371936746,
+        "selected_tokens": 4195,
+        "symmetric_entry_exit_slippage": 0.0,
+        "top10_positive_pnl_share": 0.3002249259945787,
+        "total_pnl_sol": 3003.1340055078736,
+        "total_pnl_sol_roi_capped_at_p99": -369.0503632881928
+      }
+    },
+    "delay_2": {
+      "reproduced_selector": {
+        "fill_rate": 0.9981949458483754,
+        "filled_trades": 6083,
+        "forced_total_losses": 88,
+        "hit_rate": 0.34670392898241,
+        "max_drawdown_sol": 343.0429706560067,
+        "max_roi": 77.38763060332073,
+        "mean_roi": 0.25073626644577973,
+        "median_roi": -0.1044578976010026,
+        "p90_roi": 0.41076812596385126,
+        "p99_roi": 2.0143170078317216,
+        "roi_on_total_staked": 0.2507362664457797,
+        "selected_tokens": 6094,
+        "symmetric_entry_exit_slippage": 0.0,
+        "top10_positive_pnl_share": 0.21421064772095003,
+        "total_pnl_sol": 3012.7974479735235,
+        "total_pnl_sol_roi_capped_at_p99": -562.1593036268134
+      },
+      "target_equal_stake": {
+        "fill_rate": 0.999761620977354,
+        "filled_trades": 4194,
+        "forced_total_losses": 86,
+        "hit_rate": 0.34048640915593703,
+        "max_drawdown_sol": 277.2247348347587,
+        "max_roi": 55.106808026129826,
+        "mean_roi": 0.25655312147076526,
+        "median_roi": -0.11557394902046736,
+        "p90_roi": 0.4091713108511777,
+        "p99_roi": 1.7471659980358338,
+        "roi_on_total_staked": 0.2565531214707652,
+        "selected_tokens": 4195,
+        "symmetric_entry_exit_slippage": 0.0,
+        "top10_positive_pnl_share": 0.24768800040800512,
+        "total_pnl_sol": 2125.4000808239452,
+        "total_pnl_sol_roi_capped_at_p99": -469.4628963596191
+      }
+    }
+  },
+  "row_level_inputs": "fresh predictions and gated June trades only",
+  "selection_overlap": {
+    "overlap": 1787,
+    "precision_vs_target": 0.29323925172300624,
+    "recall_of_target": 0.4259833134684148,
+    "replica_entries": 6094,
+    "target_entries": 4195
+  },
+  "selector": "corrected frozen Part 2 relationship model",
+  "status": "PRIMARY_SOURCE_BUILT_PART3",
+  "strategy": {
+    "accounting": "network-cost-adjusted and gross of proportional Pump swap fees",
+    "hold_seconds": 6,
+    "round_trip_network_cost_sol": 0.09101000000000001,
+    "stake_sol": 1.975308641
+  }
+}

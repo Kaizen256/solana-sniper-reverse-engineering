@@ -1,16 +1,26 @@
 {
   "cashflow_performance_bought_positions": {
-    "average_loser_usd": -27.062089737289718,
-    "average_winner_usd": 116.0128527979904,
-    "fees_usd": 439839.54959506285,
-    "gross_buy_usd": 4254940.518100565,
+    "average_loser_usd": -28.302278542863757,
+    "average_winner_usd": 117.54701442028052,
+    "fully_fee_adjusted_hit_rate": 0.5864629091134071,
+    "fully_fee_adjusted_pnl_usd": 925055.7199093377,
     "gross_pnl_usd": 1488268.2714001331,
-    "gross_sell_usd": 5743208.789500698,
-    "hit_rate_net": 0.6425168594939058,
-    "mean_net_pnl_usd": 64.86597301274952,
-    "median_net_pnl_usd": 12.880306849400021,
-    "net_pnl_usd": 1048428.7218050704,
-    "scope_bought_positions": 16163
+    "mean_fully_fee_adjusted_pnl_usd": 57.232922100435424,
+    "median_fully_fee_adjusted_pnl_usd": 8.002139247034876,
+    "network_execution_cost_usd": 439839.54959506285,
+    "priority_fee_included_native": 3067.505574875,
+    "pump_raw_observed_fallback_usd": 12872.230134006428,
+    "pump_reported_component_usd": 110500.77176172638,
+    "pump_reported_residual_ambiguous_usd_not_subtracted": 4.658777315534001,
+    "pump_separate_cost_usd": 123373.00189573283,
+    "pump_target_route_rate": 0.0125,
+    "quote_principal_buy_usd": 4254940.518100565,
+    "quote_principal_sell_usd": 5743208.789500698,
+    "routed_dex_contained_in_quote_usd_not_subtracted": 0.17651556325,
+    "scope_bought_positions": 16163,
+    "tip_fee_included_native": 2302.1888949859995,
+    "total_defensible_cost_usd": 563212.5514907956,
+    "unidentified_dex_ambiguous_usd_not_subtracted": 0.005150657857668
   },
   "entry_quote_core": {
     "iqr": 1.481481481,
@@ -84,7 +94,10 @@
     "std": 6062.650028367491
   },
   "limitations": [
-    "P&L is activity-table USD cash flow less transaction gas charged once; it is not a full mark-to-market ledger.",
+    "P&L is quote-principal cash flow less inclusive transaction gas and the raw-supported 1.25% Pump target-route cost; it is not a full mark-to-market ledger.",
+    "Priority and tip components are already inside gas and are never subtracted again.",
+    "The additional Pump amount needed beyond reported dex_* to reach the raw-observed target-route total is intentionally not assigned an unproved semantic fee name.",
+    "Known routed-venue dex_* fields are not charged again because the observed quote transfer is already net; blank-venue DEX fields and rent/residual-account movements remain ambiguous.",
     "Same-slot transaction indexes establish relative landed order for the two known transactions but not private mempool observability.",
     "Same-bundle analysis is June-only and ex-post behavioral context; Jito fields are not model features."
   ],

@@ -16,11 +16,13 @@ from .config import (
     ACTIVE_ERA_START,
     ARTIFACTS,
     BOUGHT_ACTIVITY,
+    BOUGHT_INDEX,
     INTERIM,
     JUNE_TRADES,
     JUNE_START,
     MAY_START,
     NOT_BOUGHT_ACTIVITY,
+    NOT_BOUGHT_INDEX,
     PROCESSED,
     SUBMISSION,
     ensure_output_dirs,
@@ -109,10 +111,10 @@ DEVELOPER_SELL_FEATURES = [
     "hist_mature_7d_dev_sold_fraction",
     "hist_dev_sold_launch_count_7d",
     "hist_dev_sold_launch_count_30d",
-    "latest_prior_launch_dev_sold",
-    "latest_prior_launch_mature_1d_no_dev_sell",
-    "latest_prior_launch_mature_7d_no_dev_sell",
-    "latest_prior_launch_dev_sell_latency_seconds",
+    "latest_prior_launch_group_dev_sold_fraction",
+    "latest_prior_launch_group_mature_1d_no_dev_sell_fraction",
+    "latest_prior_launch_group_mature_7d_no_dev_sell_fraction",
+    "latest_prior_launch_group_dev_sell_latency_median_seconds",
 ]
 
 METADATA_REUSE_FEATURES = [
@@ -534,6 +536,58 @@ def build_dev_sell_state(force: bool = False) -> Path:
     return DEV_SELL_STATE
 
 
+def _latest_dev_sell_group_sql(lifecycle_relation: str) -> str:
+    """Collapse same-wallet/same-second launches without inventing an order.
+
+    The activity source resolves time only to seconds. Transaction hashes identify
+    events but do not order them, and the core index does not provide a transaction
+    position. One row per wallet-second makes the later ASOF key unique and stores
+    the complete symmetric outcome multiset for candidate-time summaries.
+    """
+    return f"""
+      SELECT wallet,launch_time,
+             count(*)::BIGINT AS latest_launch_group_size,
+             list(first_dev_sell_time) AS first_dev_sell_times
+      FROM {lifecycle_relation}
+      GROUP BY wallet,launch_time
+    """
+
+
+def _latest_dev_sell_group_feature_expressions(
+    candidate_alias: str = "f", group_alias: str = "l"
+) -> dict[str, str]:
+    """Return the order-invariant latest-launch-group feature expressions."""
+    candidate_time = f"{candidate_alias}.block_time"
+    launch_time = f"{group_alias}.launch_time"
+    sell_times = f"{group_alias}.first_dev_sell_times"
+    group_size = f"{group_alias}.latest_launch_group_size"
+    observed = (
+        f"list_filter({sell_times}, first_sell -> "
+        f"first_sell IS NOT NULL AND first_sell<{candidate_time})"
+    )
+    return {
+        "latest_prior_launch_group_dev_sold_fraction": (
+            f"coalesce(list_count({observed})::DOUBLE/{group_size},0.0)"
+        ),
+        "latest_prior_launch_group_mature_1d_no_dev_sell_fraction": (
+            f"CASE WHEN {candidate_time}>{launch_time}+{DAY} THEN "
+            f"({group_size}-list_count(list_filter({sell_times}, first_sell -> "
+            f"first_sell IS NOT NULL AND first_sell<={launch_time}+{DAY})))::DOUBLE/"
+            f"{group_size} ELSE 0.0 END"
+        ),
+        "latest_prior_launch_group_mature_7d_no_dev_sell_fraction": (
+            f"CASE WHEN {candidate_time}>{launch_time}+7*{DAY} THEN "
+            f"({group_size}-list_count(list_filter({sell_times}, first_sell -> "
+            f"first_sell IS NOT NULL AND first_sell<={launch_time}+7*{DAY})))::DOUBLE/"
+            f"{group_size} ELSE 0.0 END"
+        ),
+        "latest_prior_launch_group_dev_sell_latency_median_seconds": (
+            f"list_median(list_transform({observed}, first_sell -> "
+            f"first_sell-{launch_time}))"
+        ),
+    }
+
+
 def build_dev_sell_features(force: bool = False) -> Path:
     build_quality_features(force=force)
     build_dev_sell_state(force=force)
@@ -541,9 +595,14 @@ def build_dev_sell_features(force: bool = False) -> Path:
         return DEV_SELL_FEATURES
     con = _connection()
     started = time.monotonic()
+    latest_group_sql = _latest_dev_sell_group_sql(
+        f"read_parquet('{_sql(DEV_SELL_LIFECYCLE)}')"
+    )
+    latest_expressions = _latest_dev_sell_group_feature_expressions()
     con.execute(
         f"""
         COPY (
+          WITH latest_groups AS ({latest_group_sql})
           SELECT f.token_address,d.timestamp AS dev_sell_state_time,
                  coalesce(d.hist_dev_sold_launch_count,0)
                    AS hist_dev_sold_launch_count,
@@ -568,21 +627,15 @@ def build_dev_sell_features(force: bool = False) -> Path:
                    coalesce(d30.hist_dev_sold_launch_count,0)
                    AS hist_dev_sold_launch_count_30d,
                  l.launch_time AS latest_dev_sell_launch_time,
-                 CASE WHEN l.first_dev_sell_time<f.block_time THEN 1 ELSE 0 END::UTINYINT
-                   AS latest_prior_launch_dev_sold,
-                 CASE WHEN f.block_time>l.launch_time+{DAY}
-                            AND (l.first_dev_sell_time IS NULL
-                                 OR l.first_dev_sell_time>l.launch_time+{DAY})
-                      THEN 1 ELSE 0 END::UTINYINT
-                   AS latest_prior_launch_mature_1d_no_dev_sell,
-                 CASE WHEN f.block_time>l.launch_time+7*{DAY}
-                            AND (l.first_dev_sell_time IS NULL
-                                 OR l.first_dev_sell_time>l.launch_time+7*{DAY})
-                      THEN 1 ELSE 0 END::UTINYINT
-                   AS latest_prior_launch_mature_7d_no_dev_sell,
-                 CASE WHEN l.first_dev_sell_time<f.block_time
-                      THEN l.first_dev_sell_time-l.launch_time END
-                   AS latest_prior_launch_dev_sell_latency_seconds
+                 l.latest_launch_group_size AS latest_dev_sell_group_size,
+                 {latest_expressions['latest_prior_launch_group_dev_sold_fraction']}
+                   AS latest_prior_launch_group_dev_sold_fraction,
+                 {latest_expressions['latest_prior_launch_group_mature_1d_no_dev_sell_fraction']}
+                   AS latest_prior_launch_group_mature_1d_no_dev_sell_fraction,
+                 {latest_expressions['latest_prior_launch_group_mature_7d_no_dev_sell_fraction']}
+                   AS latest_prior_launch_group_mature_7d_no_dev_sell_fraction,
+                 {latest_expressions['latest_prior_launch_group_dev_sell_latency_median_seconds']}
+                   AS latest_prior_launch_group_dev_sell_latency_median_seconds
           FROM read_parquet('{_sql(FEATURE_STORE)}') f
           JOIN read_parquet('{_sql(QUALITY_FEATURES)}') q USING(token_address)
           ASOF LEFT JOIN read_parquet('{_sql(DEV_SELL_STATE)}') d
@@ -591,8 +644,9 @@ def build_dev_sell_features(force: bool = False) -> Path:
             ON f.tx_signer=d7.wallet AND f.block_time-7*{DAY}>d7.timestamp
           ASOF LEFT JOIN read_parquet('{_sql(DEV_SELL_STATE)}') d30
             ON f.tx_signer=d30.wallet AND f.block_time-30*{DAY}>d30.timestamp
-          ASOF LEFT JOIN read_parquet('{_sql(DEV_SELL_LIFECYCLE)}') l
+          ASOF LEFT JOIN latest_groups l
             ON f.tx_signer=l.wallet AND f.block_time>l.launch_time
+          ORDER BY f.block_time,f.token_address
         ) TO '{_sql(DEV_SELL_FEATURES)}'
           (FORMAT PARQUET, COMPRESSION ZSTD, ROW_GROUP_SIZE 100000)
         """
@@ -610,6 +664,13 @@ def audit_dev_sell_features() -> dict[str, int]:
                count(*) FILTER (WHERE dev_sell_state_time>=f.block_time) AS future_states,
                count(*) FILTER (WHERE latest_dev_sell_launch_time>=f.block_time) AS future_launches,
                count(*) FILTER (WHERE seconds_since_prior_dev_sell<1) AS invalid_recencies,
+               count(*) FILTER (WHERE latest_dev_sell_group_size>1) AS tied_latest_group_rows,
+               count(*) FILTER (
+                 WHERE latest_prior_launch_group_dev_sold_fraction NOT BETWEEN 0 AND 1
+                    OR latest_prior_launch_group_mature_1d_no_dev_sell_fraction NOT BETWEEN 0 AND 1
+                    OR latest_prior_launch_group_mature_7d_no_dev_sell_fraction NOT BETWEEN 0 AND 1
+                    OR latest_prior_launch_group_dev_sell_latency_median_seconds<1
+               ) AS invalid_latest_group_summaries,
                count(*) FILTER (
                  WHERE hist_mature_1d_dev_sold_count>q.hist_mature_1d_launch_count
                     OR hist_mature_7d_dev_sold_count>q.hist_mature_7d_launch_count
@@ -632,10 +693,115 @@ def audit_dev_sell_features() -> dict[str, int]:
             "future_launches",
             "invalid_recencies",
             "invalid_fractions",
+            "invalid_latest_group_summaries",
         )
     ):
         raise RuntimeError(f"developer-sell temporal audit failed: {result}")
     return result
+
+
+def audit_dev_sell_tie_contract() -> dict[str, object]:
+    """Prove why same-second launch groups cannot be temporally ordered."""
+    con = _connection("30GB")
+    activity_columns = con.execute(
+        f"DESCRIBE SELECT * FROM read_parquet('{_sql(NOT_BOUGHT_ACTIVITY)}')"
+    ).fetch_df().column_name.tolist()
+    index_columns = con.execute(
+        f"DESCRIBE SELECT * FROM read_parquet('{_sql(NOT_BOUGHT_INDEX)}')"
+    ).fetch_df().column_name.tolist()
+    row = con.execute(
+        f"""
+        WITH raw_launch AS (
+          SELECT wallet,token_address,timestamp,tx_hash
+          FROM read_parquet('{_sql(NOT_BOUGHT_ACTIVITY)}')
+          WHERE launchpad='pump' AND event_type='launch' AND token_address IS NOT NULL
+          UNION ALL
+          SELECT b.wallet,b.token_address,b.timestamp,b.tx_hash
+          FROM read_parquet('{_sql(BOUGHT_ACTIVITY)}') b
+          ANTI JOIN read_parquet('{_sql(ACTIVITY_WALLETS)}') n USING(wallet)
+          WHERE b.launchpad='pump' AND b.event_type='launch'
+            AND b.token_address IS NOT NULL
+        ), first_time AS (
+          SELECT wallet,token_address,min(timestamp) AS launch_time
+          FROM raw_launch GROUP BY 1,2
+        ), launches AS (
+          SELECT f.wallet,f.token_address,f.launch_time,min(r.tx_hash) AS launch_tx_hash
+          FROM first_time f
+          JOIN raw_launch r ON f.wallet=r.wallet AND f.token_address=r.token_address
+                           AND f.launch_time=r.timestamp
+          GROUP BY 1,2,3
+        ), ties AS (
+          SELECT wallet,launch_time,count(*) AS tie_size
+          FROM launches GROUP BY 1,2 HAVING count(*)>1
+        ), deployment_index AS (
+          SELECT tx_hash,blockTime,blockSlot,token_address,tx_signer
+          FROM read_parquet('{_sql(NOT_BOUGHT_INDEX)}')
+          UNION ALL
+          SELECT tx_hash,blockTime,blockSlot,token_address,tx_signer
+          FROM read_parquet('{_sql(BOUGHT_INDEX)}')
+        ), joined AS (
+          SELECT l.*,t.tie_size,i.tx_hash AS index_tx_hash,i.blockTime,i.blockSlot,
+                 i.tx_signer,(i.token_address IS NOT NULL) AS mapped
+          FROM launches l JOIN ties t USING(wallet,launch_time)
+          LEFT JOIN deployment_index i USING(token_address)
+        ), group_audit AS (
+          SELECT wallet,launch_time,max(tie_size) AS tie_size,
+                 count(*) FILTER (WHERE mapped) AS mapped,
+                 count(DISTINCT blockSlot) AS distinct_slots
+          FROM joined GROUP BY 1,2
+        )
+        SELECT
+          (SELECT count(*) FROM group_audit) AS tie_groups,
+          (SELECT sum(tie_size) FROM group_audit) AS tied_launches,
+          (SELECT max(tie_size) FROM group_audit) AS max_tie_size,
+          (SELECT count(*) FROM joined WHERE mapped) AS mapped_launches,
+          (SELECT count(*) FROM joined WHERE mapped AND launch_tx_hash=index_tx_hash)
+            AS mapped_tx_hash_matches,
+          (SELECT count(*) FROM joined WHERE mapped AND launch_time=blockTime)
+            AS mapped_time_matches,
+          (SELECT count(*) FROM joined WHERE mapped AND wallet=tx_signer)
+            AS mapped_signer_matches,
+          (SELECT count(*) FROM group_audit WHERE mapped=tie_size)
+            AS fully_mapped_groups,
+          (SELECT count(*) FROM group_audit
+             WHERE mapped=tie_size AND distinct_slots=tie_size)
+            AS fully_resolved_unique_slot_groups,
+          (SELECT count(*) FROM group_audit
+             WHERE mapped=tie_size AND distinct_slots<tie_size)
+            AS fully_mapped_groups_with_same_slot_ties,
+          (SELECT count(*) FROM group_audit WHERE mapped<tie_size)
+            AS partially_mapped_groups
+        """
+    ).fetchone()
+    names = [item[0] for item in con.description]
+    counts = {name: int(value) for name, value in zip(names, row, strict=True)}
+    if counts != {
+        "tie_groups": 157_071,
+        "tied_launches": 518_390,
+        "max_tie_size": 84,
+        "mapped_launches": 516_222,
+        "mapped_tx_hash_matches": 516_222,
+        "mapped_time_matches": 516_222,
+        "mapped_signer_matches": 516_222,
+        "fully_mapped_groups": 156_271,
+        "fully_resolved_unique_slot_groups": 18_391,
+        "fully_mapped_groups_with_same_slot_ties": 137_880,
+        "partially_mapped_groups": 800,
+    }:
+        raise RuntimeError(f"equal-timestamp source audit changed: {counts}")
+    return {
+        **counts,
+        "activity_temporal_fields": [
+            name for name in ("timestamp", "blockSlot", "transactionIndex")
+            if name in activity_columns
+        ],
+        "activity_identifier_fields": [name for name in ("tx_hash",) if name in activity_columns],
+        "deployment_index_temporal_fields": [
+            name for name in ("blockTime", "blockSlot", "transactionIndex")
+            if name in index_columns
+        ],
+        "contract": "Group all launches sharing (wallet, launch_time); use symmetric fractions and the observed-latency median. Transaction hash and file order are identifiers/storage order, not temporal order.",
+    }
 
 
 def build_metadata_features(force: bool = False) -> Path:
@@ -2108,18 +2274,18 @@ def _disagreement_characterization(
     outcomes: pd.DataFrame,
 ) -> pd.DataFrame:
     immediate = outcomes[outcomes.policy.eq("immediate")].copy()
-    stake, _, fee = _strategy_parameters()
-    immediate["net_roi"] = immediate.gross_roi - fee / stake
+    stake, _, network_cost = _strategy_parameters()
+    immediate["network_cost_adjusted_roi"] = immediate.gross_roi - network_cost / stake
     immediate["cohort"] = np.select(
         [
             immediate.label.eq(1) & immediate.baseline_selected.eq(1),
             immediate.label.eq(1) & immediate.baseline_selected.eq(0),
             immediate.label.eq(0)
             & immediate.baseline_selected.eq(1)
-            & immediate.net_roi.gt(0),
+            & immediate.network_cost_adjusted_roi.gt(0),
             immediate.label.eq(0)
             & immediate.baseline_selected.eq(1)
-            & immediate.net_roi.le(0),
+            & immediate.network_cost_adjusted_roi.le(0),
         ],
         [
             "target_replica_overlap",
@@ -2142,7 +2308,7 @@ def _disagreement_characterization(
     con = _connection("24GB")
     con.register(
         "cohorts",
-        immediate[["token_address", "cohort", "net_roi"]],
+        immediate[["token_address", "cohort", "network_cost_adjusted_roi"]],
     )
     con.register("predictions", june_predictions)
     joined = con.execute(
@@ -2160,8 +2326,8 @@ def _disagreement_characterization(
         row: dict[str, object] = {
             "cohort": cohort,
             "tokens": int(len(frame)),
-            "median_net_roi": float(frame.net_roi.median()),
-            "mean_net_roi": float(frame.net_roi.mean()),
+            "median_network_cost_adjusted_roi": float(frame.network_cost_adjusted_roi.median()),
+            "mean_network_cost_adjusted_roi": float(frame.network_cost_adjusted_roi.mean()),
         }
         for feature in feature_names:
             row[f"median_{feature}"] = float(frame[feature].median())
@@ -2461,6 +2627,7 @@ def run_profitable_disagreement_experiment() -> dict[str, object]:
         june_backtest[policy] = policy_result
     cohorts = _disagreement_characterization(june_predictions, outcomes)
     output["june_reporting_only"] = {
+        "marginal_accounting": "network-cost-adjusted and gross of proportional Pump swap fees; inclusive network cost is subtracted once",
         "selection": {
             "baseline": _strategy_selection_summary(
                 june.assign(

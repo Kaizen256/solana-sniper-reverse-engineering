@@ -1,0 +1,30 @@
+{
+  "A_entry_features": {
+    "boundary": "target_buy_time < candidate deployment block_time; equality excluded",
+    "sources": [
+      "current candidate deployment index and signed transaction.message",
+      "strictly earlier deployer activity",
+      "strictly earlier creator-fee and developer-sell observations",
+      "strictly earlier target-wallet transactions used only as online state for later candidates"
+    ]
+  },
+  "B_labels_evaluation": [
+    "current candidate bought/not-bought membership",
+    "current candidate target-wallet reaction"
+  ],
+  "C_backtest_only": [
+    "June pump.fun trades",
+    "June market-cap candles"
+  ],
+  "D_behavior_only": [
+    "future target-wallet activity relative to a candidate",
+    "post-deployment deployer events",
+    "landed Jito context"
+  ],
+  "E_excluded_ambiguous": [
+    "raw transaction meta",
+    "same-second target or deployer activity",
+    "creator_address semantics",
+    "landed bundle facts"
+  ]
+}
